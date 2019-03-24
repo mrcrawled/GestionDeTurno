@@ -4,31 +4,24 @@ import Header from './Components/Header';
 import Home from './Components/Home';
 import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
-import Paciente from './Components/Paciente';
-import ObraSocial from './Components/ObraSocial';
+import Paciente from './Components/Paciente/Paciente';
+import ObraSocial from './Components/ObraSocial/ObraSocial';
 
 class App extends Component {
-
   render() {
     return (
       <div>
         <Header />
         <BrowserRouter >
-          <div className="Style">
-            <NavBar />
+          <NavBar />
+          <div className="container">
             <Route exact path="/" component={Home} />
-            <div className="container">
-              <Route exact path="/pacientes" component={Paciente} />
-              <Route exact path="/obras_sociales" component={ObraSocial} />
-
-            </div>
+            <Route exact path="/pacientes" component={Paciente} />
+            <Route exact path="/obras_sociales" component={ObraSocial} />
           </div>
         </BrowserRouter >
-        <div>
-          <Footer />
-        </div>
+        <Footer />
       </div>
-
     );
   }
 }

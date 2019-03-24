@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Paginacion from '../Paginacion';
 
 class ObraSocial extends Component {
     constructor(props) {
@@ -67,21 +68,13 @@ class ObraSocial extends Component {
         return (
             <div className="container">
                 <h2>Obras Sociales</h2>
-                <table className="table table-striped " >
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Descripcion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.state.obras_sociales.map((obra_social,item) =>
-                        <tr key={item}><td>{obra_social.nombre}</td><td>{obra_social.descripcion}</td>
-                        <td><button className="glyphicon glyphicon-trash" onClick={this.handleSubmit}></button></td>
-                        </tr>)}
-                    </tbody>
-                </table>
-                <form>
+                <Paginacion
+                    rhead={["Nombre", "Descriptción"]}
+                    rbody={this.state.obras_sociales.map( (obra_social) => {
+                        return [ obra_social.nombre, obra_social.descripcion ]
+                    })}
+                />
+                {/* <form>
                     <button type="submit" className="btn btn-info">Agregar Obras Sociales</button>
                     <div className="form-group">
                         <label>
@@ -104,7 +97,7 @@ class ObraSocial extends Component {
                             onChange={this.handleChange} />
                         <button type="submit" className="btn btn-primary">Agregar Obra Social</button>
                     </div>
-                </form>
+                </form> */}
             </div>
         )
     }

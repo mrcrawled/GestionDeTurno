@@ -4,10 +4,13 @@ const bcrypt = require ('bcrypt');
 //Listar Usuarios
 let getUsuarios = async (req, res,next) => {
   try {
-    const usuarios  = await db.query('SELECT * FROM usuarios'); 
-      res.send(usuarios.rows);
+    let limit = 1000;
+    if(req.query['limit']){
+      limit = req.query['limit'];
     }
-    catch (error) {
+    const usuarios  = await db.query('SELECT * FROM usuarios LIMIT $1', [limit]); 
+      res.send(usuarios.rows);
+    } catch (error) {
       next (error);
     }
 }

@@ -3,6 +3,10 @@ const obra_social = require('../controllers/obraSocial');
 const paciente = require('../controllers/paciente');
 const express = require('express');
 const router = express.Router();
+const {
+    isLoggedIn,
+    isNotLoggedIn
+} = require('../utils/auth');
 
 // Home 
 router.get('/', (req, res) => {

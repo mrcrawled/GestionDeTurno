@@ -1,6 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
+import './css/palleta.css';
+import './css/index.css';
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 

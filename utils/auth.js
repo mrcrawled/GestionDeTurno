@@ -9,6 +9,7 @@ module.exports = {
         }
         return res.redirect('/signin');
     },
+    
     isNotLoggedIn: isNotLoggedIn = async (req, res, next) => {
         const token = req.headers['accessToken'];
         if( !token ){
@@ -16,4 +17,4 @@ module.exports = {
         }
         return res.redirect('/profile');
     }
-}
+};

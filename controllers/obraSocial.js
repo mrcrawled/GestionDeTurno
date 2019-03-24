@@ -3,7 +3,7 @@ const db = require('../database/config');
 //Listar Obras Sociales
 let getObrasSociales = async (req, res,next) => {
   try {
-    const obras_sociales = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC LIMIT 10'); 
+    const obras_sociales = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC'); 
       res.json(obras_sociales.rows);
     }
     catch (error) {
@@ -27,7 +27,7 @@ let getObrasSociales = async (req, res,next) => {
   let createObraSocial = async (req, res,next) =>{
     try{
       const { nombre,descripcion} = req.body;
-       const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)',[nombre,descripcion]);
+      const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)',[nombre,descripcion]);
       res.send(obraSocial);
     }
       catch (error) {

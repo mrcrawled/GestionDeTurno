@@ -3,7 +3,11 @@ const db = require('../database/config');
 //Listar Pacientes
 let getPacientes = async (req, res, next) => {
   try {
-    const pacientes = await db.query('SELECT nombre,apellido,direccion,fecha_nacimiento FROM pacientes ORDER BY apellido ASC LIMIT 10');
+    let limit = 1000;
+    if(req.query['limit']){
+      limit = req.query['limit'];
+    }
+    const pacientes = await db.query('SELECT nombre,apellido,direccion,fecha_nacimiento FROM pacientes ORDER BY apellido ASC LIMIT $1',[limit]);
     res.send(pacientes.rows);
   }
   catch (error) {
