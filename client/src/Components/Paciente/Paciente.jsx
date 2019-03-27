@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Paginacion from '../Paginacion';
 
@@ -39,6 +40,14 @@ constructor(props){
         return formattedAddress;
     }
 
+    getFormattedTimestamp = (timestamp) => {
+        let birthDate = new Date(timestamp),
+            date = birthDate.getDate() < 10 ? `0${birthDate.getDate()}` : birthDate.getDate(),
+            month = birthDate.getMonth() < 9 ? `0${birthDate.getMonth()+1}` : birthDate.getMonth()+1,
+            formattedTimestamp = `${date}-${month}-${birthDate.getFullYear()}`;
+        return formattedTimestamp;
+    }
+
     handleSubmit = event => {
         event.preventDefault();
         const id = this.state.id;
@@ -58,15 +67,18 @@ constructor(props){
 
     render() {
         return (
-            <div className="container">
+            <div>
                 <h2>Pacientes</h2>
-                <button type="button" className="btn">Agregar Paciente</button>
+                <Link to="/pacientes/new">
+                    <button type="button" className="btn">Nuevo Paciente</button>
+                </Link>
                 <Paginacion
-                    rhead={["Nombre y Apellido", "Direccion"]}
+                    rhead={["Nombre y Apellido", "Direccion", "Fecha de Nacimiento"]}
                     rbody={this.state.pacientes.map( (paciente) => {
                         return [
                             `${paciente.nombre} ${paciente.apellido}`,
-                            `${this.getFormattedAddress(paciente.direccion)}`
+                            `${this.getFormattedAddress(paciente.direccion)}`,
+                            `${this.getFormattedTimestamp(paciente.fecha_nacimiento)}`
                         ]
                     })}
                 />

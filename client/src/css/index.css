@@ -1,4 +1,5 @@
 * {
+  color: var(--dark-black);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -11,26 +12,34 @@ code {
 }
 
 /* ---------------------------------------------------------------------------------- Containers */
+#Main {
+  border: 1px solid #0000;
+  box-sizing: border-box;
+  min-height: calc(100vh - 160px);
+}
 header{
+  align-items: center;
   background-color: var(--dark-blue);
-  color: var(--light-gray);
-  text-align: center;
+  display: flex;
+  height: 60px;
+  justify-content: center;
   padding: 10px;
 }
+header h1 { color: var(--light-gray); }
 
 .container {
   margin: auto;
   width: 80%;
 }
-
 /* ---------------------------------------------------------------------------------- Navigation */
 nav {
   align-items: center;
   background-color: var(--dark-black);
-  display: flex;
-  padding: 0 20px;
 }
-nav a {
+nav .container{
+  display: flex;
+}
+nav a, nav p {
   align-items: center;
   background-color: var(--dark-black);
   color: var(--light-gray);
@@ -42,6 +51,9 @@ nav a {
 nav a:hover  {  background-color: var(--default-black-75); }
 nav a:active {  background-color: var(--default-black); }
 
+.fsb {
+  justify-content: space-between;
+}
 /* ---------------------------------------------------------------------------------- Pagination */
 .pagination {
   margin: 20px 0;
@@ -116,6 +128,62 @@ nav a:active {  background-color: var(--default-black); }
   border-bottom-right-radius: 5px;
 }
 
+/* ---------------------------------------------------------------------------------- Formulario */
+.formulario {
+  align-items: center;
+  border: 1px solid var(--dark-gray-75);
+  border-radius: 5px;
+  box-shadow: 0 0 2px var(--dark-gray);
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  justify-content: center;
+  margin: 20px auto;
+  width: 500px;
+}
+.form-header {
+  align-items: center;
+  background-color: var(--dark-blue);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: 1px solid var(--dark-gray-75);
+  box-sizing: border-box;
+  color: var(--light-gray);
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  height: 80px;
+  justify-content: center;
+  padding: 30px;
+  width: 100%;
+}
+.form-body{
+  box-sizing: border-box;
+  padding: 20px 30px;
+  width: 100%;
+}
+.form-body input {
+  border: none;
+  border-bottom: 1px solid var(--dark-gray);
+  box-sizing: border-box;
+  display: block;
+  height: 40px;
+  margin-bottom: 20px;
+  outline: none;
+  padding: 5px;
+  transition: 500ms;
+  width: 100%;
+}
+.form-body input:focus {
+  border-bottom: 1.5px solid var(--dark-blue);
+}
+
+.form-body button {
+  margin-top: 10px;
+  width: 100%;
+}
+
 /* -------------------------------------------------------------------------------------- Margin */
 .mt-10 { margin-top: 10px; }
 .mr-10 { margin-right: 10px; }
@@ -136,3 +204,20 @@ nav a:active {  background-color: var(--default-black); }
 }
 .btn:hover  { background-color: var(--dark-blue-75); }
 .btn:active { background-color: var(--dark-blue-50); }
+
+/* ------------------------------------------------------------------------------------ Columns */
+.col-2 {
+  display: grid;
+  grid-template-columns: 49% 49%;
+  grid-gap: 2%;
+}
+.col-3 {
+  display: grid;
+  grid-template-columns: 32% 32% 32%;
+  grid-gap: 2%;
+}
+.col-4 {
+  display: grid;
+  grid-template-columns: repeat(4,calc(94%/4));
+  grid-gap: 2%;
+}

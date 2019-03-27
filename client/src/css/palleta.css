@@ -1,7 +1,7 @@
 :root {
     --dark-blue         : #1976d2;
-    --dark-blue-75      : #1976d2cc;
-    --dark-blue-50      : #1976d288;
+    --dark-blue-75      : #1976d2c0;
+    --dark-blue-50      : #1976d280;
     --default-blue      : #2196f3;
     --light-blue        : #bbdefb;
     --accent-blue       : #448aff;
@@ -32,11 +32,11 @@
     --accent-purple     : #E040FB;
     
     --dark-black        : #212121;
-    --dark-black-75     : #212121cc;
-    --dark-black-50     : #21212188;
+    --dark-black-75     : #212121c0;
+    --dark-black-50     : #21212180;
     --default-black     : #424242;
-    --default-black-75  : #424242cc;
-    --default-black-50  : #42424288;
+    --default-black-75  : #424242c0;
+    --default-black-50  : #42424280;
     --light-black       : #616161;
     
     --dark-gray         : #757575;

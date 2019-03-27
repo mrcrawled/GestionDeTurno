@@ -3,22 +3,14 @@ import React, { Component } from 'react';
 class Footer extends Component {
     render() {
         return (
-            <p style={footerStyle}>
-            El ema
-            </p>
+            <nav>
+                <div className="container fsb">
+                    <p>Sistema de Gestión de Turnos &copy; 2019</p>
+                    <p>By Shield MicroSystem &copy; 2019</p>
+                </div>
+            </nav>
         )
     }
-}
-
-const footerStyle = {
-    margin: '0',
-    padding: '0',
-    background: 'white',
-    color: 'black',
-    textAlign: 'right',
-    font: '3px',
-    height: '4em'
-
 }
 
 export default Footer
