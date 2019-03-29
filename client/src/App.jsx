@@ -29,6 +29,7 @@ class App extends Component {
               <Route exact path="/pacientes" component={Paciente} />
               <Route exact path="/pacientes/new" component={PacienteForm} />
               <Route exact path="/obras_sociales" component={ObraSocial} />
+              <Route exact path="/obras_sociales/:id" component={ObraSocial} />
               <Route exact path="/obras_sociales/new" component={ObraSocialForm} />
               <Route exact path="/obras_sociales/:id" component={ObraSocial} />
               <Route component={NotFound} />
