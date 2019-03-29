@@ -70,7 +70,7 @@ constructor(props){
             <div>
                 <h2>Pacientes</h2>
                 <Link to="/pacientes/new">
-                    <button type="button" className="btn">Nuevo Paciente</button>
+                    <button type="button"  className="btn">Nuevo Paciente</button>
                 </Link>
                 <Paginacion
                     rhead={["Nombre y Apellido", "Direccion", "Fecha de Nacimiento"]}

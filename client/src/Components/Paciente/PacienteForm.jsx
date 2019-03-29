@@ -14,6 +14,10 @@ class PacienteForm extends Component {
         event.preventDefault();
     }
 
+    handleCancel = () => {
+        window.history.back();
+    }
+
     render() {
         return (
             <form onSubmit={this.agregarPaciente} className="formulario">
@@ -36,6 +40,7 @@ class PacienteForm extends Component {
                         required
                     />
                     <button type="submit" className="btn">Agregar</button>
+                    <button type="submit" onClick={this.handleCancel} className="btn">Cancelar</button>
                 </div>
             </form>
         )

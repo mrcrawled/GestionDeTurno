@@ -27,6 +27,10 @@ class ObraSocialForm extends Component {
         }
     }
 
+    handleCancel = () => {
+        window.history.back();
+    }
+    
     render() {
         return (
             <form onSubmit={this.agregarObraSocial} className="formulario">
@@ -48,6 +52,8 @@ class ObraSocialForm extends Component {
                         onChange={this.handleChange}
                     />
                     <button type="submit" className="btn">Agregar</button>
+                    <button type="submit" onClick={this.handleCancel} className="btn">Cancelar</button>
+
                 </div>
             </form>
         )

@@ -7,8 +7,11 @@ class ObraSocial extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            obras_sociales: []
+            obras_sociales: [],
+            id: ''
         };
+        this.deleteObraSocial = this.deleteObraSocial.bind(this);
+
     }
 
     //Lista Obras Sociales
@@ -22,8 +25,20 @@ class ObraSocial extends Component {
         }
     }
 
+    deleteObraSocial () {
+        const { match: { params } } = this.props;
+        axios.delete(`/obras_sociales/${params.id}`)
+        .then(() => {
+            console.log('Se ha borrado la obra social');
+          });
+      }
+    
     componentDidMount() {
         this.getObrasSociales();
+    }
+
+    handleChange = event => {
+        this.setState({ id: event.target.value });
     }
 
     render() {
@@ -34,10 +49,15 @@ class ObraSocial extends Component {
                     <button type="button" className="btn">Nueva Obra Social</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre", "Descriptción"]}
+                    rhead={["Nombre", "Descripción"]}
                     rbody={this.state.obras_sociales.map( (obra_social) => {
-                        return [ obra_social.nombre, obra_social.descripcion ]
+                        return [ obra_social.nombre, obra_social.descripcion,
+                        <Link to={`/obras_sociales/${obra_social.id}`}><button onClick={this.deleteObraSocial} type="button">
+                        <i className="fas fa-trash-alt"></i>
+                        </button> </Link>]
+                       
                     })}
+                    
                 />
             </div>
         )
