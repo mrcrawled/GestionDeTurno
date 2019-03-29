@@ -56,6 +56,11 @@ exports.seed =  (knex, Promise) => {
                 id: 13,
                 nombre: 'AMUR',
                 descripcion: ''
+            },
+            ,{
+                id: 14,
+                nombre: 'DASUTEN',
+                descripcion: 'Dirección de acción social de la Universidad Tecnológica Nacional'
             }
         ]);
     });

@@ -56,9 +56,9 @@ let getObrasSociales = async (req, res,next) => {
     try   
     {
       const id = req.params.id;
-      const paciente =  await db.query('DELETE FROM obras_sociales where ID = $1',[id]);
+      const obraSocial =  await db.query('DELETE FROM obras_sociales where ID = $1',[id]);
 
-      res.send (paciente);
+      res.send (obraSocial);
 
      }    
       catch (error) {
