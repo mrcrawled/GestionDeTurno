@@ -2,7 +2,7 @@ exports.up = (knex, Promise)=>{
     return Promise.all ([   
         knex.schema.createTable('obras_sociales', table =>{
         table.increments('id').primary();
-        table.string('nombre',50).unique().notNullable();
+        table.string('nombre',50).unique().index().notNullable();
         table.text('descripcion');
     })
 ]);

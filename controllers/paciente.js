@@ -3,14 +3,17 @@ const db = require('../database/config');
 //Listar Pacientes
 let getPacientes = async (req, res, next) => {
   try {
-    const pacientes = await db.query('SELECT nombre,apellido,direccion,fecha_nacimiento FROM pacientes ORDER BY apellido ASC LIMIT 10');
+    let limit = 1000;
+    if (req.query['limit']) {
+      limit = req.query['limit'];
+    }
+    const pacientes = await db.query('SELECT p.nombre,p.apellido,p.direccion,t.numero FROM pacientes p JOIN telefonos t on p.Id = t.id_paciente ORDER BY apellido ASC LIMIT $1', [limit]);
     res.send(pacientes.rows);
   }
   catch (error) {
     return next(error);
   }
 }
-
 //Lista Paciente por id
 let getPacienteById = async (req, res, next) => {
   try {
@@ -26,9 +29,8 @@ let getPacienteById = async (req, res, next) => {
 //Agrega Paciente
 let createPaciente = async (req, res, next) => {
   try {
-    const { nombre, apellido, direccion, documento, id_usuario } = req.body;
-
-    const paciente = await db.query('INSERT INTO pacientes (nombre,apellido,direccion,documento,,id_usuario,fecha_nacimento) VALUES ($1,$2,$3,$4,$5,$6)', [nombre, apellido, direccion, documento, id_usuario]);
+    const { nombre, apellido, direccion, documento, fecha_nacimiento, id_usuario } = req.body;
+    const paciente = await db.query('INSERT INTO pacientes (nombre,apellido,direccion,documento,id_usuario,fecha_nacimento) VALUES ($1,$2,$3,$4,$5,$6)', [nombre, apellido, direccion, documento, fecha_nacimiento, id_usuario]);
     res.send(paciente);
   }
   catch (error) {
@@ -41,9 +43,9 @@ let createPaciente = async (req, res, next) => {
 let updatePaciente = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const { nombre, apellido, direccion, documento, id_usuario } = req.body;
+    const { nombre, apellido, direccion, documento } = req.body;
     const paciente = await db
-      .query('UPDATE pacientes set nombre = $1,apellido = $2,direccion = $3,documento= $4,id_usuario=$5,fecha_nacimiento = $6 WHERE id = $7', [nombre, apellido, direccion, documento, id_usuario, fecha_nacimiento,id]);
+      .query('UPDATE pacientes set nombre = $1,apellido = $2,direccion = $3,documento= $4,fecha_nacimiento = $5 WHERE id = $6', [nombre, apellido, direccion, documento, fecha_nacimiento, id]);
     res.send(paciente);
   }
   catch (error) {
@@ -62,7 +64,6 @@ let deletePaciente = async (req, res, next) => {
     next(error);
   }
 }
-
 
 module.exports = {
   getPacientes: getPacientes,
