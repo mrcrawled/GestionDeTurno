@@ -26,6 +26,13 @@ class ObraSocialForm extends Component {
             console.log(error);
         }
     }
+    
+    
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
 
     handleCancel = () => {
         window.history.back();
