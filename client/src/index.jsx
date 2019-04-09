@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import './css/fonts.css';
 import './css/palleta.css';
 import './css/index.css';
 

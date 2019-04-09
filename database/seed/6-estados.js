@@ -5,7 +5,6 @@ exports.seed =  (knex, Promise) => {
         // Inserts seed entries
         return knex('estados').insert([
             {
-                id: 1,
                 estado_tipo: 'ASIGNADO',
             }
         ]);

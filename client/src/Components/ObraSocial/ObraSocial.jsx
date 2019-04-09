@@ -10,8 +10,6 @@ class ObraSocial extends Component {
             obras_sociales: [],
             id: ''
         };
-        this.deleteObraSocial = this.deleteObraSocial.bind(this);
-
     }
 
     //Lista Obras Sociales
@@ -25,13 +23,21 @@ class ObraSocial extends Component {
         }
     }
 
-    deleteObraSocial () {
-        const { match: { params } } = this.props;
-        axios.delete(`/obras_sociales/${params.id}`)
-        .then(() => {
-            console.log('Se ha borrado la obra social');
-          });
-      }
+    deleteObraSocial =  event => {
+        let element = event.target,
+            id = element.dataset.key;
+        console.log(element, id);
+        axios.delete(`/obras_sociales/${id}`)
+        .then((res) => {
+            console.log(res);
+            let rows = document.getElementsByClassName("pagination-body"),
+                kindex = Array.prototype.indexOf.call(document.querySelectorAll("i.fas.fa-trash-alt"), element);
+            rows[kindex].remove();
+        })
+        .catch((e) => {
+            console.log(e);
+        });
+    }
     
     componentDidMount() {
         this.getObrasSociales();
@@ -49,13 +55,13 @@ class ObraSocial extends Component {
                     <button type="button" className="btn">Nueva Obra Social</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre", "Descripción"]}
+                    rhead={["Nombre", "Descripción", ""]}
                     rbody={this.state.obras_sociales.map( (obra_social) => {
-                        return [ obra_social.nombre, obra_social.descripcion,
-                        <Link to={`/obras_sociales/${obra_social.id}`}><button onClick={this.deleteObraSocial} type="button">
-                        <i className="fas fa-trash-alt"></i>
-                        </button> </Link>]
-                       
+                        return [
+                            obra_social.nombre,
+                            obra_social.descripcion,
+                            <i onClick={this.deleteObraSocial} className="far fa-trash-alt" data-key={obra_social.id}></i>
+                        ]
                     })}
                     
                 />

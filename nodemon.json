@@ -1,0 +1,16 @@
+{
+    "verbose": true,
+    "ext": "*.js",
+    "watch": [
+        "controllers/*",
+        "routes/*",
+        "utils/*",
+        "server.js",
+        "database/config.js"
+    ],
+    "ignore": [
+        "client/*",
+        "node_modules/*"
+    ],
+    "delay": 2500
+}

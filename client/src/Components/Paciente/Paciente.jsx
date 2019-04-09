@@ -4,13 +4,12 @@ import axios from 'axios';
 import Paginacion from '../Paginacion';
 
 class Paciente extends Component {
-constructor(props){
-    super(props);
-    this.state = {
-        pacientes: [],
-        id: 0  
-    }
-    this.handleSubmit = this.handleSubmit.bind(this);
+    constructor(props){
+        super(props);
+        this.state = {
+            pacientes: [],
+            id: 0  
+        }
     };
 
     //Lista Pacientes
@@ -27,13 +26,19 @@ constructor(props){
         }
     }
 
+    getFormattedDocument = (document) => {
+        return `${document.doc_tipo}: ${document.doc_numero}`;
+    }
+
     getFormattedAddress = (direccion) => {
         let formattedAddress = "",
-            calle = direccion.calle !== "" ? `Calle: ${direccion.calle}` : "",
+            calle = direccion.calle !== "" && typeof direccion.calle !== "undefined" ? `Calle: ${direccion.calle}` : "",
+            dire = direccion.direccion !== "" && typeof direccion.direccion !== "undefined" ? `Dirección: ${direccion.direccion}` : "",
             numero = direccion.numero !== "" ? `Número: ${direccion.numero}` : false,
             piso = direccion.piso !== "" ? `Piso: ${direccion.piso}` : false,
             departamento = direccion.departamento !== "" ? `Departamento: ${direccion.departamento}` : false;
         formattedAddress += calle ? calle + (numero || piso || departamento ? ", " : "") : "";
+        formattedAddress += dire ? dire + (numero || piso || departamento ? ", " : "") : "";
         formattedAddress += numero ? numero + (piso || departamento ? ", " : "") : "";
         formattedAddress += piso ? piso + (departamento ? ", " : "") : "";
         formattedAddress += departamento ? departamento : "";
@@ -52,7 +57,6 @@ constructor(props){
         event.preventDefault();
         const id = this.state.id;
         axios.delete(`/pacientes/${id}`).then(res => {
-            console.log(res);
             console.log(res.data);
         })
     }
@@ -70,13 +74,14 @@ constructor(props){
             <div>
                 <h2>Pacientes</h2>
                 <Link to="/pacientes/new">
-                    <button type="button"  className="btn">Nuevo Paciente</button>
+                    <button type="button" className="btn">Nuevo Paciente</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre y Apellido", "Direccion", "Fecha de Nacimiento"]}
+                    rhead={["Nombre y Apellido", "Documento", "Direccion", "Fecha de Nacimiento"]}
                     rbody={this.state.pacientes.map( (paciente) => {
                         return [
                             `${paciente.nombre} ${paciente.apellido}`,
+                            `${this.getFormattedDocument(paciente.documento)}`,
                             `${this.getFormattedAddress(paciente.direccion)}`,
                             `${this.getFormattedTimestamp(paciente.fecha_nacimiento)}`
                         ]

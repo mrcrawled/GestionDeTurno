@@ -5,7 +5,6 @@ exports.seed =  (knex, Promise) => {
         // Inserts seed entries
         return knex('practicas').insert([
             {
-                id: 1,
                 id_area: 1,
                 duracion: '0:30',
                 descripcion: "Implante"

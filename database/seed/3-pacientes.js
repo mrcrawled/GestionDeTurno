@@ -5,7 +5,6 @@ exports.seed =  (knex, Promise) => {
         // Inserts seed entries
         return knex('pacientes').insert([
             {
-                id: 1,
                 documento: {
                     doc_numero: "Q386B12M",
                     doc_tipo: "PASAPORTE"
@@ -21,7 +20,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 17
             },{
-                id: 2,
                 documento: {
                     doc_numero: "60239499-Y",
                     doc_tipo: "DNI"
@@ -37,7 +35,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 18
             },{
-                id: 3,
                 documento: {
                     doc_numero: "522008626",
                     doc_tipo: "TFN"
@@ -53,7 +50,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 19
             },{
-                id: 4,
                 documento: {
                     doc_numero: "G221U627",
                     doc_tipo: "PASAPORTE"
@@ -69,7 +65,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 20
             },{
-                id: 5,
                 documento: {
                     doc_numero: "418152782",
                     doc_tipo: "TFN"
@@ -85,7 +80,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 21
             },{
-                id: 6,
                 documento: {
                     doc_numero: "2NNaN79738081 33",
                     doc_tipo: "INSEE"
@@ -101,7 +95,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 22
             },{
-                id: 7,
                 documento: {
                     doc_numero: "M5DRP942",
                     doc_tipo: "PASAPORTE"
@@ -117,7 +110,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 23
             },{
-                id: 8,
                 documento: {
                     doc_numero: "E4477839",
                     doc_tipo: "PASAPORTE"
@@ -133,7 +125,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 24
             },{
-                id: 9,
                 documento: {
                     doc_numero: "GW 08 92 69 A",
                     doc_tipo: "NINO"
@@ -149,7 +140,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 25
             },{
-                id: 10,
                 documento: {
                     doc_numero: "882-72-2850",
                     doc_tipo: "SSN"
@@ -165,7 +155,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 26
             },{
-                id: 11,
                 documento: {
                     doc_numero: "2NNaN11252102 34",
                     doc_tipo: "INSEE"
@@ -181,7 +170,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 27
             },{
-                id: 12,
                 documento: {
                     doc_numero: "7WNT47F7",
                     doc_tipo: "PASAPORTE"
@@ -197,7 +185,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 28
             },{
-                id: 13,
                 documento: {
                     doc_numero: "018R4KL5",
                     doc_tipo: "PASAPORTE"
@@ -213,7 +200,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 29
             },{
-                id: 14,
                 documento: {
                     doc_numero: "5JJD2999",
                     doc_tipo: "PASAPORTE"
@@ -229,7 +215,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 30
             },{
-                id: 15,
                 documento: {
                     doc_numero: "25Y0B5ZN",
                     doc_tipo: "PASAPORTE"
@@ -245,7 +230,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 31
             },{
-                id: 16,
                 documento: {
                     doc_numero: "1NNaN44156622 71",
                     doc_tipo: "INSEE"
@@ -261,7 +245,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 32
             },{
-                id: 17,
                 documento: {
                     doc_numero: "07140035-Q",
                     doc_tipo: "DNI"
@@ -277,7 +260,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 33
             },{
-                id: 18,
                 documento: {
                     doc_numero: "968-81-7144",
                     doc_tipo: "SSN"
@@ -293,7 +275,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 34
             },{
-                id: 19,
                 documento: {
                     doc_numero: "1NNaN27483534 74",
                     doc_tipo: "INSEE"
@@ -309,7 +290,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 35
             },{
-                id: 20,
                 documento: {
                     doc_numero: "GS 67 83 39 A",
                     doc_tipo: "NINO"
@@ -325,7 +305,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 36
             },{
-                id: 21,
                 documento: {
                     doc_numero: "MY 36 07 07 J",
                     doc_tipo: "NINO"
@@ -341,7 +320,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 37
             },{
-                id: 22,
                 documento: {
                     doc_numero: "110983187",
                     doc_tipo: "TFN"
@@ -357,7 +335,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 38
             },{
-                id: 23,
                 documento: {
                     doc_numero: "250032944",
                     doc_tipo: "TFN"
@@ -373,7 +350,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 39
             },{
-                id: 24,
                 documento: {
                     doc_numero: "983226JW",
                     doc_tipo: "PASAPORTE"
@@ -389,7 +365,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 40
             },{
-                id: 25,
                 documento: {
                     doc_numero: "8Q62JPX2",
                     doc_tipo: "PASAPORTE"
@@ -405,7 +380,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 41
             },{
-                id: 26,
                 documento: {
                     doc_numero: "075-02-8674",
                     doc_tipo: "SSN"
@@ -421,7 +395,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 42
             },{
-                id: 27,
                 documento: {
                     doc_numero: "02511065-T",
                     doc_tipo: "DNI"
@@ -437,7 +410,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 43
             },{
-                id: 28,
                 documento: {
                     doc_numero: "886-58-0328",
                     doc_tipo: "SSN"
@@ -453,7 +425,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 44
             },{
-                id: 29,
                 documento: {
                     doc_numero: "74IVZY80",
                     doc_tipo: "PASAPORTE"
@@ -469,7 +440,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 45
             },{
-                id: 30,
                 documento: {
                     doc_numero: "41MGI422",
                     doc_tipo: "PASAPORTE"
@@ -485,7 +455,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 46
             },{
-                id: 31,
                 documento: {
                     doc_numero: "94162682-L",
                     doc_tipo: "DNI"
@@ -501,7 +470,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 47
             },{
-                id: 32,
                 documento: {
                     doc_numero: "46X22F8M",
                     doc_tipo: "PASAPORTE"
@@ -517,7 +485,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 48
             },{
-                id: 33,
                 documento: {
                     doc_numero: "637-62-4481",
                     doc_tipo: "SSN"
@@ -533,7 +500,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 49
             },{
-                id: 34,
                 documento: {
                     doc_numero: "57307402-K",
                     doc_tipo: "DNI"
@@ -549,7 +515,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 50
             },{
-                id: 35,
                 documento: {
                     doc_numero: "864264569",
                     doc_tipo: "TFN"
@@ -565,7 +530,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 51
             },{
-                id: 36,
                 documento: {
                     doc_numero: "S63WQ6U8",
                     doc_tipo: "PASAPORTE"
@@ -581,7 +545,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 52
             },{
-                id: 37,
                 documento: {
                     doc_numero: "66133952",
                     doc_tipo: "PASAPORTE"
@@ -597,7 +560,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 53
             },{
-                id: 38,
                 documento: {
                     doc_numero: "9W40185W",
                     doc_tipo: "PASAPORTE"
@@ -613,7 +575,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 54
             },{
-                id: 39,
                 documento: {
                     doc_numero: "619164342",
                     doc_tipo: "TFN"
@@ -629,7 +590,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 55
             },{
-                id: 40,
                 documento: {
                     doc_numero: "YO588U70",
                     doc_tipo: "PASAPORTE"
@@ -645,7 +605,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 56
             },{
-                id: 41,
                 documento: {
                     doc_numero: "2NNaN83673036 25",
                     doc_tipo: "INSEE"
@@ -661,7 +620,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 57
             },{
-                id: 42,
                 documento: {
                     doc_numero: "85E2538I",
                     doc_tipo: "PASAPORTE"
@@ -677,7 +635,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 58
             },{
-                id: 43,
                 documento: {
                     doc_numero: "908Z576M",
                     doc_tipo: "PASAPORTE"
@@ -693,7 +650,6 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 59
             },{
-                id: 44,
                 documento: {
                     doc_numero: "3A984517",
                     doc_tipo: "PASAPORTE"
@@ -708,7 +664,7 @@ exports.seed =  (knex, Promise) => {
                     departamento: ""
                 },
                 id_usuario: 60
-            },
+            }
         ])
     })
 }

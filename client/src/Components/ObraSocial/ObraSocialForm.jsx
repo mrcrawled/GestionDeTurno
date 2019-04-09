@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import Input from '../Formulario/Input'
 
 class ObraSocialForm extends Component {
     constructor(props) {
@@ -12,16 +13,13 @@ class ObraSocialForm extends Component {
 
     agregarObraSocial = async event => {
         try {
-            console.log(this.state);
-            const obrasSociales = await {
+            const res = await axios.post(`/obras_sociales`, {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
-            }
-            const res = await axios.post(`/obras_sociales`, obrasSociales);
+            });
             const result = await res.data;
             this.setState({ result });
             console.log(result);
-            console.log(res.data);
         } catch (error) {
             console.log(error);
         }
@@ -38,6 +36,12 @@ class ObraSocialForm extends Component {
         window.history.back();
     }
     
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+    
     render() {
         return (
             <form onSubmit={this.agregarObraSocial} className="formulario">
@@ -45,22 +49,26 @@ class ObraSocialForm extends Component {
                     Nueva Obra Social
                 </div>
                 <div className="form-body">
-                    <input
-                        type="text"
+                    <Input
+                        autoComplete="off"
+                        id="nombre"
                         name="nombre"
                         onChange={this.handleChange}
                         placeholder="Nombre *"
                         required
-                    />
-                    <input
                         type="text"
+                    />
+                    <Input
+                        autoComplete="off"
+                        id="descripcion"
                         name="descripcion"
-                        placeholder="Descripcion"
                         onChange={this.handleChange}
+                        placeholder="Descripción *"
+                        required
+                        type="text"
                     />
                     <button type="submit" className="btn">Agregar</button>
                     <button type="submit" onClick={this.handleCancel} className="btn">Cancelar</button>
-
                 </div>
             </form>
         )

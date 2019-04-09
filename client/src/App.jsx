@@ -22,14 +22,14 @@ class App extends Component {
       <Router>
         <div>
           <Header />
-          <div className="Style">
-            <NavBar />
+          <NavBar />
+          <div className="container" id="Main">
             <Switch>
               <Route exact path="/" component={Home} />
               <Route exact path="/pacientes" component={Paciente} />
               <Route exact path="/pacientes/new" component={PacienteForm} />
+              <Route exact path="/pacientes/:id" component={Paciente} />
               <Route exact path="/obras_sociales" component={ObraSocial} />
-              <Route exact path="/obras_sociales/:id" component={ObraSocial} />
               <Route exact path="/obras_sociales/new" component={ObraSocialForm} />
               <Route exact path="/obras_sociales/:id" component={ObraSocial} />
               <Route component={NotFound} />
