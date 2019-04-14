@@ -23,13 +23,10 @@ class ObraSocial extends Component {
         }
     }
 
-    deleteObraSocial =  event => {
-        let element = event.target,
-            id = element.dataset.key;
-        console.log(element, id);
+    deleteObraSocial = (id, event) => {
+        let element = event.target;
         axios.delete(`/obras_sociales/${id}`)
         .then((res) => {
-            console.log(res);
             let rows = document.getElementsByClassName("pagination-body"),
                 kindex = Array.prototype.indexOf.call(document.querySelectorAll("i.fas.fa-trash-alt"), element);
             rows[kindex].remove();
@@ -60,7 +57,7 @@ class ObraSocial extends Component {
                         return [
                             obra_social.nombre,
                             obra_social.descripcion,
-                            <i onClick={this.deleteObraSocial} className="far fa-trash-alt" data-key={obra_social.id}></i>
+                            <i onClick={(e) => this.deleteObraSocial(obra_social.id,e)} className="far fa-trash-alt"></i>
                         ]
                     })}
                     

@@ -13,7 +13,7 @@
 }
 code { font-family: monospace; }
 
-.hide { display: none; }
+.hide { display: none !important; }
 
 /* ---------------------------------------------------------------------------------- Containers */
 #Main {
@@ -193,25 +193,6 @@ nav a:active {  background-color: var(--default-black); }
   padding: 20px 30px;
   width: 100%;
 }
-.form-body input {
-  background: none;
-  border: none;
-  border-bottom: 1.5px solid var(--dark-blue-30);
-  box-sizing: border-box;
-  display: block;
-  font-size: 16px;
-  height: 40px;
-  margin-bottom: 20px;
-  outline: none;
-  padding: 5px;
-  transition: .3s ease;
-  width: 100%;
-}
-.form-body input::placeholder { opacity: 0; transition: .3s ease; }
-.form-body input:focus::placeholder { opacity: 1; }
-.form-body input:focus {
-  border-bottom: 1.5px solid var(--dark-blue);
-}
 .form-body button {
   margin-top: 10px;
   width: 100%;
@@ -227,7 +208,7 @@ legend {
   margin-bottom: 10px;
   margin-left: 5px;
 }
-
+/* --------------------------------------------------------------------------------------- Input */
 .input-container {
   border: 1px solid white;
   margin: 10px 0;
@@ -242,15 +223,32 @@ legend {
   top: 10px;
   transition: .3s ease;
 }
-
-.form-body input:focus ~ label,
-.form-body input:valid ~ label,
-.form-body input.has-text ~ label {
+.input-container input {
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid var(--dark-blue-30);
+  box-sizing: border-box;
+  display: block;
+  font-size: 16px;
+  height: 40px;
+  margin-bottom: 20px;
+  outline: none;
+  padding: 5px;
+  transition: .3s ease;
+  width: 100%;
+}
+.input-container input::placeholder { opacity: 0; transition: .3s ease; }
+.input-container input:focus::placeholder { opacity: 1; }
+.input-container input:focus {
+  border-bottom: 1.5px solid var(--dark-blue);
+}
+.input-container input:focus ~ label,
+.input-container input:valid ~ label,
+.input-container input.has-text ~ label {
   color: var(--light-black);
   font-size: 14px;
   top: -12px;
 }
-
 /* -------------------------------------------------------------------------------------- Select */
 .select-container {
   position: relative;
@@ -265,12 +263,13 @@ legend {
   opacity: 0;
   overflow: auto;
   position: absolute;
+  scroll-behavior: smooth;
   top: 45px;
   transition: .3s ease;
   width: calc(100% + 2px);
   z-index: -1;
 }
-.form-body input:focus ~ .select-body { opacity: 1; z-index: 50;}
+.select-container input:focus ~ .select-body { opacity: 1; z-index: 50;}
 .select-item {
   align-items: center;
   background-color: var(--dark-blue-30);
