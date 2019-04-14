@@ -13,25 +13,21 @@ class ObraSocialForm extends Component {
 
     agregarObraSocial = async event => {
         try {
+            event.preventDefault();
+            const { history } = this.props;
             const res = await axios.post(`/obras_sociales`, {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
+            console.log (res);
             const result = await res.data;
-            this.setState({ result });
             console.log(result);
+            history.push('/obras_sociales');
         } catch (error) {
             console.log(error);
         }
     }
     
-    
-    handleChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-    }
-
     handleCancel = () => {
         window.history.back();
     }
@@ -41,7 +37,6 @@ class ObraSocialForm extends Component {
             [event.target.name]: event.target.value
         });
     }
-    
     render() {
         return (
             <form onSubmit={this.agregarObraSocial} className="formulario">
@@ -49,18 +44,16 @@ class ObraSocialForm extends Component {
                     Nueva Obra Social
                 </div>
                 <div className="form-body">
-                    <Input
+                    <input
                         autoComplete="off"
-                        id="nombre"
                         name="nombre"
                         onChange={this.handleChange}
                         placeholder="Nombre *"
                         required
                         type="text"
                     />
-                    <Input
+                    <input
                         autoComplete="off"
-                        id="descripcion"
                         name="descripcion"
                         onChange={this.handleChange}
                         placeholder="Descripción *"

@@ -27,17 +27,17 @@ let createObraSocial = async (req, res,next) =>{
   try{
     const { nombre,descripcion} = req.body;
     const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)',[nombre,descripcion]);
-    const { id } = obraSocial.rows[0];
     res.json({
       "status": "OK",
       "data": {
-        id,
         nombre,
         descripcion
       }
     });
+    console.log(obraSocial);
   } catch (error) {
     next (error);
+    db.close();
   }
 }
   
@@ -47,8 +47,8 @@ let updateObraSocial = async (req, res,next) => {
     const {nombre, descripcion} = req.body;
     const id = req.params.id;
     const obraSocial = await db
-    .query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ',[nombre,descripcion]);
-    res.send( obraSocial.rows[0] );
+    .query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ',[nombre,descripcion,id]);
+    console.log(obraSocial);
   } catch (error) {
     next (error);
   }
