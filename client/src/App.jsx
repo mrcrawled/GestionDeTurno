@@ -9,6 +9,7 @@ import Paciente from './Components/Paciente/Paciente';
 import PacienteForm from './Components/Paciente/PacienteForm';
 import ObraSocial from './Components/ObraSocial/ObraSocial';
 import ObraSocialForm from './Components/ObraSocial/ObraSocialForm';
+import ObraSocialInfo from './Components/ObraSocial/ObraSocialInfo';
 
 
 const NotFound = ({ location }) => (
@@ -31,7 +32,7 @@ class App extends Component {
               <Route exact path="/pacientes/:id" component={Paciente} />
               <Route exact path="/obras_sociales" component={ObraSocial} />
               <Route exact path="/obras_sociales/new" component={ObraSocialForm} />
-              <Route exact path="/obras_sociales/:id" component={ObraSocial} />
+              <Route exact path="/obras_sociales/:id" component={ObraSocialInfo} />
               <Route component={NotFound} />
             </Switch>
           </div>

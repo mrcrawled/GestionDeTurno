@@ -15,10 +15,9 @@ let getObraSocialById = async (req, res,next) => {
   try {
     const id = req.params.id;
     const obra_social = await db.query('SELECT * FROM obras_sociales WHERE ID = $1',[id]);
-      res.json(obra_social.rows[0])
-    }
-    catch (error) {
-      next (error);
+    res.json(obra_social.rows[0]);
+  } catch (error) {
+    next (error);
   }
 }
 
@@ -34,7 +33,6 @@ let createObraSocial = async (req, res,next) =>{
         descripcion
       }
     });
-    console.log(obraSocial);
   } catch (error) {
     next (error);
     db.close();
@@ -43,11 +41,10 @@ let createObraSocial = async (req, res,next) =>{
   
 //Actualiza Obra Social
 let updateObraSocial = async (req, res,next) => {
-  try{
+  try {
     const {nombre, descripcion} = req.body;
     const id = req.params.id;
-    const obraSocial = await db
-    .query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ',[nombre,descripcion,id]);
+    const obraSocial = await db.query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ',[nombre,descripcion,id]);
     console.log(obraSocial);
   } catch (error) {
     next (error);

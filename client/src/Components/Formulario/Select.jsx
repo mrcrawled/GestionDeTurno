@@ -40,7 +40,7 @@ class Select extends Component {
     onChange = event => {
         let shead = event.target,
             items = shead.parentNode.querySelectorAll(".select-item"),
-            toReplace = {"á": "a","é": "e","í": "i","ó": "o","ú": "u"},
+            toReplace = {"á": "a","é": "e","í": "i","ó": "o","ú": "u","ü":"u"},
             toMatch = this.replace(shead.value.toLowerCase(),toReplace),
             str = "";
         for(let i=0; i<items.length; i++){ 
@@ -65,21 +65,20 @@ class Select extends Component {
                 switch(event.key){
                     case "ArrowUp":
                     case "ArrowLeft":
-                        if(indx > 0) {indx--; shift -= 40;}
+                        if(indx > 0) {indx--; shift -= 39.2;}
                         break;
                     case "ArrowDown":
                     case "ArrowRight":
-                        if(indx < items.length-1) {indx++; shift += 40;}
+                        if(indx < items.length-1) {indx++; shift += 39.2;}
                         break;
                     default:break;
                 }
                 if( shift <= 0 ){ shift = 0; }
-                else if( shift >= 120 ){ shift = 120; }
+                else if( shift >= 117.6 ){ shift = 117.6; }
                 this.setState({shift});
                 if( indx !== jndx ) {
                     this.handleItemClicked( items[indx], items[jndx], shead, sbody);
                     sbody.scrollTo(0,items[indx].offsetTop - shift);
-                    console.log(sbody.scrollTop);
                 }
             } else { indx = 0; jndx = 0; this.handleItemClicked( items[indx] ); }
         }

@@ -19,9 +19,8 @@ class ObraSocialForm extends Component {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
-            console.log (res);
             const result = await res.data;
-            console.log(result);
+            // TODO: si status OK -> Mensaje de éxito y redirección
             history.push('/obras_sociales');
         } catch (error) {
             console.log(error);
@@ -44,21 +43,17 @@ class ObraSocialForm extends Component {
                     Nueva Obra Social
                 </div>
                 <div className="form-body">
-                    <input
-                        autoComplete="off"
+                    <Input
+                        id="nombre"
                         name="nombre"
                         onChange={this.handleChange}
                         placeholder="Nombre *"
-                        required
-                        type="text"
                     />
-                    <input
-                        autoComplete="off"
+                    <Input
+                        id="descripcion"
                         name="descripcion"
                         onChange={this.handleChange}
                         placeholder="Descripción *"
-                        required
-                        type="text"
                     />
                     <button type="submit" className="btn">Agregar</button>
                     <button type="submit" onClick={this.handleCancel} className="btn">Cancelar</button>

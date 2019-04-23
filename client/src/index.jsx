@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import './css/fonts.css';
 import './css/palleta.css';
 import './css/index.css';
+import './css/icons.css';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';

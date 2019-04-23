@@ -87,40 +87,29 @@ class PacienteForm extends Component {
                     <fieldset>
                         <legend>Información Personal</legend>
                         <Input
-                            autoComplete="off"
                             id="nombre"
                             name="nombre"
                             onChange={this.handleChange}
                             placeholder="Nombre *"
-                            required
-                            type="text"
                         />
                         <Input
-                            autoComplete="off"
                             id="apellido"
                             name="apellido"
                             onChange={this.handleChange}
                             placeholder="Apellido *"
-                            required
-                            type="text"
                         />
                         <Input
-                            autoComplete="off"
                             extra="ej: 08-10-1990"
                             id="fecha_nacimiento"
                             name="fecha_nacimiento"
                             onChange={this.handleChange}
                             placeholder="Fecha de Nacimiento *"
-                            required
-                            type="text"
                         />
                         <Input
-                            autoComplete="off"
                             id="email"
                             name="email"
                             onChange={this.handleChange}
                             placeholder="Correo electrónico *"
-                            required
                             type="mail"
                         />
                     </fieldset>
@@ -128,22 +117,16 @@ class PacienteForm extends Component {
                         <legend>Documento</legend>
                         <div className="col-2">
                             <Input
-                                autoComplete="off"
                                 id="doc_tipo"
                                 name="doc_tipo"
                                 onChange={this.handleChange}
                                 placeholder="Tipo documento *"
-                                required
-                                type="text"
                             />
                             <Input
-                                autoComplete="off"
                                 id="doc_numero"
                                 name="doc_numero"
                                 onChange={this.handleChange}
                                 placeholder="Numero de documento *"
-                                required
-                                type="text"
                             />
                         </div>
                     </fieldset>
@@ -151,40 +134,28 @@ class PacienteForm extends Component {
                         <legend>Dirección</legend>
                         <div className="col-2">
                             <Input
-                                autoComplete="off"
                                 id="calle"
                                 name="calle"
                                 onChange={this.handleChange}
                                 placeholder="Calle"
-                                required
-                                type="text"
                             />
                             <Input
-                                autoComplete="off"
                                 id="numero"
                                 name="numero"
                                 onChange={this.handleChange}
                                 placeholder="Número"
-                                required
-                                type="text"
                             />
                             <Input
-                                autoComplete="off"
                                 id="piso"
                                 name="piso"
                                 onChange={this.handleChange}
                                 placeholder="Piso"
-                                required
-                                type="text"
                             />
                             <Input
-                                autoComplete="off"
                                 id="departamento"
                                 name="departamento"
                                 onChange={this.handleChange}
                                 placeholder="Departamento"
-                                required
-                                type="text"
                             />
                         </div>
                     </fieldset>
@@ -205,13 +176,10 @@ class PacienteForm extends Component {
                             placeholder="Obra Social"
                         />
                         <Input
-                            autoComplete="off"
                             id="numero_afiliado"
                             name="numero_afiliado"
                             onChange={this.handleChange}
                             placeholder="Número de afiliado"
-                            required
-                            type="text"
                         />
                     </fieldset>
                     <button type="submit" className="btn">Agregar</button>

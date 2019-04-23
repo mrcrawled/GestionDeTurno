@@ -23,16 +23,15 @@ class ObraSocial extends Component {
         }
     }
 
-    deleteObraSocial = (id, event) => {
-        let element = event.target;
+    deleteObraSocial = (event, id, index) => {
+        console.log(this.props);
         axios.delete(`/obras_sociales/${id}`)
         .then((res) => {
-            let rows = document.getElementsByClassName("pagination-body"),
-                kindex = Array.prototype.indexOf.call(document.querySelectorAll("i.fas.fa-trash-alt"), element);
-            rows[kindex].remove();
+            let rows = document.getElementsByClassName("pagination-body");
+            rows[index].remove();
         })
-        .catch((e) => {
-            console.log(e);
+        .catch((error) => {
+            console.log(error);
         });
     }
     
@@ -48,19 +47,18 @@ class ObraSocial extends Component {
         return (
             <div>
                 <h2>Obras Sociales</h2>
-                <Link to="/obras_sociales/new">
+                <Link to="/obras_sociales/new" title="Nueva obra social">
                     <button type="button" className="btn">Nueva Obra Social</button>
                 </Link>
                 <Paginacion
                     rhead={["Nombre", "Descripción", ""]}
-                    rbody={this.state.obras_sociales.map( (obra_social) => {
+                    rbody={this.state.obras_sociales.map( (obra_social,index) => {
                         return [
                             obra_social.nombre,
                             obra_social.descripcion,
-                            <i onClick={(e) => this.deleteObraSocial(obra_social.id,e)} className="far fa-trash-alt"></i>
+                            <i onClick={(event) => this.deleteObraSocial(event, obra_social.id, index)} className="far fa-trash-alt"></i>
                         ]
                     })}
-                    
                 />
             </div>
         )

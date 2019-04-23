@@ -12,7 +12,7 @@ class Input extends Component {
                     autoComplete="off"
                     id={this.props.id}
                     name={this.props.name}
-                    onChange={this.props.handleChange}
+                    onChange={this.props.onChange}
                     placeholder={this.props.extra ? this.props.extra : ""}
                     required
                     type="text"
