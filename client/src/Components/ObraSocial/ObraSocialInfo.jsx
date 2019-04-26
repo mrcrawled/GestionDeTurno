@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class ObraSocialInfo extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             id: "",
@@ -16,7 +16,8 @@ class ObraSocialInfo extends Component {
             const { match: { params: {id} } } = this.props;
             const res = await axios.get(`/obras_sociales/${id}`)
             const obraSocialInfo = res.data;
-            this.setState({ 
+            console.log(obraSocialInfo);
+            this.setState({
                 id: obraSocialInfo.id,
                 nombre: obraSocialInfo.nombre,
                 descripcion: obraSocialInfo.descripcion
@@ -30,11 +31,17 @@ class ObraSocialInfo extends Component {
         this.getObraSocialById();
     }
 
-    render(){
-        return(
+    handleOK = () => {
+        const { history } = this.props;
+        history.push('/obras_sociales/');
+    }
+
+
+    render() {
+        return (
             <div className="card-info">
                 <div className="card-header">
-                    Obra Social
+                     Detalle de la Obra Social
                 </div>
                 <div className="card-body">
                     <div className="card-field">
@@ -45,6 +52,8 @@ class ObraSocialInfo extends Component {
                         <div className="card-data">{this.state.descripcion}</div>
                         <div className="card-label">Descripción</div>
                     </div>
+                    <button type="submit" onClick={this.handleOK} className="btn">OK</button>
+
                 </div>
             </div>
         )

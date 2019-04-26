@@ -7,6 +7,8 @@ import NavBar from './Components/NavBar';
 
 import Paciente from './Components/Paciente/Paciente';
 import PacienteForm from './Components/Paciente/PacienteForm';
+import PacienteInfo from './Components/Paciente/PacienteInfo';
+
 import ObraSocial from './Components/ObraSocial/ObraSocial';
 import ObraSocialForm from './Components/ObraSocial/ObraSocialForm';
 import ObraSocialInfo from './Components/ObraSocial/ObraSocialInfo';
@@ -29,7 +31,8 @@ class App extends Component {
               <Route exact path="/" component={Home} />
               <Route exact path="/pacientes" component={Paciente} />
               <Route exact path="/pacientes/new" component={PacienteForm} />
-              <Route exact path="/pacientes/:id" component={Paciente} />
+              <Route exact path="/pacientes/:id" component={PacienteInfo} />
+              
               <Route exact path="/obras_sociales" component={ObraSocial} />
               <Route exact path="/obras_sociales/new" component={ObraSocialForm} />
               <Route exact path="/obras_sociales/:id" component={ObraSocialInfo} />

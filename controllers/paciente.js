@@ -9,7 +9,7 @@ let getPacientes = async (req, res, next) => {
         if (req.query['limit']) {
             limit = req.query['limit'];
         }
-        const pacientes = await db.query("SELECT nombre, apellido, documento, direccion, fecha_nacimiento FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
+        const pacientes = await db.query("SELECT id,nombre, apellido, documento FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
         res.json(pacientes.rows);
     }
     catch (error) {
@@ -20,15 +20,18 @@ let getPacientes = async (req, res, next) => {
 let getPacienteById = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const paciente = await db.query('SELECT * FROM PACIENTES WHERE id = {$1}', [id]);
+        const paciente = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id]);
         res.json(paciente.rows[0]);
+        const obraSocialPaciente = await db.query('SELECT * FROM obras_sociales_pacientes WHERE ID = $1 RETURNING *',[id]);
+        res.json(obraSocialPaciente.rows[0]);
+
     }
     catch (error) {
         next(error);
     }
 }
 
-//Agrega Paciente
+//Agregar Paciente
 let createPaciente = async (req, res, next) => {
     try {
         console.log(req.body);
@@ -66,7 +69,7 @@ let createPaciente = async (req, res, next) => {
     };
 };
 
-//Actualiza Paciente
+//Actualizar Paciente
 let updatePaciente = async (req, res, next) => {
     try {
         const id = req.params.id;
@@ -78,14 +81,17 @@ let updatePaciente = async (req, res, next) => {
     }
 };
 
-//Borra Paciente
+//Borrar Paciente
 let deletePaciente = async (req, res, next) => {
     try {
         const id = req.params.id;
         const paciente = await db.query('DELETE FROM pacientes where ID = $1', [id]);
         res.json({
-            "status": "TODO"
+            "status": "OK",
+            "message": "Se ha eliminado el paciente"
+
         });
+        res.send (paciente);
     } catch (error) {
         next(error);
     }

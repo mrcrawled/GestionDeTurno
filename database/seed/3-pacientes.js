@@ -12,8 +12,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "blake",
                 apellido: "brar",
                 fecha_nacimiento: "1954-8-26",
-                direccion: { 
-                    direccion: "",
+                domicilio: { 
+                    domicilio: "",
                     numero: "9569",
                     piso: "",
                     departamento: ""
@@ -27,8 +27,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "adrian",
                 apellido: "sanz",
                 fecha_nacimiento: "1956-7-26",
-                direccion: { 
-                    direccion: "direccion mota",
+                domicilio: { 
+                    domicilio: "domicilio mota",
                     numero: "6094",
                     piso: "",
                     departamento: ""
@@ -42,8 +42,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "willard",
                 apellido: "kelley",
                 fecha_nacimiento: "1981-3-3",
-                direccion: { 
-                    direccion: "homestead rd",
+                domicilio: { 
+                    domicilio: "homestead rd",
                     numero: "1686",
                     piso: "",
                     departamento: ""
@@ -57,8 +57,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "maxime",
                 apellido: "grewal",
                 fecha_nacimiento: "1987-4-17",
-                direccion: { 
-                    direccion: "elgin st",
+                domicilio: { 
+                    domicilio: "elgin st",
                     numero: "520",
                     piso: "",
                     departamento: ""
@@ -72,8 +72,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "olivia",
                 apellido: "morales",
                 fecha_nacimiento: "1973-11-1",
-                direccion: { 
-                    direccion: "miller ave",
+                domicilio: { 
+                    domicilio: "miller ave",
                     numero: "1357",
                     piso: "",
                     departamento: ""
@@ -87,8 +87,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "lucy",
                 apellido: "perrin",
                 fecha_nacimiento: "1957-5-18",
-                direccion: { 
-                    direccion: "rue des abbesses",
+                domicilio: { 
+                    domicilio: "rue des abbesses",
                     numero: "9849",
                     piso: "",
                     departamento: ""
@@ -102,8 +102,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "birgit",
                 apellido: "raith",
                 fecha_nacimiento: "1951-1-3",
-                direccion: { 
-                    direccion: "talstraße",
+                domicilio: { 
+                    domicilio: "talstraße",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -117,8 +117,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "annabelle",
                 apellido: "mitchell",
                 fecha_nacimiento: "1967-7-22",
-                direccion: { 
-                    direccion: "queen st",
+                domicilio: { 
+                    domicilio: "queen st",
                     numero: "7687",
                     piso: "",
                     departamento: ""
@@ -132,8 +132,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "ellie",
                 apellido: "fuller",
                 fecha_nacimiento: "1986-5-26",
-                direccion: { 
-                    direccion: "grange road",
+                domicilio: { 
+                    domicilio: "grange road",
                     numero: "2726",
                     piso: "",
                     departamento: ""
@@ -147,8 +147,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "alfredo",
                 apellido: "bailey",
                 fecha_nacimiento: "1953-3-1",
-                direccion: { 
-                    direccion: "lakeview st",
+                domicilio: { 
+                    domicilio: "lakeview st",
                     numero: "5470",
                     piso: "",
                     departamento: ""
@@ -162,8 +162,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "stella",
                 apellido: "renaud",
                 fecha_nacimiento: "1957-7-14",
-                direccion: { 
-                    direccion: "rue de l'abbé-de-l'épée",
+                domicilio: { 
+                    domicilio: "rue de l'abbé-de-l'épée",
                     numero: "3698",
                     piso: "",
                     departamento: ""
@@ -177,8 +177,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "adele",
                 apellido: "küster",
                 fecha_nacimiento: "1950-10-23",
-                direccion: { 
-                    direccion: "kirchplatz",
+                domicilio: { 
+                    domicilio: "kirchplatz",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -192,8 +192,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "walli",
                 apellido: "schuch",
                 fecha_nacimiento: "1965-9-18",
-                direccion: { 
-                    direccion: "schulstraße",
+                domicilio: { 
+                    domicilio: "schulstraße",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -207,8 +207,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "gesche",
                 apellido: "hof",
                 fecha_nacimiento: "1945-10-4",
-                direccion: { 
-                    direccion: "tulpenweg",
+                domicilio: { 
+                    domicilio: "tulpenweg",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -222,8 +222,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "hermínio",
                 apellido: "jesus",
                 fecha_nacimiento: "1975-5-11",
-                direccion: { 
-                    direccion: "rua sete de setembro",
+                domicilio: { 
+                    domicilio: "rua sete de setembro",
                     numero: "6645",
                     piso: "",
                     departamento: ""
@@ -237,8 +237,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "luis",
                 apellido: "andre",
                 fecha_nacimiento: "1952-11-22",
-                direccion: { 
-                    direccion: "rue des chartreux",
+                domicilio: { 
+                    domicilio: "rue des chartreux",
                     numero: "672",
                     piso: "",
                     departamento: ""
@@ -252,8 +252,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "andres",
                 apellido: "lozano",
                 fecha_nacimiento: "1962-4-12",
-                direccion: { 
-                    direccion: "direccion mota",
+                domicilio: { 
+                    domicilio: "domicilio mota",
                     numero: "6329",
                     piso: "",
                     departamento: ""
@@ -267,8 +267,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "joseph",
                 apellido: "ryan",
                 fecha_nacimiento: "1947-5-15",
-                direccion: { 
-                    direccion: "e pecan st",
+                domicilio: { 
+                    domicilio: "e pecan st",
                     numero: "124",
                     piso: "",
                     departamento: ""
@@ -282,8 +282,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "louison",
                 apellido: "muller",
                 fecha_nacimiento: "1993-9-8",
-                direccion: { 
-                    direccion: "esplanade du",
+                domicilio: { 
+                    domicilio: "esplanade du",
                     numero: "9888",
                     piso: "",
                     departamento: ""
@@ -297,8 +297,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "cory",
                 apellido: "mitchelle",
                 fecha_nacimiento: "1995-3-25",
-                direccion: { 
-                    direccion: "queen street",
+                domicilio: { 
+                    domicilio: "queen street",
                     numero: "5882",
                     piso: "",
                     departamento: ""
@@ -312,8 +312,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "abbie",
                 apellido: "powell",
                 fecha_nacimiento: "1960-8-23",
-                direccion: { 
-                    direccion: "the avenue",
+                domicilio: { 
+                    domicilio: "the avenue",
                     numero: "9732",
                     piso: "",
                     departamento: ""
@@ -327,8 +327,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "bobby",
                 apellido: "thompson",
                 fecha_nacimiento: "1978-10-31",
-                direccion: { 
-                    direccion: "oak lawn ave",
+                domicilio: { 
+                    domicilio: "oak lawn ave",
                     numero: "2080",
                     piso: "",
                     departamento: ""
@@ -342,8 +342,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "eddie",
                 apellido: "hill",
                 fecha_nacimiento: "1980-9-14",
-                direccion: { 
-                    direccion: "preston rd",
+                domicilio: { 
+                    domicilio: "preston rd",
                     numero: "9350",
                     piso: "",
                     departamento: ""
@@ -357,8 +357,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "angela",
                 apellido: "carstens",
                 fecha_nacimiento: "1951-3-19",
-                direccion: { 
-                    direccion: "waldweg",
+                domicilio: { 
+                    domicilio: "waldweg",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -372,8 +372,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "jeanne",
                 apellido: "knight",
                 fecha_nacimiento: "1985-3-26",
-                direccion: { 
-                    direccion: "grand ave",
+                domicilio: { 
+                    domicilio: "grand ave",
                     numero: "7953",
                     piso: "",
                     departamento: ""
@@ -387,8 +387,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "lester",
                 apellido: "sims",
                 fecha_nacimiento: "1951-4-15",
-                direccion: { 
-                    direccion: "shady ln dr",
+                domicilio: { 
+                    domicilio: "shady ln dr",
                     numero: "5054",
                     piso: "",
                     departamento: ""
@@ -402,8 +402,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "blanca",
                 apellido: "delgado",
                 fecha_nacimiento: "1960-7-15",
-                direccion: { 
-                    direccion: "direccion de arturo soria",
+                domicilio: { 
+                    domicilio: "domicilio de arturo soria",
                     numero: "1149",
                     piso: "",
                     departamento: ""
@@ -417,8 +417,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "reginald",
                 apellido: "berry",
                 fecha_nacimiento: "1965-1-7",
-                direccion: { 
-                    direccion: "oak ridge ln",
+                domicilio: { 
+                    domicilio: "oak ridge ln",
                     numero: "4330",
                     piso: "",
                     departamento: ""
@@ -432,8 +432,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "juliette",
                 apellido: "taylor",
                 fecha_nacimiento: "1968-10-22",
-                direccion: { 
-                    direccion: "peel st",
+                domicilio: { 
+                    domicilio: "peel st",
                     numero: "5320",
                     piso: "",
                     departamento: ""
@@ -447,8 +447,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "sifredo",
                 apellido: "carvalho",
                 fecha_nacimiento: "1974-11-26",
-                direccion: { 
-                    direccion: "rua treze de maio",
+                domicilio: { 
+                    domicilio: "rua treze de maio",
                     numero: "1542",
                     piso: "",
                     departamento: ""
@@ -462,8 +462,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "jesus",
                 apellido: "esteban",
                 fecha_nacimiento: "1959-7-13",
-                direccion: { 
-                    direccion: "direccion covadonga",
+                domicilio: { 
+                    domicilio: "domicilio covadonga",
                     numero: "9725",
                     piso: "",
                     departamento: ""
@@ -477,8 +477,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "sophia",
                 apellido: "chan",
                 fecha_nacimiento: "1975-2-7",
-                direccion: { 
-                    direccion: "disputed rd",
+                domicilio: { 
+                    domicilio: "disputed rd",
                     numero: "8213",
                     piso: "",
                     departamento: ""
@@ -492,8 +492,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "alexis",
                 apellido: "carr",
                 fecha_nacimiento: "1957-1-29",
-                direccion: { 
-                    direccion: "adams st",
+                domicilio: { 
+                    domicilio: "adams st",
                     numero: "4781",
                     piso: "",
                     departamento: ""
@@ -507,8 +507,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "angeles",
                 apellido: "diaz",
                 fecha_nacimiento: "1952-11-5",
-                direccion: { 
-                    direccion: "direccion del prado",
+                domicilio: { 
+                    domicilio: "domicilio del prado",
                     numero: "2198",
                     piso: "",
                     departamento: ""
@@ -522,8 +522,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "mildred",
                 apellido: "sanders",
                 fecha_nacimiento: "1949-10-7",
-                direccion: { 
-                    direccion: "lovers ln",
+                domicilio: { 
+                    domicilio: "lovers ln",
                     numero: "7842",
                     piso: "",
                     departamento: ""
@@ -537,8 +537,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "clemêncio",
                 apellido: "pinto",
                 fecha_nacimiento: "1978-4-10",
-                direccion: { 
-                    direccion: "rua são sebastiao",
+                domicilio: { 
+                    domicilio: "rua são sebastiao",
                     numero: "5765",
                     piso: "",
                     departamento: ""
@@ -552,8 +552,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "terezinha",
                 apellido: "moura",
                 fecha_nacimiento: "1971-4-17",
-                direccion: { 
-                    direccion: "rua são francisco",
+                domicilio: { 
+                    domicilio: "rua são francisco",
                     numero: "3201",
                     piso: "",
                     departamento: ""
@@ -567,8 +567,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "artur",
                 apellido: "erhardt",
                 fecha_nacimiento: "1948-4-27",
-                direccion: { 
-                    direccion: "tulpenweg",
+                domicilio: { 
+                    domicilio: "tulpenweg",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -582,8 +582,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "rose",
                 apellido: "soto",
                 fecha_nacimiento: "1946-12-25",
-                direccion: { 
-                    direccion: "cackson st",
+                domicilio: { 
+                    domicilio: "cackson st",
                     numero: "4900",
                     piso: "",
                     departamento: ""
@@ -597,8 +597,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "mathis",
                 apellido: "gill",
                 fecha_nacimiento: "1983-2-8",
-                direccion: { 
-                    direccion: "wellington st",
+                domicilio: { 
+                    domicilio: "wellington st",
                     numero: "2320",
                     piso: "",
                     departamento: ""
@@ -612,8 +612,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "lison",
                 apellido: "mathieu",
                 fecha_nacimiento: "1947-1-16",
-                direccion: { 
-                    direccion: "place de l'abbé-jean-lebeuf",
+                domicilio: { 
+                    domicilio: "place de l'abbé-jean-lebeuf",
                     numero: "6282",
                     piso: "",
                     departamento: ""
@@ -627,8 +627,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "hans-günther",
                 apellido: "heinicke",
                 fecha_nacimiento: "1964-12-21",
-                direccion: { 
-                    direccion: "schillerstraße",
+                domicilio: { 
+                    domicilio: "schillerstraße",
                     numero: "",
                     piso: "",
                     departamento: ""
@@ -642,8 +642,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "bernardino",
                 apellido: "cavalcanti",
                 fecha_nacimiento: "1969-3-20",
-                direccion: { 
-                    direccion: "rua piauí",
+                domicilio: { 
+                    domicilio: "rua piauí",
                     numero: "3259",
                     piso: "",
                     departamento: ""
@@ -657,8 +657,8 @@ exports.seed =  (knex, Promise) => {
                 nombre: "tatiana",
                 apellido: "dias",
                 fecha_nacimiento: "1989-1-2",
-                direccion: { 
-                    direccion: "rua onze",
+                domicilio: { 
+                    domicilio: "rua onze",
                     numero: "2143",
                     piso: "",
                     departamento: ""

@@ -38,7 +38,7 @@ router.delete('/pacientes/:id', paciente.deletePaciente);
 /*Roles*/
 router.post('/rol', rol.createRol);
 router.put('/rol/:id', rol.updateRol);
-router.delete('/pacientes/:id', rol.deleteRol);
+router.delete('/rol/:id', rol.deleteRol);
 
 
 /*Telefonos*/

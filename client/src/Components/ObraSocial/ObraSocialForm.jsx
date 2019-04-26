@@ -20,7 +20,7 @@ class ObraSocialForm extends Component {
                 descripcion: this.state.descripcion
             });
             const result = await res.data;
-            // TODO: si status OK -> Mensaje de éxito y redirección
+            this.setState({ result });
             history.push('/obras_sociales');
         } catch (error) {
             console.log(error);

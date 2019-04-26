@@ -4,11 +4,11 @@ import axios from 'axios';
 import Paginacion from '../Paginacion';
 
 class Paciente extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             pacientes: [],
-            id: 0  
+            id: 0
         }
     };
 
@@ -17,7 +17,7 @@ class Paciente extends Component {
         try {
             const res = await axios.get("/pacientes");
             const pacientes = await res.data;
-            for(let i = 0; i < pacientes.legth; i++){
+            for (let i = 0; i < pacientes.legth; i++) {
                 pacientes[i].direccion = JSON.parse(pacientes[i].direccion);
             }
             this.setState({ pacientes });
@@ -30,28 +30,32 @@ class Paciente extends Component {
         return `${document.doc_tipo}: ${document.doc_numero}`;
     }
 
+/*    /*Comente esto porque ya no listamos por direccion. Recuerdo que me dijiste que podríamos sacarlo porque no era reelevante la info para listar
+
     getFormattedAddress = (direccion) => {
         let formattedAddress = "",
-            calle = direccion.calle !== "" && typeof direccion.calle !== "undefined" ? `Calle: ${direccion.calle}` : "",
+            domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `domicilio: ${direccion.domicilio}` : "",
             dire = direccion.direccion !== "" && typeof direccion.direccion !== "undefined" ? `Dirección: ${direccion.direccion}` : "",
             numero = direccion.numero !== "" ? `Número: ${direccion.numero}` : false,
             piso = direccion.piso !== "" ? `Piso: ${direccion.piso}` : false,
             departamento = direccion.departamento !== "" ? `Departamento: ${direccion.departamento}` : false;
-        formattedAddress += calle ? calle + (numero || piso || departamento ? ", " : "") : "";
+        formattedAddress += domicilio ? domicilio + (numero || piso || departamento ? ", " : "") : "";
         formattedAddress += dire ? dire + (numero || piso || departamento ? ", " : "") : "";
         formattedAddress += numero ? numero + (piso || departamento ? ", " : "") : "";
         formattedAddress += piso ? piso + (departamento ? ", " : "") : "";
         formattedAddress += departamento ? departamento : "";
         return formattedAddress;
     }
+*/
 
-    getFormattedTimestamp = (timestamp) => {
+    /*Comente esto porque ya no listamos por fecha de nacimiento. Recuerdo que me dijiste que podríamos sacarlo
+getFormattedTimestamp = (timestamp) => {
         let birthDate = new Date(timestamp),
             date = birthDate.getDate() < 10 ? `0${birthDate.getDate()}` : birthDate.getDate(),
             month = birthDate.getMonth() < 9 ? `0${birthDate.getMonth()+1}` : birthDate.getMonth()+1,
             formattedTimestamp = `${date}-${month}-${birthDate.getFullYear()}`;
         return formattedTimestamp;
-    }
+    }*/
 
     handleSubmit = event => {
         event.preventDefault();
@@ -77,13 +81,15 @@ class Paciente extends Component {
                     <button type="button" className="btn">Nuevo Paciente</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre y Apellido", "Documento", "Direccion", "Fecha de Nacimiento"]}
-                    rbody={this.state.pacientes.map( (paciente) => {
+                    rhead={["Nombre y Apellido", "Documento",""]}
+                    rbody={this.state.pacientes.map((paciente) => {
                         return [
                             `${paciente.nombre} ${paciente.apellido}`,
                             `${this.getFormattedDocument(paciente.documento)}`,
-                            `${this.getFormattedAddress(paciente.direccion)}`,
-                            `${this.getFormattedTimestamp(paciente.fecha_nacimiento)}`
+                            <Link to={`/pacientes/${paciente.id}`}><button type="button">
+                                INFO
+                        </button>
+                            </Link>
                         ]
                     })}
                 />

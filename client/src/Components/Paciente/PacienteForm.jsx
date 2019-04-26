@@ -10,7 +10,7 @@ class PacienteForm extends Component {
             nombre: '',
             apellido: '',
             fecha_nacimiento: '',
-            calle: '',
+            domicilio: '',
             numero: '',
             piso: '',
             departamento: '',
@@ -46,7 +46,7 @@ class PacienteForm extends Component {
                 apellido: this.state.apellido,
                 fecha_nacimiento: this.state.fecha_nacimiento,
                 direccion: JSON.stringify({
-                    calle: this.state.calle,
+                    domicilio: this.state.domicilio,
                     numero: this.state.numero,
                     piso: this.state.piso,
                     departamento: this.state.departamento,
@@ -134,10 +134,10 @@ class PacienteForm extends Component {
                         <legend>Dirección</legend>
                         <div className="col-2">
                             <Input
-                                id="calle"
-                                name="calle"
+                                id="domicilio"
+                                name="domicilio"
                                 onChange={this.handleChange}
-                                placeholder="Calle"
+                                placeholder="domicilio"
                             />
                             <Input
                                 id="numero"

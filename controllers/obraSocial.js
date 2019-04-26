@@ -21,7 +21,7 @@ let getObraSocialById = async (req, res,next) => {
   }
 }
 
-//Agrega Obra Social
+//Agregar Obra Social
 let createObraSocial = async (req, res,next) =>{
   try{
     const { nombre,descripcion} = req.body;
@@ -39,7 +39,7 @@ let createObraSocial = async (req, res,next) =>{
   }
 }
   
-//Actualiza Obra Social
+//Actualizar Obra Social
 let updateObraSocial = async (req, res,next) => {
   try {
     const {nombre, descripcion} = req.body;
@@ -51,11 +51,17 @@ let updateObraSocial = async (req, res,next) => {
   }
 }
 
-//Borra Obra Social
+//Borrar Obra Social
 let deleteObraSocial = async (req, res,next) =>{
   try {
     const id = req.params.id;
     const obraSocial =  await db.query('DELETE FROM obras_sociales where ID = $1',[id]);
+    res.json({
+      "status": "OK",
+      "message": "Se ha eliminado la Obra Social"
+
+  });
+
     res.send (obraSocial);
   } catch (error) {
     next (error);
