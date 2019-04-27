@@ -9,7 +9,7 @@ let getPacientes = async (req, res, next) => {
         if (req.query['limit']) {
             limit = req.query['limit'];
         }
-        const pacientes = await db.query("SELECT id,nombre, apellido, documento FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
+        const pacientes = await db.query("SELECT * FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
         res.json(pacientes.rows);
     }
     catch (error) {

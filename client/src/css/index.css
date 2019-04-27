@@ -14,6 +14,7 @@
 code { font-family: monospace; }
 
 .hide { display: none !important; }
+a{ text-decoration: none; }
 
 /* ---------------------------------------------------------------------------------- Containers */
 #Main {
@@ -26,8 +27,8 @@ header{
   align-items: center;
   background-color: var(--dark-blue);
   display: flex;
-  height: 60px;
   justify-content: center;
+  min-height: 60px;
   padding: 10px;
 }
 header h1 { color: var(--light-gray); }
@@ -70,6 +71,9 @@ nav a:active { background-color: var(--default-black); }
 }
 
 .pagination-row {
+  /* display: grid;
+  grid-template-columns: repeat( attr(data-cols integer), 1fr);
+  grid-column-gap: 10px; */
   align-items: center;
   display: flex;
   flex-grow: 1;
@@ -78,22 +82,27 @@ nav a:active { background-color: var(--default-black); }
   min-height: 40px;
   padding: 0 10px;
 }
-.pagination-1-col,
-.pagination-2-col,
-.pagination-3-col,
-.pagination-4-col,
-.pagination-5-col,
-.pagination-6-col {
+.pagination-1-col, .pagination-2-col,
+.pagination-3-col, .pagination-4-col,
+.pagination-5-col, .pagination-6-col,
+.pagination-7-col, .pagination-8-col,
+.pagination-col-item {
   align-items: center;
   display: flex;
   padding: 5px;
 }
 .pagination-1-col { width: 100%; }
 .pagination-2-col { width: 50%; }
-.pagination-3-col { width: calc(100%/3); }
+.pagination-3-col { width: 33.33%; }
 .pagination-4-col { width: 25%; }
 .pagination-5-col { width: 20%; }
-.pagination-6-col { width: calc(50%/3); }
+.pagination-6-col { width: 16.66%; }
+.pagination-7-col { width: 14.2857%; }
+.pagination-8-col { width: 12.5%; }
+.pagination-col-item {
+  flex-basis: 20px;
+  width: 20px;
+}
 
 .pagination-nav { margin-bottom: 15px; }
 .pagination-nav,

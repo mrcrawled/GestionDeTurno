@@ -51,19 +51,17 @@ class ObraSocial extends Component {
                     <button type="button" className="btn">Nueva Obra Social</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre", "Descripción", ""]}
+                    rhead={["Nombre", "Descripción"]}
                     rbody={this.state.obras_sociales.map( (obra_social,index) => {
                         return [
                             obra_social.nombre,
                             obra_social.descripcion,
                             <i onClick={(event) => this.deleteObraSocial(event, obra_social.id, index)} className="far fa-trash-alt"></i>,
-                            <Link to={`/obras_sociales/${obra_social.id}`}><button type="button">
-                            INFO
-                        </button>
-                        </Link>
-
+                            <Link to={`/obras_sociales/${obra_social.id}`}><i className="fas fa-folder"></i></Link>
                         ]
                     })}
+                    delete="2"
+                    info="3"
                 />
             </div>
         )

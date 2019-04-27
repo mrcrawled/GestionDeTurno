@@ -5,15 +5,17 @@ class Paginacion extends Component {
         super(props);
         this.state = {
             elemxpage: 10,
-            ncols: this.props.rhead.length,
-            npages: this.props.rbody.length/10,
-            irow: 0
+            ncols: 0,
+            nitems: 0,
+            npages: 0
         };
     }
 
     componentDidMount() {
+        let ncols = this.props.rhead.length;
         this.setState({
-            ncols: this.props.rhead.length,
+            ncols,
+            nitems: this.props.rbody.length,
             npages: this.props.rbody.length/10
         });
     }
@@ -50,21 +52,20 @@ class Paginacion extends Component {
         }
     }
 
-    changeLengthItems = () => {
-        let rows = document.getElementsByClassName("pagination-body");
-        if(Array.prototype.filter.call(rows, (element,i) => !element.classList.contains("hide")).length < this.state.elemxpage){
-            let element = document.querySelector(".pagination-list-item.active"),
-                iPage = parseInt(element.dataset.key);
-            Array.prototype.forEach.call( rows, (row,i) => { row.classList.add("hide"); });
-            for(let i=(iPage-1)*this.state.elemxpage,j=0; j<this.state.elemxpage && i<rows.length; j++,i++){
-                rows[i].classList.remove("hide");
-            }
+    renderInfoUI = (draw = false, row = null) => { 
+        if(this.props.info){ 
+            return <div className="pagination-col-item">{ draw ? row[this.props.info] : ""}</div>
+        }
+    }
+    renderDeleteUI = (draw = false, row = null) => { 
+        if(this.props.delete){
+            return <div className="pagination-col-item">{ draw ? row[this.props.delete] : ""}</div>
         }
     }
 
     render(){
         return (
-            <div className="pagination" onChange={this.changeLengthItems}>
+            <div className="pagination">
                 <div className="pagination-nav">
                     <div className="pagination-list-item-prev" onClick={this.changePagePrev}>Anterior</div>
                     <div className="pagination-list">
@@ -90,17 +91,20 @@ class Paginacion extends Component {
                             {ecol}
                         </div>
                     )}
+                    {this.renderInfoUI()}
+                    {this.renderDeleteUI()}
                 </div>
                 { this.props.rbody.map( (row, key) =>
                     <div className={(() => {
-                        this.state.irow = this.state.irow + 1;
-                        return `pagination-row pagination-body ${this.state.irow > 10 ? "hide" : ""}`;
+                        return `pagination-row pagination-body ${key < 10 ? "" : "hide"}`;
                     })()} key={key}>
-                        { row.map( (ecol,kitem) => 
+                        { row.map( (ecol,kitem) => kitem != this.props.info && kitem != this.props.delete ?
                             <div className={`pagination-${this.state.ncols}-col`} key={kitem}>
                                 {ecol !== "null" ? ecol : "-"}
-                            </div>
+                            </div> : null
                         )}
+                        {this.renderInfoUI(true, row)}
+                        {this.renderDeleteUI(true, row)}
                     </div>
                 )}
             </div>
