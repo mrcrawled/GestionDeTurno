@@ -23,15 +23,13 @@ let getObraSocialById = async (req, res,next) => {
 
 //Agregar Obra Social
 let createObraSocial = async (req, res,next) =>{
-  try{
-    const { nombre,descripcion} = req.body;
+  try {
+    const { nombre, descripcion} = req.body;
     const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)',[nombre,descripcion]);
+    const id_obra_social = obraSocial.rows[0].id;
     res.json({
       "status": "OK",
-      "data": {
-        nombre,
-        descripcion
-      }
+      "id_obra_social": id_obra_social
     });
   } catch (error) {
     next (error);

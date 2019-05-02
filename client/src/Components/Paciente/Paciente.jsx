@@ -58,7 +58,7 @@ class Paciente extends Component {
                         return [
                             `${paciente.nombre} ${paciente.apellido}`,
                             `${this.getFormattedDocument(paciente.documento)}`,
-                            <Link to={`/pacientes/${paciente.id}`}><i className="fas fa-folder"></i></Link>
+                            <Link to={`/pacientes/${paciente.id}`} className="fas fa-folder"/>
                         ]
                     })}
                     info="2"

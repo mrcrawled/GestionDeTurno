@@ -4,7 +4,6 @@ import { withRouter, NavLink as Link } from 'react-router-dom';
 class NavBar extends Component {
 
   handleEvent = (event)  => {
-    console.log(this.props);
     const elem = event.target;
     if( elem.classList.contains("active") && this.props.location.pathname === elem.getAttribute("href") ){
       event.preventDefault();

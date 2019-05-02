@@ -1,6 +1,6 @@
 const db = require('../database/config');
 const bcrypt = require('bcrypt');
-const { capitalice } = require('../utils/tools')
+const { capitalize } = require('../utils/tools')
 
 //Listar Pacientes
 let getPacientes = async (req, res, next) => {
@@ -11,8 +11,7 @@ let getPacientes = async (req, res, next) => {
         }
         const pacientes = await db.query("SELECT * FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
         res.json(pacientes.rows);
-    }
-    catch (error) {
+    } catch (error) {
         return next(error);
     }
 }
@@ -21,12 +20,24 @@ let getPacienteById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const paciente = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id]);
-        res.json(paciente.rows[0]);
-        const obraSocialPaciente = await db.query('SELECT * FROM obras_sociales_pacientes WHERE ID = $1 RETURNING *',[id]);
-        res.json(obraSocialPaciente.rows[0]);
-
-    }
-    catch (error) {
+        const usuario = await db.query('SELECT * FROM usuarios WHERE ID = $1', [paciente.rows[0].id_usuario]);
+        const obraSocialPaciente = await db.query('SELECT * FROM obras_sociales_pacientes WHERE ID = $1 AND activo = true',[id]);
+        const obraSocial = await db.query('SELECT * FROM obras_sociales WHERE ID = $1',[obraSocialPaciente.rows[0].id_obra_social]);
+        res.json({
+            id_paciente: paciente.rows[0].id,
+            nombre: paciente.rows[0].nombre,
+            apellido: paciente.rows[0].apellido,
+            email: usuario.rows[0].email,
+            fecha_nacimiento: paciente.rows[0].fecha_nacimiento,
+            documento: paciente.rows[0].documento,
+            direccion: paciente.rows[0].direccion,
+            id_usuario: paciente.rows[0].id_usuario,
+            numero_afiliado: obraSocialPaciente.rows[0].numero_afiliado,
+            id_obra_social: obraSocial.rows[0].id,
+            obra_social:  obraSocial.rows[0].nombre,
+            username: usuario.rows[0].username
+        });
+    } catch (error) {
         next(error);
     }
 }
@@ -34,36 +45,40 @@ let getPacienteById = async (req, res, next) => {
 //Agregar Paciente
 let createPaciente = async (req, res, next) => {
     try {
-        console.log(req.body);
-        res.json({"status":"OK"});
-        return;
         const { fecha_nacimiento, direccion, documento, doc_numero, email, id_obra_social, numero_afiliado } = req.body;
-
         const nombre   = capitalize(req.body.nombre);
-        const apellido = capitalice(req.body.apellido);
-        const username = `${apellido.toLowerCase()} ${nombre.toLowerCase()}`;
+        const apellido = capitalize(req.body.apellido);
+        const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
         const password = await bcrypt.hashSync(doc_numero, 10);
-        const usuario = await db.query('INSERT INTO usuarios (username, password, email, id_rol) VALUES ($1,$2,$3,$4)', [username, password, email, 3]);
-        
+
+        const usuario = await db.query('INSERT INTO usuarios (username, password, email, id_rol) VALUES ($1,$2,$3,$4) RETURNING *', [username, password, email, 3]);
+        const id_usuario = usuario.rows[0].id;
+
         const paciente = await db.query('INSERT INTO pacientes (nombre,apellido,fecha_nacimiento,direccion,documento,id_usuario) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *', [nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario]);
-        console.log(paciente);
+        const id_paciente = paciente.rows[0].id;
+
         const obra_social_paciente = await db.query('INSERT INTO obras_sociales_pacientes (id_obra_social, id_paciente, numero_afiliado, activo) VALUES ($1,$2,$3,$4) RETURNING *', [id_obra_social, id_paciente, numero_afiliado, true]);
+        const obra_social = obra_social_paciente.rows[0].nombre;
+
+        console.log("data : ", { // Este dato podría borrarse o utilizarse para renderizar PacienteInfo después de agregar el paciente
+            apellido,
+            direccion,
+            documento,
+            email,
+            fecha_nacimiento,
+            id_obra_social,
+            id_paciente,
+            id_usuario,
+            nombre,
+            numero_afiliado,
+            obra_social,
+            username,
+        });
+
         res.json({
             "status": "OK",
-            "data": {
-                username,
-                nombre,
-                apellido,
-                fecha_nacimiento,
-                direccion,
-                documento,
-                email,
-                id_paciente,
-                os_nombre,
-                numero_afiliado
-            }
+            "id_paciente": id_paciente
         });
-        console.log(obra_social_paciente);
     } catch (error) {
         next(error);
     };

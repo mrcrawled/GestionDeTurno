@@ -10,6 +10,8 @@
     ],
     "ignore": [
         "client/*",
+        "database/migrations/*",
+        "database/seed/*",
         "node_modules/*"
     ],
     "delay": 2500

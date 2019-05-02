@@ -5,30 +5,41 @@ class PacienteInfo extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: "",
-            nombre: "",
             apellido: "",
-            fecha_nacimiento: "",
+            direccion: "",
             documento: "",
+            email: "",
+            fecha_nacimiento: "",
+            id_obra_social: "",
+            id_paciente: "",
             id_usuario: "",
-            direccion: ""
+            nombre: "",
+            numero_afiliado: "",
+            obra_social: "",
+            username: ""
         }
     }
 
     getPacienteById = async () => {
         try {
-            const { match: { params: { id } } } = this.props;
+            const id = this.props.match.params.id;
             const res = await axios.get(`/pacientes/${id}`);
             const pacienteInfo = res.data;
-            console.log(this.setState({
-                id: pacienteInfo.id,
+            console.log(pacienteInfo);
+            this.setState({
+                username: pacienteInfo.username,
+                id_paciente: pacienteInfo.id_paciente,
                 nombre: pacienteInfo.nombre,
                 apellido: pacienteInfo.apellido,
                 fecha_nacimiento: this.getFormattedTimestamp(pacienteInfo.fecha_nacimiento),
                 documento: this.getFormattedDocument(pacienteInfo.documento),
                 id_usuario: pacienteInfo.id_usuario,
-                direccion: this.getFormattedAddress(pacienteInfo.direccion)
-            }));
+                direccion: this.getFormattedAddress(pacienteInfo.direccion),
+                email: pacienteInfo.email,
+                id_obra_social: pacienteInfo.id_obra_social,
+                obra_social: pacienteInfo.obra_social,
+                numero_afiliado: pacienteInfo.numero_afiliado,
+            });
         } catch (error) {
             console.log(error);
         }
@@ -36,13 +47,11 @@ class PacienteInfo extends Component {
 
     getFormattedAddress = (direccion) => {
         let formattedAddress = "",
-            domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `domicilio: ${direccion.domicilio}` : "",
-            dire = direccion.direccion !== "" && typeof direccion.direccion !== "undefined" ? `Dirección: ${direccion.direccion}` : "",
+            domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `Domicilio: ${direccion.domicilio}` : "",
             numero = direccion.numero !== "" ? `Número: ${direccion.numero}` : false,
             piso = direccion.piso !== "" ? `Piso: ${direccion.piso}` : false,
             departamento = direccion.departamento !== "" ? `Departamento: ${direccion.departamento}` : false;
         formattedAddress += domicilio ? domicilio + (numero || piso || departamento ? ", " : "") : "";
-        formattedAddress += dire ? dire + (numero || piso || departamento ? ", " : "") : "";
         formattedAddress += numero ? numero + (piso || departamento ? ", " : "") : "";
         formattedAddress += piso ? piso + (departamento ? ", " : "") : "";
         formattedAddress += departamento ? departamento : "";
@@ -62,7 +71,24 @@ class PacienteInfo extends Component {
     }
 
     componentDidMount() {
-        this.getPacienteById();
+        if(typeof this.props.data == 'undefined'){
+            this.getPacienteById();
+        } else {
+            this.setState({
+                apellido: this.props.data.apellido,
+                direccion: this.getFormattedAddress(this.props.data.direccion),
+                documento: this.getFormattedDocument(this.props.data.documento),
+                email: this.props.data.email,
+                fecha_nacimiento: this.getFormattedTimestamp(this.props.data.fecha_nacimiento),
+                id_obra_social: this.props.data.id_obra_social,
+                id_paciente: this.props.data.id_paciente,
+                id_usuario: this.props.data.id_usuario,
+                nombre: this.props.data.nombre,
+                numero_afiliado: this.props.data.numero_afiliado,
+                obra_social: this.props.data.obra_social,
+                username: this.props.data.username
+            })
+        }
     }
 
     handleOK = () => {
@@ -77,6 +103,10 @@ class PacienteInfo extends Component {
                     Detalle del Paciente
                                 </div>
                 <div className="card-body">
+                    <div className="card-field">
+                        <div className="card-data">{this.state.username}</div>
+                        <div className="card-label">Usuario</div>
+                    </div>
                     <div className="card-field">
                         <div className="card-data">{this.state.nombre}</div>
                         <div className="card-label">Nombre</div>
@@ -94,13 +124,23 @@ class PacienteInfo extends Component {
                         <div className="card-label">Documento</div>
                     </div>
                     <div className="card-field">
-                        <div className="card-data">{this.state.id_usuario}</div>
-                        <div className="card-label">Id Usuario</div>
-                    </div>
-                    <div className="card-field">
                         <div className="card-data">{this.state.direccion}</div>
                         <div className="card-label">Dirección</div>
                     </div>
+                    
+                    <div className="card-field">
+                        <div className="card-data">{this.state.email}</div>
+                        <div className="card-label">Email</div>
+                    </div>
+                    <div className="card-field">
+                        <div className="card-data">{this.state.numero_afiliado}</div>
+                        <div className="card-label">Número de afiliado</div>
+                    </div>
+                    <div className="card-field">
+                        <div className="card-data">{this.state.obra_social}</div>
+                        <div className="card-label">Obra Social</div>
+                    </div>
+
                     <button type="submit" onClick={this.handleOK} className="btn">OK</button>
                 </div>
             </div>

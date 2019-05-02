@@ -19,7 +19,6 @@ class PacienteForm extends Component {
             email: '',
             id_obra_social: '',
             numero_afiliado: '',
-            os_nombre: '',
             obras_sociales: []
         };
     }
@@ -58,10 +57,11 @@ class PacienteForm extends Component {
                 doc_numero: this.state.doc_numero,
                 email: this.state.email,
                 id_obra_social: this.state.id_obra_social,
-                numero_afiliado: this.state.numero_afiliado,
-                os_nombre: this.state.os_nombre
+                numero_afiliado: this.state.numero_afiliado
             });
-            console.log(res);
+            if(res.data.status === "OK"){
+                this.props.history.push(res.data.id_paciente);
+            }
         } catch(error) {
             console.log(error);
         }
@@ -80,9 +80,7 @@ class PacienteForm extends Component {
     render() {
         return (
             <form onSubmit={this.agregarPaciente} className="formulario">
-                <div className="form-header">
-                    Nuevo Paciente
-                </div>
+                <div className="form-header">Nuevo Paciente</div>
                 <div className="form-body">
                     <fieldset>
                         <legend>Información Personal</legend>
@@ -126,7 +124,7 @@ class PacienteForm extends Component {
                                 id="doc_numero"
                                 name="doc_numero"
                                 onChange={this.handleChange}
-                                placeholder="Numero de documento *"
+                                placeholder="Número de documento *"
                             />
                         </div>
                     </fieldset>
@@ -137,7 +135,7 @@ class PacienteForm extends Component {
                                 id="domicilio"
                                 name="domicilio"
                                 onChange={this.handleChange}
-                                placeholder="domicilio"
+                                placeholder="Domicilio"
                             />
                             <Input
                                 id="numero"

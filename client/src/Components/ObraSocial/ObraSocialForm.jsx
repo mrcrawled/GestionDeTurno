@@ -19,9 +19,9 @@ class ObraSocialForm extends Component {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
-            const result = await res.data;
-            this.setState({ result });
-            history.push('/obras_sociales');
+            if(res.data.status === "OK"){
+                this.props.history.push(res.data.id_obra_social);
+            }
         } catch (error) {
             console.log(error);
         }

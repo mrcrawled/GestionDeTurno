@@ -98,7 +98,7 @@ class Paginacion extends Component {
                     <div className={(() => {
                         return `pagination-row pagination-body ${key < 10 ? "" : "hide"}`;
                     })()} key={key}>
-                        { row.map( (ecol,kitem) => kitem != this.props.info && kitem != this.props.delete ?
+                        { row.map( (ecol,kitem) => `${kitem}` !== this.props.info && `${kitem}` !== this.props.delete ?
                             <div className={`pagination-${this.state.ncols}-col`} key={kitem}>
                                 {ecol !== "null" ? ecol : "-"}
                             </div> : null
