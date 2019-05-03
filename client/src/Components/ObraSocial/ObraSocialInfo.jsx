@@ -16,7 +16,6 @@ class ObraSocialInfo extends Component {
             const { match: { params: {id} } } = this.props;
             const res = await axios.get(`/obras_sociales/${id}`)
             const obraSocialInfo = res.data;
-            console.log(obraSocialInfo);
             this.setState({
                 id: obraSocialInfo.id,
                 nombre: obraSocialInfo.nombre,

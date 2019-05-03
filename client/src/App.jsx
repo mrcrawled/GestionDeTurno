@@ -5,6 +5,7 @@ import Home from './Components/Home';
 import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
 
+
 import Paciente from './Components/Paciente/Paciente';
 import PacienteForm from './Components/Paciente/PacienteForm';
 import PacienteInfo from './Components/Paciente/PacienteInfo';
@@ -35,6 +36,7 @@ class App extends Component {
               
               <Route exact path="/obras_sociales" component={ObraSocial} />
               <Route exact path="/obras_sociales/new" component={ObraSocialForm} />
+              <Route exact path="/obras_sociales/edit/:id" component={ObraSocialForm} />
               <Route exact path="/obras_sociales/:id" component={ObraSocialInfo} />
               <Route component={NotFound} />
             </Switch>
