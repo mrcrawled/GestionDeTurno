@@ -15,7 +15,7 @@ class Input extends Component {
                     onChange={this.props.onChange}
                     placeholder={this.props.extra ? this.props.extra : ""}
                     required
-                    type="text"
+                    type={typeof this.props.type !== 'undefined' ? this.props.type : 'text'}
                 />
                 <label htmlFor={this.props.id}>{this.props.placeholder}</label>
             </div>

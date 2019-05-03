@@ -20,7 +20,7 @@ class ObraSocialForm extends Component {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
-            if (res.data.status === "OK") {
+            if(res.data.status === "OK"){
                 history.push(res.data.id_obra_social);
             }
         } catch (error) {
