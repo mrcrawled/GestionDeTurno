@@ -6,10 +6,18 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            nombre: '',
-            descripcion: '',
+            username: '',
+            password: '',
         };
     }
+
+
+    handleChange = event => {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
+
 
     render() {
         return (
