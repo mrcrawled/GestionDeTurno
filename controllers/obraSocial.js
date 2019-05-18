@@ -29,7 +29,7 @@ let createObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
     const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
-    if (obraSocial.row > 0) {
+    if (obraSocial.rows > 0) {
       console.log("Ya Existe el registro")
       next();
     }
