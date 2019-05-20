@@ -40,7 +40,7 @@ class ObraSocialInfo extends Component {
         return (
             <div className="card-info">
                 <div className="card-header">
-                     Detalle de la Obra Social
+                    Detalle de la Obra Social
                 </div>
                 <div className="card-body">
                     <div className="card-field">
@@ -52,7 +52,6 @@ class ObraSocialInfo extends Component {
                         <div className="card-label">Descripción</div>
                     </div>
                     <button type="submit" onClick={this.handleOK} className="btn">OK</button>
-
                 </div>
             </div>
         )

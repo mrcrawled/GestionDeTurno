@@ -357,7 +357,8 @@ legend {
   outline: none;
 }
 .fa-trash-alt,
-.fa-folder {
+.fa-folder,
+.fa-edit {
   color: var(--dark-black);
   transition:  .2s ease;
 }
@@ -369,6 +370,10 @@ legend {
   color: var(--default-green);
   transform: scale(1.2);
 }
+.fa-edit:hover {
+  color: var(--default-yellow);
+  transform: scale(1.2);
+}
 .fa-trash-alt:active {
   color: var(--dark-orange-85);
   transform: scale(1.1);
@@ -377,7 +382,10 @@ legend {
   color: var(--default-green-85);
   transform: scale(1.1);
 }
-
+.fa-edit:active {
+  color: var(--default-yellow-85);
+  transform: scale(1.1);
+}
 /* ----------------------------------------------------------------------------------- Card-info */
 
 .card-info {

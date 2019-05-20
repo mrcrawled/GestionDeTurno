@@ -58,7 +58,6 @@ class ObraSocial extends Component {
                             obra_social.descripcion,
                             <i onClick={(event) => this.deleteObraSocial(event, obra_social.id, index)} className="far fa-trash-alt"></i>,
                             <Link to={`/obras_sociales/edit/${obra_social.id}`} className="fas fa-edit"/>,
-
                             <Link to={`/obras_sociales/${obra_social.id}`} className="fas fa-folder"/>
                         ]
                     })}

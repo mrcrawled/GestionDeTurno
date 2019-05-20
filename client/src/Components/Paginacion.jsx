@@ -57,6 +57,11 @@ class Paginacion extends Component {
             return <div className="pagination-col-item">{ draw ? row[this.props.info] : ""}</div>
         }
     }
+    renderEditUI = (draw = false, row = null) => { 
+        if(this.props.info){ 
+            return <div className="pagination-col-item">{ draw ? row[this.props.edit] : ""}</div>
+        }
+    }
     renderDeleteUI = (draw = false, row = null) => { 
         if(this.props.delete){
             return <div className="pagination-col-item">{ draw ? row[this.props.delete] : ""}</div>
@@ -92,18 +97,20 @@ class Paginacion extends Component {
                         </div>
                     )}
                     {this.renderInfoUI()}
+                    {this.renderEditUI()}
                     {this.renderDeleteUI()}
                 </div>
                 { this.props.rbody.map( (row, key) =>
                     <div className={(() => {
                         return `pagination-row pagination-body ${key < 10 ? "" : "hide"}`;
                     })()} key={key}>
-                        { row.map( (ecol,kitem) => `${kitem}` !== this.props.info && `${kitem}` !== this.props.delete ?
+                        { row.map( (ecol,kitem) => `${kitem}` !== this.props.info && `${kitem}` !== this.props.delete && `${kitem}` !== this.props.edit ?
                             <div className={`pagination-${this.state.ncols}-col`} key={kitem}>
                                 {ecol !== "null" ? ecol : "-"}
                             </div> : null
                         )}
                         {this.renderInfoUI(true, row)}
+                        {this.renderEditUI(true, row)}
                         {this.renderDeleteUI(true, row)}
                     </div>
                 )}

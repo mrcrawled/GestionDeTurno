@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Header from './Components/Header';
-import Home from './Components/Home';
+// import Home from './Components/Home';
 import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
 
@@ -34,13 +34,13 @@ class App extends Component {
               <Route exact path="/" component={Login} />
               <Route exact path="/pacientes" component={Paciente} />
               <Route exact path="/pacientes/new" component={PacienteForm} />
+              <Route exact path="/pacientes/edit/:id" component={PacienteForm} />
               <Route exact path="/pacientes/:id" component={PacienteInfo} />
               
               <Route exact path="/obras_sociales" component={ObraSocial} />
               <Route exact path="/obras_sociales/new" component={ObraSocialForm} />
               <Route exact path="/obras_sociales/edit/:id" component={ObraSocialForm} />
               <Route exact path="/obras_sociales/:id" component={ObraSocialInfo} />
-              <Route exact path="/obras_sociales/edit/:id" component={ObraSocialForm} />
               <Route component={NotFound} />
             </Switch>
           </div>
