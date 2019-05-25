@@ -14,17 +14,17 @@ class Input extends Component {
             value: props.value ? props.value : ''
         };
     }
-    componentWillReceiveProps(props){
+    static getDerivedStateFromProps(props, state) {
         console.log("INPUT-Receive",props);
-        this.setState = ({
+        if (props.id !== state.prevId) {
+            return{
             id: props.id,
             name: props.name,
-            onChange: props.onChange,
-            extra: props.extra ? props.extra : "",
-            placeholder: props.placeholder ? props.placeholder : "",
-            type: props.type ? props.type : 'text',
-            value: props.value ? props.value : ''
-        });
+            type: props.type,
+            value: props.value
+        }
+    };
+    return null;
     }
     render(){
         return (
