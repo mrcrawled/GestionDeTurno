@@ -7,6 +7,7 @@ class PacienteForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            id: '',
             nombre: '',
             apellido: '',
             fecha_nacimiento: '',
@@ -19,9 +20,36 @@ class PacienteForm extends Component {
             email: '',
             id_obra_social: '',
             numero_afiliado: '',
-            obras_sociales: []
+            obras_sociales: [],
+            isEditable: false
         };
     }
+
+    getPacienteById = async (id) => {
+        try {
+            const res = await axios.get(`/pacientes/${id}`);
+            const pacienteInfo = res.data;
+            console.log(pacienteInfo);
+            this.setState({
+                username: pacienteInfo.username,
+                id_paciente: pacienteInfo.id_paciente,
+                nombre: pacienteInfo.nombre,
+                apellido: pacienteInfo.apellido,
+                fecha_nacimiento: this.getFormattedTimestamp(pacienteInfo.fecha_nacimiento),
+                documento: this.getFormattedDocument(pacienteInfo.documento),
+                id_usuario: pacienteInfo.id_usuario,
+                direccion: this.getFormattedAddress(pacienteInfo.direccion),
+                email: pacienteInfo.email,
+                id_obra_social: pacienteInfo.id_obra_social,
+                obra_social: pacienteInfo.obra_social,
+                numero_afiliado: pacienteInfo.numero_afiliado,
+                isEditable: true
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
 
     getObrasSociales = async () => {
         try {
@@ -34,6 +62,11 @@ class PacienteForm extends Component {
     }
 
     componentDidMount() {
+        const { match: { params: {id} } } = this.props;
+        if( id ){
+            this.getPacienteById(id);
+        }
+    
         this.getObrasSociales();
     }
 
@@ -67,6 +100,75 @@ class PacienteForm extends Component {
         }
     }
 
+    actualizarPaciente = async (event) => {
+        try {
+            event.preventDefault();
+            const { match: { params: { id } } } = this.props;
+            const res = await axios.put(`/pacientes/${id}`,{
+                nombre: this.state.nombre,
+                apellido: this.state.apellido,
+                fecha_nacimiento: this.state.fecha_nacimiento,
+                direccion: JSON.stringify({
+                    domicilio: this.state.domicilio,
+                    numero: this.state.numero,
+                    piso: this.state.piso,
+                    departamento: this.state.departamento,
+                }),
+                documento: JSON.stringify({
+                    doc_tipo: this.state.doc_tipo,
+                    doc_numero: this.state.doc_numero
+                }),
+                doc_numero: this.state.doc_numero,
+                email: this.state.email,
+                id_obra_social: this.state.id_obra_social,
+                numero_afiliado: this.state.numero_afiliado
+            });
+            const actualizarPaciente = res.data;
+            this.setState({
+                id: actualizarPaciente.id,
+                nombre: actualizarPaciente.nombre,
+                apellido: actualizarPaciente.apellido,
+                fecha_nacimiento: this.getFormattedTimestamp(actualizarPaciente.fecha_nacimiento),
+                documento: this.getFormattedDocument(actualizarPaciente.documento),
+                id_usuario: actualizarPaciente.id_usuario,
+                direccion: this.getFormattedAddress(actualizarPaciente.direccion),
+                email: actualizarPaciente.email,
+                id_obra_social: actualizarPaciente.id_obra_social,
+                obra_social: actualizarPaciente.obra_social,
+                numero_afiliado: actualizarPaciente.numero_afiliado,
+            });
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    getFormattedAddress = (direccion) => {
+        let formattedAddress = "",
+            domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `Domicilio: ${direccion.domicilio}` : "",
+            numero = direccion.numero !== "" ? `Número: ${direccion.numero}` : false,
+            piso = direccion.piso !== "" ? `Piso: ${direccion.piso}` : false,
+            departamento = direccion.departamento !== "" ? `Departamento: ${direccion.departamento}` : false;
+        formattedAddress += domicilio ? domicilio + (numero || piso || departamento ? ", " : "") : "";
+        formattedAddress += numero ? numero + (piso || departamento ? ", " : "") : "";
+        formattedAddress += piso ? piso + (departamento ? ", " : "") : "";
+        formattedAddress += departamento ? departamento : "";
+        return formattedAddress;
+    }
+
+    getFormattedTimestamp = (timestamp) => {
+        let birthDate = new Date(timestamp),
+            date = birthDate.getDate() < 10 ? `0${birthDate.getDate()}` : birthDate.getDate(),
+            month = birthDate.getMonth() < 9 ? `0${birthDate.getMonth() + 1}` : birthDate.getMonth() + 1,
+            formattedTimestamp = `${date}-${month}-${birthDate.getFullYear()}`;
+        return formattedTimestamp;
+    }
+
+    getFormattedDocument = (document) => {
+        return `${document.doc_tipo}: ${document.doc_numero}`;
+    }
+
+
+
     handleCancel = () => {
         window.history.back();
     }
@@ -79,7 +181,7 @@ class PacienteForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.agregarPaciente} className="formulario">
+            <form onSubmit={this.state.isEditable ? this.actualizarPaciente : this.agregarPaciente} className="formulario">
                 <div className="form-header">Nuevo Paciente</div>
                 <div className="form-body">
                     <fieldset>
@@ -89,12 +191,14 @@ class PacienteForm extends Component {
                             name="nombre"
                             onChange={this.handleChange}
                             placeholder="Nombre *"
+                            value = {this.state.nombre}
                         />
                         <Input
                             id="apellido"
                             name="apellido"
                             onChange={this.handleChange}
                             placeholder="Apellido *"
+                            value = {this.state.apellido}
                         />
                         <Input
                             extra="ej: 08-10-1990"
@@ -102,6 +206,7 @@ class PacienteForm extends Component {
                             name="fecha_nacimiento"
                             onChange={this.handleChange}
                             placeholder="Fecha de Nacimiento *"
+                            value = {this.state.fecha_nacimiento}
                         />
                         <Input
                             id="email"
@@ -109,6 +214,7 @@ class PacienteForm extends Component {
                             onChange={this.handleChange}
                             placeholder="Correo electrónico *"
                             type="mail"
+                            value = {this.state.email}
                         />
                     </fieldset>
                     <fieldset>
@@ -119,12 +225,14 @@ class PacienteForm extends Component {
                                 name="doc_tipo"
                                 onChange={this.handleChange}
                                 placeholder="Tipo documento *"
+                                value = {this.state.doc_tipo}
                             />
                             <Input
                                 id="doc_numero"
                                 name="doc_numero"
                                 onChange={this.handleChange}
                                 placeholder="Número de documento *"
+                                value = {this.state.documento}
                             />
                         </div>
                     </fieldset>
@@ -136,24 +244,28 @@ class PacienteForm extends Component {
                                 name="domicilio"
                                 onChange={this.handleChange}
                                 placeholder="Domicilio"
+                                value = {this.state.direccion}
                             />
                             <Input
                                 id="numero"
                                 name="numero"
                                 onChange={this.handleChange}
                                 placeholder="Número"
+                                value = {this.state.direccion}
                             />
                             <Input
                                 id="piso"
                                 name="piso"
                                 onChange={this.handleChange}
                                 placeholder="Piso"
+                                value = {this.state.piso}
                             />
                             <Input
                                 id="departamento"
                                 name="departamento"
                                 onChange={this.handleChange}
                                 placeholder="Departamento"
+                                value = {this.state.departamento}
                             />
                         </div>
                     </fieldset>
@@ -172,15 +284,18 @@ class PacienteForm extends Component {
                                 }
                             )}
                             placeholder="Obra Social"
+                            value = {this.state.obra_social}
                         />
                         <Input
                             id="numero_afiliado"
                             name="numero_afiliado"
                             onChange={this.handleChange}
                             placeholder="Número de afiliado"
+                            value = {this.state.numero_afiliado}
+
                         />
                     </fieldset>
-                    <button type="submit" className="btn">Agregar</button>
+                    <button type="submit" className="btn">{this.state.isEditable ? "Actualizar" : "Agregar"}</button>
                     <button type="button" onClick={this.handleCancel} className="btn">Cancelar</button>
                 </div>
             </form>

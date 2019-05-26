@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 class Input extends Component {
     constructor(props){
         super(props);
-        console.log("INPUT-Contructor",props);
         this.state = {
             id: props.id,
             name: props.name,
@@ -15,7 +14,6 @@ class Input extends Component {
         };
     }
     static getDerivedStateFromProps(props, state) {
-        console.log("INPUT-Receive",props);
         if (props.id !== state.prevId) {
             return{
             id: props.id,

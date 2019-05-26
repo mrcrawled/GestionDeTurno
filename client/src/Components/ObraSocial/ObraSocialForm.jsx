@@ -6,9 +6,9 @@ class ObraSocialForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: "",
-            nombre: "",
-            descripcion: "",
+            id: '',
+            nombre: '',
+            descripcion: '',
             isEditable: false
         };
     }
@@ -26,6 +26,7 @@ class ObraSocialForm extends Component {
             console.log(error);
         }
     }
+
     agregarObraSocial = async event => {
         try {
             event.preventDefault();
@@ -41,11 +42,12 @@ class ObraSocialForm extends Component {
             console.log(error);
         }
     }
+
     actualizarObraSocial = async (event) => {
         try {
             event.preventDefault();
             const { match: { params: { id } } } = this.props;
-            const res = await axios.put(`/obras_sociales/edit/${id}`,{
+            const res = await axios.put(`/obras_sociales/${id}`,{
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
@@ -60,7 +62,9 @@ class ObraSocialForm extends Component {
             console.log(error);
         }
     }
+
     handleCancel = () => { window.history.back(); }
+
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
