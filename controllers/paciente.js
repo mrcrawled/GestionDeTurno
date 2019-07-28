@@ -9,12 +9,13 @@ let getPacientes = async (req, res, next) => {
         if (req.query['limit']) {
             limit = req.query['limit'];
         }
-        const pacientes = await db.query("SELECT * FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
+        const pacientes = await db.query("SELECT nombre,apellido,documento,telefono FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
         res.json(pacientes.rows);
     } catch (error) {
         return next(error);
     }
 }
+
 //Lista Paciente por id
 let getPacienteById = async (req, res, next) => {
     try {
@@ -45,7 +46,7 @@ let getPacienteById = async (req, res, next) => {
 //Agregar Paciente
 let createPaciente = async (req, res, next) => {
     try {
-        const { fecha_nacimiento, direccion, documento, doc_numero, email, id_obra_social, numero_afiliado } = req.body;
+        const { fecha_nacimiento, telefono, direccion, documento, doc_numero, email, id_obra_social, numero_afiliado } = req.body;
         const nombre   = capitalize(req.body.nombre);
         const apellido = capitalize(req.body.apellido);
         const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
@@ -54,7 +55,7 @@ let createPaciente = async (req, res, next) => {
         const usuario = await db.query('INSERT INTO usuarios (username, password, email, id_rol) VALUES ($1,$2,$3,$4) RETURNING *', [username, password, email, 3]);
         const id_usuario = usuario.rows[0].id;
 
-        const paciente = await db.query('INSERT INTO pacientes (nombre,apellido,fecha_nacimiento,direccion,documento,id_usuario) VALUES ($1,$2,$3,$4,$5,$6) RETURNING *', [nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario]);
+        const paciente = await db.query('INSERT INTO pacientes (nombre,apellido,fecha_nacimiento,direccion,documento,id_usuario) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', [nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario,telefono]);
         const id_paciente = paciente.rows[0].id;
 
         const obra_social_paciente = await db.query('INSERT INTO obras_sociales_pacientes (id_obra_social, id_paciente, numero_afiliado, activo) VALUES ($1,$2,$3,$4) RETURNING *', [id_obra_social, id_paciente, numero_afiliado, true]);
@@ -66,6 +67,7 @@ let createPaciente = async (req, res, next) => {
             documento,
             email,
             fecha_nacimiento,
+            telefono,
             id_obra_social,
             id_paciente,
             id_usuario,
@@ -73,6 +75,7 @@ let createPaciente = async (req, res, next) => {
             numero_afiliado,
             obra_social,
             username,
+            
         });
 
         res.json({
@@ -88,8 +91,8 @@ let createPaciente = async (req, res, next) => {
 let updatePaciente = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const { nombre, apellido, fecha_nacimiento, direccion, documento } = req.body;
-        const paciente = await db.query('UPDATE pacientes set nombre = $1,apellido = $2,direccion = $3,documento= $4,fecha_nacimiento = $5 WHERE id = $6', [nombre, apellido, direccion, documento, fecha_nacimiento, id]);
+        const { nombre, apellido, telefono,fecha_nacimiento, direccion, documento } = req.body;
+        const paciente = await db.query('UPDATE pacientes set nombre = $1,apellido = $2,direccion = $3,documento= $4, fecha_nacimiento = $5,telefono = $6 WHERE id = $7', [nombre, apellido, direccion, documento, fecha_nacimiento,telefono, id]);
         console.log(paciente);
     } catch (error) {
         next(error);

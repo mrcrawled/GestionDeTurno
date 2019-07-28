@@ -53,17 +53,18 @@ class Paciente extends Component {
                     <button type="button" className="btn">Nuevo Paciente</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre y Apellido", "Documento"]}
+                    rhead={["Nombre y Apellido", "Documento","Telefono"]}
                     rbody={this.state.pacientes.map((paciente) => {
                         return [
                             `${paciente.nombre} ${paciente.apellido}`,
                             `${this.getFormattedDocument(paciente.documento)}`,
+                            `${paciente.telefono}`,
                             <Link to={`/pacientes/${paciente.id}`} className="fas fa-folder"/>,
                             <Link to={`/pacientes/edit/${paciente.id}`} className="fas fa-edit"/>
                         ]
                     })}
-                    info="2"
-                    edit="3"
+                    info="3"
+                    edit="4"
                 />
             </div>
         )

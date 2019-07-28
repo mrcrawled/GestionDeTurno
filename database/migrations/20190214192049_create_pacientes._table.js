@@ -4,6 +4,7 @@ exports.up = (knex, Promise)=>{
             table.increments('id').primary();
             table.string('nombre',50).index().notNullable();
             table.string ('apellido',50).index().notNullable();
+            table.string('telefono', 20);
             table.date('fecha_nacimiento');
             table.json('direccion');
             table.json('documento');

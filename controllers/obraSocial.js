@@ -67,7 +67,6 @@ let deleteObraSocial = async (req, res, next) => {
     res.send(`Se elimino la obra social con el ID:  ${id}`);
   } catch (error) {
     next(error);
-    db.end();
   }
 }
 

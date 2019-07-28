@@ -2,7 +2,7 @@ const usuario = require('../controllers/usuario');
 const obra_social = require('../controllers/obraSocial');
 const paciente = require('../controllers/paciente');
 const rol = require('../controllers/rol');
-const telefono = require('../controllers/telefono')
+
 const express = require('express');
 const router = express.Router();
 const {
@@ -39,12 +39,5 @@ router.delete('/pacientes/:id', paciente.deletePaciente);
 router.post('/rol', rol.createRol);
 router.put('/rol/:id', rol.updateRol);
 router.delete('/rol/:id', rol.deleteRol);
-
-
-/*Telefonos*/
-router.post('/telefonos', telefono.createTelefono);
-router.put('/telefonos/:id', telefono.updateTelefono);
-router.delete('/telefonos/:id', telefono.deleteTelefono);
-
 
 module.exports = router;

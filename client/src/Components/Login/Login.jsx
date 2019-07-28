@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-// import axios from 'axios';
+import axios from 'axios';
 import Input from '../Formulario/Input'
 
 class Login extends Component {
@@ -11,6 +11,19 @@ class Login extends Component {
         };
     }
 
+    signIn = async event => {
+        try {
+            event.preventDefault();
+            const res = await axios.post(`/signup`, {
+                username: this.state.username,
+                password: this.state.password
+            });
+            console.log(res);
+            console.log(res.data)
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     handleChange = event => {
         this.setState({
@@ -18,10 +31,9 @@ class Login extends Component {
         });
     }
 
-
     render() {
         return (
-            <form onSubmit={this.agregarObraSocial} className="formulario">
+            <form onSubmit={this.signIn} className="formulario">
                 <div className="form-header">
                     Iniciar sesión
                 </div>
@@ -30,12 +42,14 @@ class Login extends Component {
                         id="username"
                         name="username"
                         onChange={this.handleChange}
+                        value = {this.state.username}
                         placeholder="Usuario *"
                     />
                     <Input
                         id="password"
                         name="password"
                         onChange={this.handleChange}
+                        value = {this.state.password}
                         placeholder="Contraseña *"
                         type="password"
                     />

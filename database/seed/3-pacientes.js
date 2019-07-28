@@ -12,6 +12,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "blake",
                 apellido: "brar",
                 fecha_nacimiento: "1954-8-26",
+                telefono: '342-4462',
                 direccion: { 
                     domicilio: "",
                     numero: "9569",
@@ -27,6 +28,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "adrian",
                 apellido: "sanz",
                 fecha_nacimiento: "1956-7-26",
+                telefono: '342-44463',
                 direccion: { 
                     domicilio: "domicilio mota",
                     numero: "6094",
@@ -42,6 +44,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "willard",
                 apellido: "kelley",
                 fecha_nacimiento: "1981-3-3",
+                telefono: '342-74463',
                 direccion: { 
                     domicilio: "homestead rd",
                     numero: "1686",
@@ -57,6 +60,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "maxime",
                 apellido: "grewal",
                 fecha_nacimiento: "1987-4-17",
+                telefono: '342-64423',
                 direccion: { 
                     domicilio: "elgin st",
                     numero: "520",
@@ -72,6 +76,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "olivia",
                 apellido: "morales",
                 fecha_nacimiento: "1973-11-1",
+                telefono: '342-677221',
                 direccion: { 
                     domicilio: "miller ave",
                     numero: "1357",
@@ -87,6 +92,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "lucy",
                 apellido: "perrin",
                 fecha_nacimiento: "1957-5-18",
+                telefono: '342-646893',
                 direccion: { 
                     domicilio: "rue des abbesses",
                     numero: "9849",
@@ -102,6 +108,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "birgit",
                 apellido: "raith",
                 fecha_nacimiento: "1951-1-3",
+                telefono: '342-678779',
                 direccion: { 
                     domicilio: "talstraße",
                     numero: "",
@@ -117,6 +124,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "annabelle",
                 apellido: "mitchell",
                 fecha_nacimiento: "1967-7-22",
+                telefono: '342-677891',
                 direccion: { 
                     domicilio: "queen st",
                     numero: "7687",
@@ -132,6 +140,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "ellie",
                 apellido: "fuller",
                 fecha_nacimiento: "1986-5-26",
+                telefono: '342-466797',
                 direccion: { 
                     domicilio: "grange road",
                     numero: "2726",
@@ -147,6 +156,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "alfredo",
                 apellido: "bailey",
                 fecha_nacimiento: "1953-3-1",
+                telefono: '342-424164',
                 direccion: { 
                     domicilio: "lakeview st",
                     numero: "5470",
@@ -162,6 +172,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "stella",
                 apellido: "renaud",
                 fecha_nacimiento: "1957-7-14",
+                telefono: '342-677897',
                 direccion: { 
                     domicilio: "rue de l'abbé-de-l'épée",
                     numero: "3698",
@@ -177,6 +188,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "adele",
                 apellido: "küster",
                 fecha_nacimiento: "1950-10-23",
+                telefono: '342-6777791',
                 direccion: { 
                     domicilio: "kirchplatz",
                     numero: "",
@@ -192,6 +204,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "walli",
                 apellido: "schuch",
                 fecha_nacimiento: "1965-9-18",
+                telefono: '342-64799721',
                 direccion: { 
                     domicilio: "schulstraße",
                     numero: "",
@@ -207,6 +220,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "gesche",
                 apellido: "hof",
                 fecha_nacimiento: "1945-10-4",
+                telefono: '343-6879312',
                 direccion: { 
                     domicilio: "tulpenweg",
                     numero: "",
@@ -222,6 +236,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "hermínio",
                 apellido: "jesus",
                 fecha_nacimiento: "1975-5-11",
+                telefono: '342-4313237',
                 direccion: { 
                     domicilio: "rua sete de setembro",
                     numero: "6645",
@@ -237,6 +252,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "luis",
                 apellido: "andre",
                 fecha_nacimiento: "1952-11-22",
+                telefono: '343-4717664',
                 direccion: { 
                     domicilio: "rue des chartreux",
                     numero: "672",
@@ -252,6 +268,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "andres",
                 apellido: "lozano",
                 fecha_nacimiento: "1962-4-12",
+                telefono: '342-4677693',
                 direccion: { 
                     domicilio: "domicilio mota",
                     numero: "6329",
@@ -267,6 +284,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "joseph",
                 apellido: "ryan",
                 fecha_nacimiento: "1947-5-15",
+                telefono: '342-4212973',
                 direccion: { 
                     domicilio: "e pecan st",
                     numero: "124",
@@ -282,6 +300,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "louison",
                 apellido: "muller",
                 fecha_nacimiento: "1993-9-8",
+                telefono: '342-4311231',
                 direccion: { 
                     domicilio: "esplanade du",
                     numero: "9888",
@@ -297,6 +316,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "cory",
                 apellido: "mitchelle",
                 fecha_nacimiento: "1995-3-25",
+                telefono: '342-6799443',
                 direccion: { 
                     domicilio: "queen street",
                     numero: "5882",
@@ -312,6 +332,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "abbie",
                 apellido: "powell",
                 fecha_nacimiento: "1960-8-23",
+                telefono: '342-6977883',
                 direccion: { 
                     domicilio: "the avenue",
                     numero: "9732",
@@ -327,6 +348,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "bobby",
                 apellido: "thompson",
                 fecha_nacimiento: "1978-10-31",
+                telefono: '342-877673',
                 direccion: { 
                     domicilio: "oak lawn ave",
                     numero: "2080",
@@ -342,6 +364,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "eddie",
                 apellido: "hill",
                 fecha_nacimiento: "1980-9-14",
+                telefono: '343-4311474',
                 direccion: { 
                     domicilio: "preston rd",
                     numero: "9350",
@@ -357,6 +380,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "angela",
                 apellido: "carstens",
                 fecha_nacimiento: "1951-3-19",
+                telefono: '342-6977993',
                 direccion: { 
                     domicilio: "waldweg",
                     numero: "",
@@ -372,6 +396,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "jeanne",
                 apellido: "knight",
                 fecha_nacimiento: "1985-3-26",
+                telefono: '342-6977237',
                 direccion: { 
                     domicilio: "grand ave",
                     numero: "7953",
@@ -387,6 +412,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "lester",
                 apellido: "sims",
                 fecha_nacimiento: "1951-4-15",
+                telefono: '342-4723212',
                 direccion: { 
                     domicilio: "shady ln dr",
                     numero: "5054",
@@ -402,6 +428,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "blanca",
                 apellido: "delgado",
                 fecha_nacimiento: "1960-7-15",
+                telefono: '342-4877891',
                 direccion: { 
                     domicilio: "domicilio de arturo soria",
                     numero: "1149",
@@ -417,6 +444,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "reginald",
                 apellido: "berry",
                 fecha_nacimiento: "1965-1-7",
+                telefono: '343-6677991',
                 direccion: { 
                     domicilio: "oak ridge ln",
                     numero: "4330",
@@ -432,6 +460,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "juliette",
                 apellido: "taylor",
                 fecha_nacimiento: "1968-10-22",
+                telefono: '343-6766771',
                 direccion: { 
                     domicilio: "peel st",
                     numero: "5320",
@@ -447,6 +476,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "sifredo",
                 apellido: "carvalho",
                 fecha_nacimiento: "1974-11-26",
+                telefono: '343-4677992',
                 direccion: { 
                     domicilio: "rua treze de maio",
                     numero: "1542",
@@ -462,6 +492,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "jesus",
                 apellido: "esteban",
                 fecha_nacimiento: "1959-7-13",
+                telefono: '343-4677991',
                 direccion: { 
                     domicilio: "domicilio covadonga",
                     numero: "9725",
@@ -477,6 +508,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "sophia",
                 apellido: "chan",
                 fecha_nacimiento: "1975-2-7",
+                telefono: '343-4722113',
                 direccion: { 
                     domicilio: "disputed rd",
                     numero: "8213",
@@ -507,6 +539,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "angeles",
                 apellido: "diaz",
                 fecha_nacimiento: "1952-11-5",
+                telefono: '342-4877271',
                 direccion: { 
                     domicilio: "domicilio del prado",
                     numero: "2198",
@@ -522,6 +555,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "mildred",
                 apellido: "sanders",
                 fecha_nacimiento: "1949-10-7",
+                telefono: '342-4977114',
                 direccion: { 
                     domicilio: "lovers ln",
                     numero: "7842",
@@ -537,6 +571,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "clemêncio",
                 apellido: "pinto",
                 fecha_nacimiento: "1978-4-10",
+                telefono: '342-6977973',
                 direccion: { 
                     domicilio: "rua são sebastiao",
                     numero: "5765",
@@ -552,6 +587,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "terezinha",
                 apellido: "moura",
                 fecha_nacimiento: "1971-4-17",
+                telefono: '342-4977661',
                 direccion: { 
                     domicilio: "rua são francisco",
                     numero: "3201",
@@ -567,6 +603,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "artur",
                 apellido: "erhardt",
                 fecha_nacimiento: "1948-4-27",
+                telefono: '343-4313772',
                 direccion: { 
                     domicilio: "tulpenweg",
                     numero: "",
@@ -582,6 +619,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "rose",
                 apellido: "soto",
                 fecha_nacimiento: "1946-12-25",
+                telefono: '342-4977671',
                 direccion: { 
                     domicilio: "cackson st",
                     numero: "4900",
@@ -597,6 +635,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "mathis",
                 apellido: "gill",
                 fecha_nacimiento: "1983-2-8",
+                telefono: '343-6211443',
                 direccion: { 
                     domicilio: "wellington st",
                     numero: "2320",
@@ -612,6 +651,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "lison",
                 apellido: "mathieu",
                 fecha_nacimiento: "1947-1-16",
+                telefono: '342-4977993',
                 direccion: { 
                     domicilio: "place de l'abbé-jean-lebeuf",
                     numero: "6282",
@@ -627,6 +667,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "hans-günther",
                 apellido: "heinicke",
                 fecha_nacimiento: "1964-12-21",
+                telefono: '343-677661',
                 direccion: { 
                     domicilio: "schillerstraße",
                     numero: "",
@@ -642,6 +683,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "bernardino",
                 apellido: "cavalcanti",
                 fecha_nacimiento: "1969-3-20",
+                telefono: '343-797981',
                 direccion: { 
                     domicilio: "rua piauí",
                     numero: "3259",
@@ -657,6 +699,7 @@ exports.seed =  (knex, Promise) => {
                 nombre: "tatiana",
                 apellido: "dias",
                 fecha_nacimiento: "1989-1-2",
+                telefono: '342-4313731',
                 direccion: { 
                     domicilio: "rua onze",
                     numero: "2143",
