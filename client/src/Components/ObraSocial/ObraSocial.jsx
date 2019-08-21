@@ -15,7 +15,7 @@ class ObraSocial extends Component {
     //Lista Obras Sociales
     getObrasSociales = async () => {
         try {
-            const res = await axios.get("/obras_sociales");
+            const res = await axios.get("/obras-sociales");
             const obras_sociales = await res.data;
             this.setState({ obras_sociales });
         } catch (error) {
@@ -25,7 +25,7 @@ class ObraSocial extends Component {
 
     deleteObraSocial = (event, id, index) => {
         console.log(this.props);
-        axios.delete(`/obras_sociales/${id}`)
+        axios.delete(`/obras-sociales/${id}`)
         .then((res) => {
             let rows = document.getElementsByClassName("pagination-body");
             rows[index].remove();
@@ -47,7 +47,7 @@ class ObraSocial extends Component {
         return (
             <div>
                 <h2>Obras Sociales</h2>
-                <Link to="/obras_sociales/new" title="Nueva obra social">
+                <Link to="/obras-sociales/new" title="Nueva obra social">
                     <button type="button" className="btn">Nueva Obra Social</button>
                 </Link>
                 <Paginacion
@@ -57,8 +57,8 @@ class ObraSocial extends Component {
                             obra_social.nombre,
                             obra_social.descripcion,
                             <i onClick={(event) => this.deleteObraSocial(event, obra_social.id, index)} className="far fa-trash-alt"></i>,
-                            <Link to={`/obras_sociales/edit/${obra_social.id}`} className="fas fa-edit"/>,
-                            <Link to={`/obras_sociales/${obra_social.id}`} className="fas fa-folder"/>
+                            <Link to={`/obras-sociales/edit/${obra_social.id}`} className="fas fa-edit"/>,
+                            <Link to={`/obras-sociales/${obra_social.id}`} className="fas fa-folder"/>
                         ]
                     })}
                     delete="2"

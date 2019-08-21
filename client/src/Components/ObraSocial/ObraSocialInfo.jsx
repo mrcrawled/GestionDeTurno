@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import "../Formulario/Formulario.scss";
 
 class ObraSocialInfo extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class ObraSocialInfo extends Component {
     getObraSocialById = async () => {
         try {
             const { match: { params: {id} } } = this.props;
-            const res = await axios.get(`/obras_sociales/${id}`)
+            const res = await axios.get(`/obras-sociales/${id}`)
             const obraSocialInfo = res.data;
             this.setState({
                 id: obraSocialInfo.id,
@@ -32,7 +33,7 @@ class ObraSocialInfo extends Component {
 
     handleOK = () => {
         const { history } = this.props;
-        history.push('/obras_sociales/');
+        history.push('/obras-sociales/');
     }
 
 

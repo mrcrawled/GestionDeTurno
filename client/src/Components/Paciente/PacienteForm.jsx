@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import "../Formulario/Formulario.scss";
 import Select from '../Formulario/Select';
 import Input from '../Formulario/Input';
 
@@ -17,6 +18,8 @@ class PacienteForm extends Component {
             departamento: '',
             doc_tipo: '',
             doc_numero: '',
+            tel_tipo: '',
+            tel_numero: '',
             email: '',
             id_obra_social: '',
             numero_afiliado: '',
@@ -24,7 +27,6 @@ class PacienteForm extends Component {
             isEditable: false
         };
     }
-
     getPacienteById = async (id) => {
         try {
             const res = await axios.get(`/pacientes/${id}`);
@@ -49,18 +51,15 @@ class PacienteForm extends Component {
             console.log(error);
         }
     }
-
-
     getObrasSociales = async () => {
         try {
-            const res = await axios.get("/obras_sociales");
+            const res = await axios.get("/obras-sociales");
             const obras_sociales = await res.data;
             this.setState({ obras_sociales });
         } catch (error) {
             console.log(error);
         }
     }
-
     componentDidMount() {
         const { match: { params: {id} } } = this.props;
         if( id ){
@@ -69,7 +68,6 @@ class PacienteForm extends Component {
     
         this.getObrasSociales();
     }
-
     agregarPaciente = async event => {
         event.preventDefault();
         try{
@@ -87,6 +85,10 @@ class PacienteForm extends Component {
                     doc_tipo: this.state.doc_tipo,
                     doc_numero: this.state.doc_numero
                 }),
+                telefono: JSON.stringify({
+                    tel_tipo: this.state.tel_tipo,
+                    tel_numero: this.state.tel_numero
+                }),
                 doc_numero: this.state.doc_numero,
                 email: this.state.email,
                 id_obra_social: this.state.id_obra_social,
@@ -99,7 +101,6 @@ class PacienteForm extends Component {
             console.log(error);
         }
     }
-
     actualizarPaciente = async (event) => {
         try {
             event.preventDefault();
@@ -141,7 +142,6 @@ class PacienteForm extends Component {
             console.log(error);
         }
     }
-
     getFormattedAddress = (direccion) => {
         let formattedAddress = "",
             domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `Domicilio: ${direccion.domicilio}` : "",
@@ -154,7 +154,6 @@ class PacienteForm extends Component {
         formattedAddress += departamento ? departamento : "";
         return formattedAddress;
     }
-
     getFormattedTimestamp = (timestamp) => {
         let birthDate = new Date(timestamp),
             date = birthDate.getDate() < 10 ? `0${birthDate.getDate()}` : birthDate.getDate(),
@@ -162,17 +161,12 @@ class PacienteForm extends Component {
             formattedTimestamp = `${date}-${month}-${birthDate.getFullYear()}`;
         return formattedTimestamp;
     }
-
     getFormattedDocument = (document) => {
         return `${document.doc_tipo}: ${document.doc_numero}`;
     }
-
-
-
     handleCancel = () => {
         window.history.back();
     }
-
     handleChange = event => {
         this.setState({
             [event.target.name]: event.target.value
@@ -181,124 +175,158 @@ class PacienteForm extends Component {
 
     render() {
         return (
-            <form onSubmit={this.state.isEditable ? this.actualizarPaciente : this.agregarPaciente} className="formulario">
-                <div className="form-header">Nuevo Paciente</div>
+            <div className="formulario">
+                <div className="form-header">{this.state.isEditable ? "Editar" : "Nuevo"} Paciente</div>
                 <div className="form-body">
-                    <fieldset>
-                        <legend>Información Personal</legend>
-                        <Input
-                            id="nombre"
-                            name="nombre"
-                            onChange={this.handleChange}
-                            placeholder="Nombre *"
-                            value = {this.state.nombre}
-                        />
-                        <Input
-                            id="apellido"
-                            name="apellido"
-                            onChange={this.handleChange}
-                            placeholder="Apellido *"
-                            value = {this.state.apellido}
-                        />
-                        <Input
-                            extra="ej: 08-10-1990"
-                            id="fecha_nacimiento"
-                            name="fecha_nacimiento"
-                            onChange={this.handleChange}
-                            placeholder="Fecha de Nacimiento *"
-                            value = {this.state.fecha_nacimiento}
-                        />
-                        <Input
-                            id="email"
-                            name="email"
-                            onChange={this.handleChange}
-                            placeholder="Correo electrónico *"
-                            type="mail"
-                            value = {this.state.email}
-                        />
-                    </fieldset>
-                    <fieldset>
-                        <legend>Documento</legend>
-                        <div className="col-2">
+                    <div className="">
+                        <fieldset>
+                            <legend>Información Personal</legend>
                             <Input
-                                id="doc_tipo"
-                                name="doc_tipo"
+                                id="nombre"
+                                name="nombre"
                                 onChange={this.handleChange}
-                                placeholder="Tipo documento *"
-                                value = {this.state.doc_tipo}
+                                placeholder="Nombre *"
+                                value = {this.state.nombre}
                             />
                             <Input
-                                id="doc_numero"
-                                name="doc_numero"
+                                id="apellido"
+                                name="apellido"
                                 onChange={this.handleChange}
-                                placeholder="Número de documento *"
-                                value = {this.state.documento}
-                            />
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Dirección</legend>
-                        <div className="col-2">
-                            <Input
-                                id="domicilio"
-                                name="domicilio"
-                                onChange={this.handleChange}
-                                placeholder="Domicilio"
-                                value = {this.state.direccion}
+                                placeholder="Apellido *"
+                                value = {this.state.apellido}
                             />
                             <Input
-                                id="numero"
-                                name="numero"
+                                extra="ej: 08-10-1990"
+                                id="fecha_nacimiento"
+                                name="fecha_nacimiento"
                                 onChange={this.handleChange}
-                                placeholder="Número"
-                                value = {this.state.direccion}
+                                placeholder="Fecha de Nacimiento *"
+                                value = {this.state.fecha_nacimiento}
                             />
                             <Input
-                                id="piso"
-                                name="piso"
+                                id="email"
+                                name="email"
                                 onChange={this.handleChange}
-                                placeholder="Piso"
-                                value = {this.state.piso}
+                                placeholder="Correo electrónico *"
+                                type="mail"
+                                value = {this.state.email}
                             />
-                            <Input
-                                id="departamento"
-                                name="departamento"
+                        </fieldset>
+                    </div>
+                    <div className="">
+                        <fieldset>
+                            <legend>Documento</legend>
+                            <div className="col-2">
+                                <Input
+                                    id="doc_tipo"
+                                    name="doc_tipo"
+                                    onChange={this.handleChange}
+                                    placeholder="Tipo documento *"
+                                    value = {this.state.doc_tipo}
+                                />
+                                <Input
+                                    id="doc_numero"
+                                    name="doc_numero"
+                                    onChange={this.handleChange}
+                                    placeholder="Número de documento *"
+                                    value = {this.state.documento}
+                                />
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Teléfono</legend>
+                            <div className="col-2">
+                                <Select
+                                    id="tel_tipo"
+                                    name="tel_tipo"
+                                    onChange={this.handleChange}
+                                    options={[
+                                        {
+                                            value:"1",
+                                            text: "Celular"
+                                        },{
+                                            value:"2",
+                                            text: "Fijo"
+                                        },
+                                    ]}
+                                    placeholder="Tipo de Teléfono*"
+                                    value = {this.state.tel_tipo}
+                                />
+                                <Input
+                                    id="tel_numero"
+                                    name="tel_numero"
+                                    onChange={this.handleChange}
+                                    placeholder="Número de Teléfono *"
+                                    value = {this.state.documento}
+                                />
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div className="">
+                        <fieldset>
+                            <legend>Dirección</legend>
+                            <div className="col-2">
+                                <Input
+                                    id="domicilio"
+                                    name="domicilio"
+                                    onChange={this.handleChange}
+                                    placeholder="Domicilio"
+                                    value = {this.state.direccion}
+                                />
+                                <Input
+                                    id="numero"
+                                    name="numero"
+                                    onChange={this.handleChange}
+                                    placeholder="Número"
+                                    value = {this.state.direccion}
+                                />
+                                <Input
+                                    id="piso"
+                                    name="piso"
+                                    onChange={this.handleChange}
+                                    placeholder="Piso"
+                                    value = {this.state.piso}
+                                />
+                                <Input
+                                    id="departamento"
+                                    name="departamento"
+                                    onChange={this.handleChange}
+                                    placeholder="Departamento"
+                                    value = {this.state.departamento}
+                                />
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Obra Social</legend>
+                            <Select
+                                id="id_obra_social"
+                                name="id_obra_social"
                                 onChange={this.handleChange}
-                                placeholder="Departamento"
-                                value = {this.state.departamento}
-                            />
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <legend>Obra Social</legend>
-                        <Select
-                            id="id_obra_social"
-                            name="id_obra_social"
-                            onChange={this.handleChange}
-                            options={this.state.obras_sociales.map(
-                                (os,key) => {
-                                    return {
-                                        value:os.id,
-                                        text:os.nombre
+                                options={this.state.obras_sociales.map(
+                                    (os,key) => {
+                                        return {
+                                            value:os.id,
+                                            text:os.nombre
+                                        }
                                     }
-                                }
-                            )}
-                            placeholder="Obra Social"
-                            value = {this.state.obra_social}
-                        />
-                        <Input
-                            id="numero_afiliado"
-                            name="numero_afiliado"
-                            onChange={this.handleChange}
-                            placeholder="Número de afiliado"
-                            value = {this.state.numero_afiliado}
+                                )}
+                                placeholder="Obra Social"
+                                value = {this.state.obra_social}
+                            />
+                            <Input
+                                id="numero_afiliado"
+                                name="numero_afiliado"
+                                onChange={this.handleChange}
+                                placeholder="Número de afiliado"
+                                value = {this.state.numero_afiliado}
 
-                        />
-                    </fieldset>
-                    <button type="submit" className="btn">{this.state.isEditable ? "Actualizar" : "Agregar"}</button>
-                    <button type="button" onClick={this.handleCancel} className="btn">Cancelar</button>
+                            />
+                        </fieldset>
+                    </div>
+                    <button type="button" className="btn" onClick={this.state.isEditable ? this.actualizarPaciente : this.agregarPaciente}>{this.state.isEditable ? "Actualizar" : "Agregar"}</button>
+                    <button type="button" className="btn" onClick={this.handleCancel}>Cancelar</button>
                 </div>
-            </form>
+            </div>
         )
     }
 }

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import "../Formulario/Formulario.scss";
 import Input from '../Formulario/Input'
 
 class ObraSocialForm extends Component {
@@ -14,7 +15,7 @@ class ObraSocialForm extends Component {
     }
     getObraSocialById = async (id) => {
         try {
-            const res = await axios.get(`/obras_sociales/${id}`)
+            const res = await axios.get(`/obras-sociales/${id}`)
             const obraSocialData = res.data;
             this.setState({
                 id: obraSocialData.id,
@@ -31,7 +32,7 @@ class ObraSocialForm extends Component {
         try {
             event.preventDefault();
             const { history } = this.props;
-            const res = await axios.post(`/obras_sociales`, {
+            const res = await axios.post(`/obras-sociales`, {
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
@@ -47,7 +48,7 @@ class ObraSocialForm extends Component {
         try {
             event.preventDefault();
             const { match: { params: { id } } } = this.props;
-            const res = await axios.put(`/obras_sociales/${id}`,{
+            const res = await axios.put(`/obras-sociales/${id}`,{
                 nombre: this.state.nombre,
                 descripcion: this.state.descripcion
             });
@@ -78,10 +79,8 @@ class ObraSocialForm extends Component {
     }
     render() {
         return (
-            <form onSubmit={this.state.isEditable ? this.actualizarObraSocial : this.agregarObraSocial} className="formulario">
-                <div className="form-header">
-                    Nueva Obra Social
-                </div>
+            <div className="formulario">
+                <div className="form-header">{this.state.isEditable ? "Editar" : "Nueva"} Obra Social</div>
                 <div className="form-body">
                     <Input
                         id="nombre"
@@ -97,10 +96,10 @@ class ObraSocialForm extends Component {
                         placeholder="Descripción *"
                         value = {this.state.descripcion}
                     />
-                    <button type="submit" className="btn">{this.state.isEditable ? "Actualizar" : "Agregar"}</button>
-                    <button type="submit" onClick={this.handleCancel} className="btn">Cancelar</button>
+                    <button type="button" onClick={this.state.isEditable ? this.actualizarObraSocial : this.agregarObraSocial} className="btn">{this.state.isEditable ? "Actualizar" : "Agregar"}</button>
+                    <button type="button" onClick={this.handleCancel} className="btn">Cancelar</button>
                 </div>
-            </form>
+            </div>
         )
     }
 }

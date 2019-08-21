@@ -1,7 +1,8 @@
 const db = require('../database/config');
+const controller = {};
 
 //Listar Obras Sociales
-let getObrasSociales = async (req, res, next) => {
+controller.getObrasSociales = async (req, res, next) => {
   try {
     const obras_sociales = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
     res.json(obras_sociales.rows);
@@ -13,7 +14,7 @@ let getObrasSociales = async (req, res, next) => {
 }
 
 //Lista Obra Social por id
-let getObraSocialById = async (req, res, next) => {
+controller.getObraSocialById = async (req, res, next) => {
   try {
     const id = req.params.id;
     const obra_social = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
@@ -25,7 +26,7 @@ let getObraSocialById = async (req, res, next) => {
 }
 
 //Agregar Obra Social
-let createObraSocial = async (req, res, next) => {
+controller.createObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
     const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
@@ -42,12 +43,11 @@ let createObraSocial = async (req, res, next) => {
   } catch (error) {
     console.log("Ya Existe el registro " + error)
     res.sendStatus(500);
-
   }
 }
 
 //Actualizar Obra Social
-let updateObraSocial = async (req, res, next) => {
+controller.updateObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
     const id = req.params.id;
@@ -60,7 +60,7 @@ let updateObraSocial = async (req, res, next) => {
 }
 
 //Borrar Obra Social
-let deleteObraSocial = async (req, res, next) => {
+controller.deleteObraSocial = async (req, res, next) => {
   try {
     const id = req.params.id;
     await db.query('DELETE FROM obras_sociales where ID = $1', [id]);
@@ -70,10 +70,4 @@ let deleteObraSocial = async (req, res, next) => {
   }
 }
 
-module.exports = {
-  getObrasSociales: getObrasSociales,
-  getObraSocialById: getObraSocialById,
-  createObraSocial: createObraSocial,
-  updateObraSocial: updateObraSocial,
-  deleteObraSocial: deleteObraSocial
-}
+module.exports = controller;

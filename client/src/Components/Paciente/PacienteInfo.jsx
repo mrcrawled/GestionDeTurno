@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import "../Formulario/Formulario.scss";
 
 class PacienteInfo extends Component {
     constructor(props) {
@@ -8,6 +9,8 @@ class PacienteInfo extends Component {
             apellido: "",
             direccion: "",
             documento: "",
+            doc_tipo: '',
+            doc_numero: '',
             email: "",
             fecha_nacimiento: "",
             id_obra_social: "",
@@ -16,6 +19,8 @@ class PacienteInfo extends Component {
             nombre: "",
             numero_afiliado: "",
             obra_social: "",
+            tel_tipo: '',
+            tel_numero: '',
             username: ""
         }
     }
@@ -101,7 +106,7 @@ class PacienteInfo extends Component {
             <div className="card-info">
                 <div className="card-header">
                     Detalle del Paciente
-                                </div>
+                </div>
                 <div className="card-body">
                     <div className="card-field">
                         <div className="card-data">{this.state.username}</div>
@@ -133,12 +138,12 @@ class PacienteInfo extends Component {
                         <div className="card-label">Email</div>
                     </div>
                     <div className="card-field">
-                        <div className="card-data">{this.state.numero_afiliado}</div>
-                        <div className="card-label">Número de afiliado</div>
-                    </div>
-                    <div className="card-field">
                         <div className="card-data">{this.state.obra_social}</div>
                         <div className="card-label">Obra Social</div>
+                    </div>
+                    <div className="card-field">
+                        <div className="card-data">{this.state.numero_afiliado}</div>
+                        <div className="card-label">Número de afiliado</div>
                     </div>
 
                     <button type="submit" onClick={this.handleOK} className="btn">OK</button>

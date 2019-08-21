@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 
+import "./Input.scss"
+import "./Select.scss"
+
 class Select extends Component {
     constructor(props){
         super(props);

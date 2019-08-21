@@ -1,16 +1,18 @@
+require('dotenv').config();
+
 const express = require('express');
 const bodyParser  = require('body-parser');
-const dotenv = require('dotenv');
-const routes = require('./routes/index');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use('/', require('./routes/index.routes'));
+app.use('/usuarios', require('./routes/usuarios.routes'));
+app.use('/pacientes', require('./routes/pacientes.routes'));
+app.use('/obras-sociales', require('./routes/obras-sociales.routes'));
+app.use('/roles', require('./routes/roles.routes'));
 
-app.use('/', routes);
-
-dotenv.config();
 app.listen(process.env.PORT, (err)=>{
     if(err){
         console.log(err);

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import "../Formulario/Formulario.scss";
 import Input from '../Formulario/Input'
 
 class Login extends Component {
@@ -11,10 +12,9 @@ class Login extends Component {
         };
     }
 
-    signIn = async event => {
+    login = async event => {
         try {
-            event.preventDefault();
-            const res = await axios.post(`/signup`, {
+            const res = await axios.post(`/login`, {
                 username: this.state.username,
                 password: this.state.password
             });
@@ -33,7 +33,7 @@ class Login extends Component {
 
     render() {
         return (
-            <form onSubmit={this.signIn} className="formulario">
+            <div className="formulario">
                 <div className="form-header">
                     Iniciar sesión
                 </div>
@@ -53,9 +53,9 @@ class Login extends Component {
                         placeholder="Contraseña *"
                         type="password"
                     />
-                    <button type="submit" className="btn">Ingresar</button>
+                    <button className="btn" onClick={this.login}>Ingresar</button>
                 </div>
-            </form>
+            </div>
         )
     }
 }

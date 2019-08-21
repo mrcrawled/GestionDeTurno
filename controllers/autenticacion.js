@@ -1,58 +1,49 @@
-const autenticacionMethod = {};
 const db = require('../database/config');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const controller = {};
 
-autenticacionMethod.getSignIn = async (req, res, next) => {
-    res.render('autenticacion/signin', {status:"OK"});
-};
-
-autenticacionMethod.postSignIn = async (req, res, next) => {
+controller.loginSession = async (req, res, next) => {
     try {
-        const {username, password} = req.body;
-        const usuario = await db.query('select * from usuarios where username = $1',[username]);
-        if( !usuario ){
-            res.render("autenticacion/signin", {
-                status: "ERROR",
-                msg_error: "Usuario incorrecto."
+        const { username, password } = req.body;
+        const usuario = await db.query('select * from usuarios where username = $1', [username]);
+        if (!usuario) {
+            res.json({
+                "status": "ERROR",
+                "msg": "Usuario incorrecto."
             });
             return;
         }
         const matches = usuario.rows[0];
-        const verifyPassword = await bcrypt.compareSync(password,matches.password);
+        const verifyPassword = await bcrypt.compareSync(password, matches.password);
 
-        if( !verifyPassword ){
-            res.render("autenticacion/signin", {
-                status: "ERROR",
-                msg_error: "Contraseña incorrecta."
+        if (!verifyPassword) {
+            res.json({
+                "status": "ERROR",
+                "msg": "Contraseña incorrecta."
             });
             return;
         }
-        const token = await jwt.sign( {usuario:username}, process.env.API_KEY, {expiresIn: 24*60*60} );
-        res.send({
-            auth:true,
-            accessToken:token
+        const token = await jwt.sign({ usuario: username }, process.env.API_KEY, { expiresIn: 24 * 60 * 60 });
+        const rol = await db.query('select rol_tipo from roles where id = $1', [matches.id_rol]);
+        res.cookie('x-access-token', token, {httpOnly: true});
+        res.json({
+            "status": "OK",
+            "rol": rol.rows[0].rol_tipo
         });
     }
-     catch(error) {
+    catch (error) {
         next(error);
     }
 };
 
-autenticacionMethod.getSignUp = async (req, res, next) => {
-    res.render('autenticacion/signup', {status:"OK"});
+controller.logoutSession = async (req, res, next) => {
+    res.clearCookie('x-access-token',{httpOnly: true});
+    res.json({
+        "status": "OK",
+        "rol": "Invitado"
+    })
+    next();
 };
 
-autenticacionMethod.postSignUp = async (req, res, next) => {
-    
-};
-
-autenticacionMethod.profile = async (req, res, next) => {
-    res.render('usuario/profile');
-};
-
-autenticacionMethod.getLogOut = async (req, res, next) => {
-    res.redirect('/');
-};
-
-module.exports = autenticacionMethod;
+module.exports = controller;

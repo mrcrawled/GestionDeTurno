@@ -2,22 +2,23 @@ const db = require('../database/config');
 const bcrypt = require('bcrypt');
 const { capitalize } = require('../utils/tools')
 
+const controller = {};
+
 //Listar Pacientes
-let getPacientes = async (req, res, next) => {
+controller.getPacientes = async (req, res, next) => {
     try {
-        let limit = 1000;
-        if (req.query['limit']) {
-            limit = req.query['limit'];
-        }
-        const pacientes = await db.query("SELECT nombre,apellido,documento,telefono FROM pacientes ORDER BY apellido ASC LIMIT $1", [limit]);
+        let limit = req.body['limit'] || 1000;
+        let offset = req.body['offset'] || 0;
+        const pacientes = await db.query("SELECT id, nombre, apellido, documento, telefono FROM pacientes ORDER BY apellido ASC LIMIT $1 OFFSET $2", [limit, offset]);
         res.json(pacientes.rows);
     } catch (error) {
         return next(error);
     }
 }
 
+
 //Lista Paciente por id
-let getPacienteById = async (req, res, next) => {
+controller.getPacienteById = async (req, res, next) => {
     try {
         const id = req.params.id;
         const paciente = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id]);
@@ -44,11 +45,26 @@ let getPacienteById = async (req, res, next) => {
 }
 
 //Agregar Paciente
-let createPaciente = async (req, res, next) => {
+controller.createPaciente = async (req, res, next) => {
     try {
         const { fecha_nacimiento, telefono, direccion, documento, doc_numero, email, id_obra_social, numero_afiliado } = req.body;
         const nombre   = capitalize(req.body.nombre);
         const apellido = capitalize(req.body.apellido);
+        if( nombre.length == 0 ||
+            apellido.length == 0 ||
+            fecha_nacimiento.length == 0 ||
+            direccion.length == 0 ||
+            documento.length == 0 ||
+            doc_numero.length == 0 ||
+            email.length == 0 ||
+            (id_obra_social.length == 0 && numero_afiliado)
+        ){
+            res.json({
+                "status": "ERROR",
+                "msg": "Faltan datos requeridos"
+            });
+            return;
+        }
         const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
         const password = await bcrypt.hashSync(doc_numero, 10);
 
@@ -88,7 +104,7 @@ let createPaciente = async (req, res, next) => {
 };
 
 //Actualizar Paciente
-let updatePaciente = async (req, res, next) => {
+controller.updatePaciente = async (req, res, next) => {
     try {
         const id = req.params.id;
         const { nombre, apellido, telefono,fecha_nacimiento, direccion, documento } = req.body;
@@ -100,14 +116,13 @@ let updatePaciente = async (req, res, next) => {
 };
 
 //Borrar Paciente
-let deletePaciente = async (req, res, next) => {
+controller.deletePaciente = async (req, res, next) => {
     try {
         const id = req.params.id;
         const paciente = await db.query('DELETE FROM pacientes where ID = $1', [id]);
         res.json({
             "status": "OK",
             "message": "Se ha eliminado el paciente"
-
         });
         res.send (paciente);
     } catch (error) {
@@ -115,10 +130,4 @@ let deletePaciente = async (req, res, next) => {
     }
 }
 
-module.exports = {
-    getPacientes: getPacientes,
-    getPacienteById: getPacienteById,
-    createPaciente: createPaciente,
-    updatePaciente: updatePaciente,
-    deletePaciente: deletePaciente,
-}
+module.exports = controller;

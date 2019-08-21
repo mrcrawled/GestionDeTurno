@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import "./Input.scss";
+
 class Input extends Component {
     constructor(props){
         super(props);
@@ -16,17 +18,21 @@ class Input extends Component {
     static getDerivedStateFromProps(props, state) {
         if (props.id !== state.prevId) {
             return{
-            id: props.id,
-            name: props.name,
-            type: props.type,
-            value: props.value
-        }
-    };
-    return null;
+                id: props.id,
+                name: props.name,
+                type: props.type,
+                value: props.value
+            }
+        };
+        return null;
     }
     render(){
+        let classAttr = "input-container";
+        if(this.props.className) {
+            classAttr += ` ${this.props.className}`;
+        }
         return (
-            <div className="input-container">
+            <div className={ classAttr }>
                 <input
                     autoComplete="off"
                     id={this.state.id}
