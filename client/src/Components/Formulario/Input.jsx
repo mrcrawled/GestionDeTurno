@@ -32,7 +32,7 @@ class Input extends Component {
             classAttr += ` ${this.props.className}`;
         }
         return (
-            <div className={ classAttr }>
+            <div className={classAttr}>
                 <input
                     autoComplete="off"
                     id={this.state.id}

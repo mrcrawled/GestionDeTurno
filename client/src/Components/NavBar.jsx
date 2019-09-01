@@ -1,28 +1,36 @@
 import React, { Component } from 'react';
-import { withRouter, NavLink as Link } from 'react-router-dom';
-// import Home from './Home';
-
+import { NavLink as Link } from 'react-router-dom';
 
 class NavBar extends Component {
-
-  handleEvent = (event)  => {
-    const elem = event.target;
-    if( elem.classList.contains("active") && this.props.location.pathname === elem.getAttribute("href") ){
-      event.preventDefault();
+    handleEvent = (event)  => {
+        const elem = event.target;
+        if( elem.classList.contains("active") && this.props.location.pathname === elem.getAttribute("href") ){
+            event.preventDefault();
+        }
     }
-  }
 
-  render() {
-    return (
-      <nav>
-        <div className="container">
-          <Link activeClassName="active" exact onClick={this.handleEvent} title="Página principal" to="/">Home</Link>
-          <Link activeClassName="active" onClick={this.handleEvent} title="Pacientes" to="/pacientes">Pacientes</Link>
-          <Link activeClassName="active" onClick={this.handleEvent} title="Obras Sociales" to="/obras-sociales">Obras Sociales</Link>
-        </div>
-      </nav>
-    )
-  }
+    render() {
+        console.log("Render NAV",this.props.loggedin);
+        let listOfLinks;
+        if(this.props.loggedin){
+            listOfLinks = [
+                <Link key='0' activeClassName="active" exact onClick={this.handleEvent} title="Inicio" to="/">Inicio</Link>,
+                <Link key='1' activeClassName="active" onClick={this.handleEvent} title="Pacientes" to="/pacientes">Pacientes</Link>,
+                <Link key='2' activeClassName="active" onClick={this.handleEvent} title="Obras Sociales" to="/obras-sociales">Obras Sociales</Link>
+            ];
+        } else {
+            listOfLinks = [ 
+                <Link key='0' activeClassName="active" exact onClick={this.handleEvent} title="Ingresar" to="/">Ingresar</Link>
+            ];
+        }
+        return (
+            <nav>
+                <div className="container">
+                    { listOfLinks }
+                </div>
+            </nav>
+        )
+    }
 }
 
-export default withRouter(NavBar)
+export default NavBar;

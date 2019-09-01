@@ -46,6 +46,7 @@ class Paciente extends Component {
     }
 
     render() {
+        console.log("Render Pacientes");
         return (
             <div>
                 <h2>Pacientes</h2>

@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Switch } from 'react-router-dom';
+import Route from './Custom/AppliedRoute';
+
+import Home from './Components/Home';
+
 import Header from './Components/Header';
 import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
@@ -16,57 +20,64 @@ import ObraSocialInfo from './Components/ObraSocial/ObraSocialInfo';
 
 
 const NotFound = ({ location }) => (
-  <h1>Ha ocurido un problema. No se encuentra la página solicitada: {location.pathname} </h1>
+    <h1>Ha ocurido un problema. No se encuentra la página solicitada: {location.pathname} </h1>
 )
 
 class App extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      loggedin: false,
-      rol: 'Invitado',
-      routesAvailables: null
-    };
-  }
+    constructor(props){
+        super(props);
+        this.state = {
+            loggedin: false,
+            rol: 'Invitado'
+        };
+    }
 
-  /* Esta función debe actualizar el estado de las rutas activas segun el tipo de rol del usuario logeado */
-  updateRoutes = (newRoutesAvailables) => {
-    this.setState({
-      routesAvailables : newRoutesAvailables
-    })
-  }
+    updateLogin = (login, rol) => {
+        this.setState({
+            loggedin: login,
+            rol: rol
+        });
+    }
 
-  render() {
-    return (
-      <Router>
-        <div>
-          <Header />
-          {/* falta terminar esta parte al momento de logearse. */}
-          <NavBar loggedin={this.state.loggedin} rol={this.state.rol} handleRoutes={this.updateRoutes}/>
-          <div className="container" id="Main">
-            <Switch>
-              <Route exact path="/" component={Login} />
-
-              <Route exact path="/pacientes" component={Paciente} />
-              <Route exact path="/pacientes/new" component={PacienteForm} />
-              <Route exact path="/pacientes/edit/:id" component={PacienteForm} />
-              <Route exact path="/pacientes/:id" component={PacienteInfo} />
-
-              <Route exact path="/obras-sociales" component={ObraSocial} />
-              <Route exact path="/obras-sociales/new" component={ObraSocialForm} />
-              <Route exact path="/obras-sociales/edit/:id" component={ObraSocialForm} />
-              <Route exact path="/obras-sociales/:id" component={ObraSocialInfo} />
-
-              <Route component={NotFound} />
-            </Switch>
-          </div>
-          <div>
-            <Footer />
-          </div>
-        </div>
-      </Router>
-    );
-  }
+    render() {
+        console.log("Render APP",this.state.loggedin);
+        let listOfRoutes;
+        if( !this.state.loggedin){
+            listOfRoutes = [
+                <Route exact key="0" path="/" component={Login} props={{handleLogin: this.updateLogin}}/>
+            ];
+        } else {
+            listOfRoutes = [
+                <Route exact key="0" path="/" component={Home}/>,
+                <Route exact key="1" path="/pacientes" component={Paciente} />,
+                <Route exact key="2" path="/pacientes/new" component={PacienteForm} />,
+                <Route exact key="3" path="/pacientes/edit/:id" component={PacienteForm} />,
+                <Route exact key="4" path="/pacientes/:id" component={PacienteInfo} />,
+                <Route exact key="5" path="/obras-sociales" component={ObraSocial} />,
+                <Route exact key="6" path="/obras-sociales/new" component={ObraSocialForm} />,
+                <Route exact key="7" path="/obras-sociales/edit/:id" component={ObraSocialForm} />,
+                <Route exact key="8" path="/obras-sociales/:id" component={ObraSocialInfo} />
+            ];
+        }
+        return (
+            <Router>
+                <div>
+                    <Header />
+                    {/* falta terminar esta parte al momento de logearse. */}
+                    <NavBar loggedin={this.state.loggedin} rol={this.state.rol} />
+                    <div className="container" id="Main">
+                        <Switch>
+                            { listOfRoutes }
+                            <Route component={NotFound} />
+                        </Switch>
+                    </div>
+                    <div>
+                        <Footer />
+                    </div>
+                </div>
+            </Router>
+        );
+    }
 }
 
 

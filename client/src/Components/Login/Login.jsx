@@ -9,6 +9,7 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
+            handleLogin : props.handleLogin,
         };
     }
 
@@ -18,8 +19,11 @@ class Login extends Component {
                 username: this.state.username,
                 password: this.state.password
             });
-            console.log(res);
-            console.log(res.data)
+            if(res.data.status === "OK"){
+                this.state.handleLogin(true, res.data.rol);
+            } else {
+                //! ERROR
+            }
         } catch (error) {
             console.log(error);
         }
@@ -32,6 +36,7 @@ class Login extends Component {
     }
 
     render() {
+        console.log("Render Login");
         return (
             <div className="formulario">
                 <div className="form-header">

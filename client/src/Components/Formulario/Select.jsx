@@ -87,9 +87,13 @@ class Select extends Component {
         }
     }
     render(){
+        let classAttr = "input-container";
+        if(this.props.className) {
+            classAttr += ` ${this.props.className}`;
+        }
         return (
             <div className="select-container">
-                <div className="input-container">
+                <div className={classAttr}>
                     <input 
                         autoComplete="off"
                         className="select-head"

@@ -44,6 +44,7 @@ class ObraSocial extends Component {
     }
 
     render() {
+        console.log("Render OS");
         return (
             <div>
                 <h2>Obras Sociales</h2>
