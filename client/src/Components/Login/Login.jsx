@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "../Formulario/Formulario.scss";
+import { Link } from 'react-router-dom';
 import Input from '../Formulario/Input'
 
 class Login extends Component {
@@ -59,8 +60,12 @@ class Login extends Component {
                         type="password"
                     />
                     <button className="btn" onClick={this.login}>Ingresar</button>
-                </div>
-            </div>
+                </div>  
+
+                <p><input type="checkbox"/>  Recordarme</p>
+                <Link to="/login/recuperarcontrasenia">¿Olvidaste tu contraseña? </Link>
+   
+              </div>
         )
     }
 }

@@ -9,6 +9,7 @@ import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
 
 import Login from './Components/Login/Login';
+import RecuperarContrasenia from './Components/Login/RecuperarContrasenia'
 
 import Paciente from './Components/Paciente/Paciente';
 import PacienteForm from './Components/Paciente/PacienteForm';
@@ -44,7 +45,9 @@ class App extends Component {
         let listOfRoutes;
         if( !this.state.loggedin){
             listOfRoutes = [
-                <Route exact key="0" path="/" component={Login} props={{handleLogin: this.updateLogin}}/>
+                <Route exact key="0" path="/" component={Login} props={{handleLogin: this.updateLogin}}/>,
+                <Route exact key="0" path="/login/recuperarContrasenia" component={RecuperarContrasenia}/>
+
             ];
         } else {
             listOfRoutes = [
