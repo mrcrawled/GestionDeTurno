@@ -29,20 +29,19 @@ controller.getObraSocialById = async (req, res, next) => {
 controller.createObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
-    const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
-    if (obraSocial.rows > 0) {
-      console.log("Ya Existe el registro")
+    if (nombre === "") {
+      res.json('Ingrese los datos requeridos')
       next();
-    }
-    else {
+    } else {
+      const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
       res.json({
-      "status":  "OK",
-      "msg": `Nueva obra social: ${nombre}`
-      })
+        "status": "OK",
+        "msg": "Se ha creado un nuevo registro"
+      });
+
     }
   } catch (error) {
     console.log("Ya Existe el registro " + error)
-    res.sendStatus(500);
   }
 }
 
@@ -54,8 +53,8 @@ controller.updateObraSocial = async (req, res, next) => {
     const obraSocial = await db.query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ', [nombre, descripcion, id]);
     console.log(obraSocial);
   } catch (error) {
-    res.sendStatus(500);
-    return
+    console.log("Ocurrio un problema al actualizar el registro" + error)
+
   }
 }
 
@@ -66,6 +65,7 @@ controller.deleteObraSocial = async (req, res, next) => {
     await db.query('DELETE FROM obras_sociales where ID = $1', [id]);
     res.send(`Se elimino la obra social con el ID:  ${id}`);
   } catch (error) {
+    console.log("Ocurrio un problema al borrar el registro" + error)
     next(error);
   }
 }

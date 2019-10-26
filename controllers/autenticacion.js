@@ -15,7 +15,7 @@ controller.loginSession = async (req, res, next) => {
             return;
         }
         const matches = usuario.rows[0];
-        const verifyPassword = await bcrypt.compareSync(password, matches.password);
+        const verifyPassword = bcrypt.compareSync(password, matches.password);
 
         if (!verifyPassword) {
             res.json({
@@ -24,7 +24,7 @@ controller.loginSession = async (req, res, next) => {
             });
             return;
         }
-        const token = await jwt.sign({ usuario: username }, process.env.API_KEY, { expiresIn: 24 * 60 * 60 });
+        const token = jwt.sign({ usuario: username }, process.env.API_KEY, { expiresIn: 24 * 60 * 60 });
         const rol = await db.query('select rol_tipo from roles where id = $1', [matches.id_rol]);
         res.cookie('x-access-token', token, {httpOnly: true});
         res.json({

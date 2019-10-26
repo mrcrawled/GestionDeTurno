@@ -66,7 +66,7 @@ controller.createPaciente = async (req, res, next) => {
             return;
         }
         const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
-        const password = await bcrypt.hashSync(doc_numero, 10);
+        const password = bcrypt.hashSync(doc_numero, 10);
 
         const usuario = await db.query('INSERT INTO usuarios (username, password, email, id_rol) VALUES ($1,$2,$3,$4) RETURNING *', [username, password, email, 3]);
         const id_usuario = usuario.rows[0].id;
