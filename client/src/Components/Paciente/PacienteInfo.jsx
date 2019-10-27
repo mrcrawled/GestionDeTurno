@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import "../Formulario/Formulario.scss";
+import moment from '../../Utils/Moment';
 
 class PacienteInfo extends Component {
     constructor(props) {
@@ -36,7 +37,7 @@ class PacienteInfo extends Component {
                 id_paciente: pacienteInfo.id_paciente,
                 nombre: pacienteInfo.nombre,
                 apellido: pacienteInfo.apellido,
-                fecha_nacimiento: this.getFormattedTimestamp(pacienteInfo.fecha_nacimiento),
+                fecha_nacimiento: moment(pacienteInfo.fecha_nacimiento).format("DD-MM-YYYY"),
                 documento: this.getFormattedDocument(pacienteInfo.documento),
                 id_usuario: pacienteInfo.id_usuario,
                 direccion: this.getFormattedAddress(pacienteInfo.direccion),
@@ -63,14 +64,6 @@ class PacienteInfo extends Component {
         return formattedAddress;
     }
 
-    getFormattedTimestamp = (timestamp) => {
-        let birthDate = new Date(timestamp),
-            date = birthDate.getDate() < 10 ? `0${birthDate.getDate()}` : birthDate.getDate(),
-            month = birthDate.getMonth() < 9 ? `0${birthDate.getMonth() + 1}` : birthDate.getMonth() + 1,
-            formattedTimestamp = `${date}-${month}-${birthDate.getFullYear()}`;
-        return formattedTimestamp;
-    }
-
     getFormattedDocument = (document) => {
         return `${document.doc_tipo}: ${document.doc_numero}`;
     }
@@ -84,7 +77,7 @@ class PacienteInfo extends Component {
                 direccion: this.getFormattedAddress(this.props.data.direccion),
                 documento: this.getFormattedDocument(this.props.data.documento),
                 email: this.props.data.email,
-                fecha_nacimiento: this.getFormattedTimestamp(this.props.data.fecha_nacimiento),
+                fecha_nacimiento: this.props.data.fecha_nacimiento,
                 id_obra_social: this.props.data.id_obra_social,
                 id_paciente: this.props.data.id_paciente,
                 id_usuario: this.props.data.id_usuario,

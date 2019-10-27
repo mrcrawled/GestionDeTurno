@@ -4,8 +4,8 @@ const controller = {};
 //Listar Obras Sociales
 controller.getObrasSociales = async (req, res, next) => {
   try {
-    const obras_sociales = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
-    res.json(obras_sociales.rows);
+    const { rows: obras_sociales } = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
+    res.json(obras_sociales);
   } catch (error) {
     console.log("Ocurrió un error " + error)
     res.sendStatus(500);
@@ -17,10 +17,13 @@ controller.getObrasSociales = async (req, res, next) => {
 controller.getObraSocialById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const obra_social = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
-    res.send(obra_social.rows[0]);
+    const {rows: [obra_social], rowCount} = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
+    if(rowCount)
+      res.json(obra_social);
+    else 
+      res.json("Obra social inexistente");
   } catch (error) {
-    res.sendStatus(500);
+    res.status(400).json("Obra social inexistente");
     next();
   }
 }

@@ -3,7 +3,7 @@ import "../Formulario/Formulario.scss";
 import Input from '../Formulario/Input'
 import axios from 'axios';
 
-class RecuperarContrasenia extends Component {
+class ResetPassword extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -13,27 +13,26 @@ class RecuperarContrasenia extends Component {
         };
     }
 
-    recuperarContrasenia = e => {
-        e.preventDefault();
+    resetPassword = async () => {
         if (this.state.email === 'No se encuentra la dirección de mail') {
             this.setState({
                 error: false,
                 message: '',
             });
         } else {
-            axios.post(`/localhost/recuperarcontrasenia`, {
+            axios.post(`/reset-password/`, {
                 email: this.state.email,
-            }).then(res => {
+            }).then( res => {
                 console.log(res.data);
                 if (res.data === '') {
                     this.setState({
                         error: true,
-                        message: '',
+                        message: res.message,
                     });
-                } else if (res.data === "Correo de Recuperacion Mandando") {
+                } else if (res.message === "Correo de Recuperacion Mandado") {
                     this.setState({
                         error: false,
-                        message: 'Correo de Recuperacion Mandando'
+                        message: res.message
                     });
                 }
             }).catch(error =>{
@@ -42,9 +41,9 @@ class RecuperarContrasenia extends Component {
         }
     }
 
-    handleChange = name => event => {
+    handleChange = event => {
         this.setState({
-            [name]: event.target.value,
+            [event.target.name]: event.target.value,
         })
     }
 
@@ -61,6 +60,7 @@ class RecuperarContrasenia extends Component {
                         placeholder="Email "
                         value={this.state.email}
                     />
+                    <button type="button" className="btn" onClick={this.resetPassword}>Recuperar</button>
                 </div>
             </div>
         )
@@ -68,4 +68,4 @@ class RecuperarContrasenia extends Component {
 }
 
 
-export default RecuperarContrasenia;
+export default ResetPassword;

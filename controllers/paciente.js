@@ -21,23 +21,23 @@ controller.getPacientes = async (req, res, next) => {
 controller.getPacienteById = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const paciente = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id]);
-        const usuario = await db.query('SELECT * FROM usuarios WHERE ID = $1', [paciente.rows[0].id_usuario]);
-        const obraSocialPaciente = await db.query('SELECT * FROM obras_sociales_pacientes WHERE ID = $1 AND activo = true',[id]);
-        const obraSocial = await db.query('SELECT * FROM obras_sociales WHERE ID = $1',[obraSocialPaciente.rows[0].id_obra_social]);
+        const {rows: [paciente]} = await db.query('SELECT * FROM pacientes WHERE id = $1',[id]);
+        const {rows: [usuario]} = await db.query('SELECT * FROM usuarios WHERE id = $1', [paciente.id_usuario]);
+        const {rows: [obraSocialPaciente]} = await db.query('SELECT * FROM obras_sociales_pacientes WHERE id_paciente = $1 AND activo = TRUE',[id]);
+        const {rows: [obraSocial]} = await db.query('SELECT * FROM obras_sociales WHERE id = $1',[obraSocialPaciente.id_obra_social]);
         res.json({
-            id_paciente: paciente.rows[0].id,
-            nombre: paciente.rows[0].nombre,
-            apellido: paciente.rows[0].apellido,
-            email: usuario.rows[0].email,
-            fecha_nacimiento: paciente.rows[0].fecha_nacimiento,
-            documento: paciente.rows[0].documento,
-            direccion: paciente.rows[0].direccion,
-            id_usuario: paciente.rows[0].id_usuario,
-            numero_afiliado: obraSocialPaciente.rows[0].numero_afiliado,
-            id_obra_social: obraSocial.rows[0].id,
-            obra_social:  obraSocial.rows[0].nombre,
-            username: usuario.rows[0].username
+            id_paciente: paciente.id,
+            nombre: paciente.nombre,
+            apellido: paciente.apellido,
+            email: usuario.email,
+            fecha_nacimiento: paciente.fecha_nacimiento,
+            documento: paciente.documento,
+            direccion: paciente.direccion,
+            id_usuario: paciente.id_usuario,
+            numero_afiliado: obraSocialPaciente.numero_afiliado,
+            id_obra_social: obraSocial.id,
+            obra_social:  obraSocial.nombre,
+            username: usuario.username
         });
     } catch (error) {
         next(error);
@@ -106,10 +106,101 @@ controller.createPaciente = async (req, res, next) => {
 //Actualizar Paciente
 controller.updatePaciente = async (req, res, next) => {
     try {
-        const id = req.params.id;
-        const { nombre, apellido, telefono,fecha_nacimiento, direccion, documento } = req.body;
-        const paciente = await db.query('UPDATE pacientes set nombre = $1,apellido = $2,direccion = $3,documento= $4, fecha_nacimiento = $5,telefono = $6 WHERE id = $7', [nombre, apellido, direccion, documento, fecha_nacimiento,telefono, id]);
-        console.log(paciente);
+        const { id: id_paciente } = req.params;
+        const { 
+            nombre,
+            apellido,
+            fecha_nacimiento,
+            direccion,
+            documento,
+            telefono,
+            email,
+            id_obra_social,
+            numero_afiliado
+        } = req.body;
+        const { rowCount: is_update_paciente } = await db.query(
+            `UPDATE pacientes set ${[
+                `nombre = $1`,
+                `apellido = $2`,
+                `direccion = $3`,
+                `documento = $4`,
+                `fecha_nacimiento = $5`,
+                `telefono = $6`
+            ].toString()} WHERE id = $7`,
+            [
+                nombre,
+                apellido,
+                direccion,
+                documento,
+                fecha_nacimiento,
+                telefono,
+                id_paciente
+            ]
+        );
+        const {rows: [{id_usuario}]} = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id_paciente]);
+        const { rowCount: is_update_usuario } = await db.query(
+            `UPDATE usuarios set email = $1 WHERE id = $2`,
+            [
+                email,
+                id_usuario
+            ]
+        );
+        const {rows: [obra_social_paciente], rowCount: exist_osp} = await db.query(
+            [
+                `SELECT * FROM obras_sociales_pacientes`,
+                    `WHERE id_paciente = $1 AND id_obra_social = $2 AND activo=TRUE`
+            ].join(" "),
+            [
+                id_paciente,
+                id_obra_social
+            ]
+        );
+
+        let is_inserted_osp = 0;
+        if(exist_osp){
+            const {id: id_obra_social_paciente} = obra_social_paciente;
+            const {rowCount} = await db.query(
+                [
+                    `UPDATE obras_sociales_pacientes SET numero_afiliado = $1`,
+                    `WHERE id = $2`
+                ].join(" "),
+                [
+                    numero_afiliado,
+                    id_obra_social_paciente
+                ]
+            );
+            is_inserted_osp = rowCount;
+        } else {
+            const {rowCount: affected} = await db.query(
+                [
+                    `UPDATE obras_sociales_pacientes SET activo=FALSE`,
+                    `WHERE id_paciente = $1`
+                ].join(" "),
+                [
+                    id_paciente
+                ]
+            );
+            console.log(affected);
+            const {rowCount} = await db.query(
+                [
+                    `INSERT INTO obras_sociales_pacientes`,
+                        `(id_obra_social, id_paciente, numero_afiliado, activo)`,
+                        `VALUES ($1,$2,$3,$4)`
+                ].join(" "),
+                [
+                    id_obra_social,
+                    id_paciente,
+                    numero_afiliado,
+                    true
+                ]
+            );
+            is_inserted_osp = rowCount;
+        }
+        if(is_update_paciente > 0 && is_update_usuario > 0 && is_inserted_osp > 0){
+            controller.getPacienteById(req, res, next);
+        } else {
+            res.status(400).json("Error al actualizar");
+        }
     } catch (error) {
         next(error);
     }

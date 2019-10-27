@@ -7,9 +7,25 @@ class Select extends Component {
     constructor(props){
         super(props);
         this.state = {
+            value: '',
+            onChange: props.onChange,
             shift: 0
         };
     }
+    componentWillReceiveProps(nextProps) {
+        if(nextProps.options.length > 0){
+            const [sitem] = nextProps.options.filter((option,key) => option.value == nextProps.value);
+            this.setState({
+                value: typeof sitem !== 'undefined' ? sitem.text : ''
+            });
+        }
+    }
+    /**
+     * @param sitem : <div className="select-item" >
+     * @param siold : <div className="select-item selected" >
+     * @param shead : <input className="select-head" >
+     * @param sbody : <div className="select-body" >
+     */
     handleItemClicked = (sitem, siold = null, shead = null, sbody = null) => {
         if( !sitem.classList.contains("selected") ){
             if(sbody == null) sbody = sitem.parentNode;
@@ -17,15 +33,16 @@ class Select extends Component {
             if(siold == null) siold = sbody.querySelector(".selected");
             if(siold != null) siold.classList.remove("selected");
             sitem.classList.add("selected");
-            shead.setAttribute("key", sitem.getAttribute("value"));
-            shead.value = sitem.innerHTML;
             const eventChange = {
                 target: {
                     name: shead.name,
-                    value: shead.getAttribute("key")
+                    value: sitem.getAttribute("value")
                 }
             }
-            this.props.onChange(eventChange);
+            this.state.onChange(eventChange);
+            this.setState({
+                value: sitem.innerText
+            })
         }
     }
     onItemClick = (event) => {
@@ -43,9 +60,11 @@ class Select extends Component {
     onChange = event => {
         let shead = event.target,
             items = shead.parentNode.querySelectorAll(".select-item"),
+            sitem = shead.parentNode.querySelector(".select-item.selected"),
             toReplace = {"á": "a","é": "e","í": "i","ó": "o","ú": "u","ü":"u"},
             toMatch = this.replace(shead.value.toLowerCase(),toReplace),
             str = "";
+        if(sitem !== null) sitem.classList.remove("selected");
         for(let i=0; i<items.length; i++){ 
             str = this.replace(items[i].innerHTML.toLowerCase(), toReplace);
             if( str.includes(toMatch) ){
@@ -54,6 +73,9 @@ class Select extends Component {
                 items[i].classList.add("hide");
             }
         }
+        this.setState({
+            value: shead.value
+        });
     }
     handleSelected = event => {
         if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(event.key)){
@@ -97,18 +119,19 @@ class Select extends Component {
                     <input 
                         autoComplete="off"
                         className="select-head"
-                        name={this.props.name}
                         id={this.props.id}
+                        name={this.props.name}
                         onChange={this.onChange}
                         onKeyDown={this.handleSelected}
                         required
                         type="text"
+                        value={this.state.value}
                     />
                     <label htmlFor={this.props.id}>{this.props.placeholder}</label>
                     <div className="select-body">
                         {this.props.options.map( (option,key) => 
                             <div
-                                className="select-item" 
+                                className={option.value === this.props.value ? "select-item selected" : "select-item"}
                                 key={key}
                                 onClick={this.onItemClick}
                                 value={option.value}

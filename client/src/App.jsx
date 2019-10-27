@@ -9,7 +9,8 @@ import Footer from './Components/Footer';
 import NavBar from './Components/NavBar';
 
 import Login from './Components/Login/Login';
-import RecuperarContrasenia from './Components/Login/RecuperarContrasenia'
+import ResetPassword from './Components/Login/ResetPassword'
+import ChangePassword from './Components/Login/ChangePassword'
 
 import Paciente from './Components/Paciente/Paciente';
 import PacienteForm from './Components/Paciente/PacienteForm';
@@ -46,8 +47,8 @@ class App extends Component {
         if( !this.state.loggedin){
             listOfRoutes = [
                 <Route exact key="0" path="/" component={Login} props={{handleLogin: this.updateLogin}}/>,
-                <Route exact key="0" path="/login/recuperarContrasenia" component={RecuperarContrasenia}/>
-
+                <Route exact key="1" path="/login/recuperar-contrasenia" component={ResetPassword}/>,
+                <Route exact key="2" path="/login/recuperar-contrasenia/:token/:id" component={ChangePassword}/>
             ];
         } else {
             listOfRoutes = [

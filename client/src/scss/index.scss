@@ -190,7 +190,7 @@ nav {
     outline: none;
     padding: 5px 15px;
     transition: .2s ease;
-    &:hover  { background-color: var(--dark-blue-75); }
+    &:hover, &:focus  { background-color: var(--dark-blue-75); }
     &:active { background-color: var(--dark-blue-50); }
 }
 

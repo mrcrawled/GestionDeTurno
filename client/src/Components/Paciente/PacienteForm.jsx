@@ -3,6 +3,7 @@ import axios from 'axios';
 import "../Formulario/Formulario.scss";
 import Select from '../Formulario/Select';
 import Input from '../Formulario/Input';
+import moment from '../../Utils/Moment';
 
 class PacienteForm extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class PacienteForm extends Component {
             tel_numero: '',
             email: '',
             id_obra_social: '',
+            obra_social: '',
             numero_afiliado: '',
             obras_sociales: [],
             isEditable: false
@@ -33,19 +35,23 @@ class PacienteForm extends Component {
             const pacienteInfo = res.data;
             console.log(pacienteInfo);
             this.setState({
-                username: pacienteInfo.username,
-                id_paciente: pacienteInfo.id_paciente,
-                nombre: pacienteInfo.nombre,
-                apellido: pacienteInfo.apellido,
-                fecha_nacimiento: this.getFormattedTimestamp(pacienteInfo.fecha_nacimiento),
-                documento: this.getFormattedDocument(pacienteInfo.documento),
-                id_usuario: pacienteInfo.id_usuario,
-                direccion: this.getFormattedAddress(pacienteInfo.direccion),
-                email: pacienteInfo.email,
-                id_obra_social: pacienteInfo.id_obra_social,
-                obra_social: pacienteInfo.obra_social,
-                numero_afiliado: pacienteInfo.numero_afiliado,
-                isEditable: true
+                username         : pacienteInfo.username,
+                id_paciente      : pacienteInfo.id_paciente,
+                nombre           : pacienteInfo.nombre,
+                apellido         : pacienteInfo.apellido,
+                fecha_nacimiento : moment(pacienteInfo.fecha_nacimiento).format("DD-MM-YYYY"),
+                doc_tipo         : pacienteInfo.documento.doc_tipo,
+                doc_numero       : pacienteInfo.documento.doc_numero,
+                id_usuario       : pacienteInfo.id_usuario,
+                domicilio        : pacienteInfo.direccion.domicilio,
+                numero           : pacienteInfo.direccion.numero,
+                piso             : pacienteInfo.direccion.piso,
+                departamento     : pacienteInfo.direccion.departamento,
+                email            : pacienteInfo.email,
+                id_obra_social   : pacienteInfo.id_obra_social,
+                obra_social      : pacienteInfo.obra_social,
+                numero_afiliado  : pacienteInfo.numero_afiliado,
+                isEditable       : true
             });
         } catch (error) {
             console.log(error);
@@ -65,34 +71,33 @@ class PacienteForm extends Component {
         if( id ){
             this.getPacienteById(id);
         }
-    
         this.getObrasSociales();
     }
     agregarPaciente = async event => {
         event.preventDefault();
         try{
             const res = await axios.post("/pacientes", {
-                nombre: this.state.nombre,
-                apellido: this.state.apellido,
-                fecha_nacimiento: this.state.fecha_nacimiento,
-                direccion: JSON.stringify({
-                    domicilio: this.state.domicilio,
-                    numero: this.state.numero,
-                    piso: this.state.piso,
-                    departamento: this.state.departamento,
+                nombre           : this.state.nombre,
+                apellido         : this.state.apellido,
+                fecha_nacimiento : moment(this.state.fecha_nacimiento,"DD-MM-YYYY").format("YYYY-MM-DD"),
+                direccion : JSON.stringify({
+                    domicilio    : this.state.domicilio,
+                    numero       : this.state.numero,
+                    piso         : this.state.piso,
+                    departamento : this.state.departamento,
                 }),
                 documento: JSON.stringify({
-                    doc_tipo: this.state.doc_tipo,
-                    doc_numero: this.state.doc_numero
+                    doc_tipo     : this.state.doc_tipo,
+                    doc_numero   : this.state.doc_numero
                 }),
                 telefono: JSON.stringify({
-                    tel_tipo: this.state.tel_tipo,
-                    tel_numero: this.state.tel_numero
+                    tel_tipo     : this.state.tel_tipo,
+                    tel_numero   : this.state.tel_numero
                 }),
-                doc_numero: this.state.doc_numero,
-                email: this.state.email,
-                id_obra_social: this.state.id_obra_social,
-                numero_afiliado: this.state.numero_afiliado
+                doc_numero       : this.state.doc_numero,
+                email            : this.state.email,
+                id_obra_social   : this.state.id_obra_social,
+                numero_afiliado  : this.state.numero_afiliado
             });
             if(res.data.status === "OK"){
                 this.props.history.push(res.data.id_paciente);
@@ -106,63 +111,45 @@ class PacienteForm extends Component {
             event.preventDefault();
             const { match: { params: { id } } } = this.props;
             const res = await axios.put(`/pacientes/${id}`,{
-                nombre: this.state.nombre,
-                apellido: this.state.apellido,
-                fecha_nacimiento: this.state.fecha_nacimiento,
+                nombre           : this.state.nombre,
+                apellido         : this.state.apellido,
+                fecha_nacimiento : moment(this.state.fecha_nacimiento,"DD-MM-YYYY").format("YYYY-MM-DD"),
                 direccion: JSON.stringify({
-                    domicilio: this.state.domicilio,
-                    numero: this.state.numero,
-                    piso: this.state.piso,
-                    departamento: this.state.departamento,
+                    domicilio    : this.state.domicilio,
+                    numero       : this.state.numero,
+                    piso         : this.state.piso,
+                    departamento : this.state.departamento,
                 }),
                 documento: JSON.stringify({
-                    doc_tipo: this.state.doc_tipo,
-                    doc_numero: this.state.doc_numero
+                    doc_tipo     : this.state.doc_tipo,
+                    doc_numero   : this.state.doc_numero
                 }),
-                doc_numero: this.state.doc_numero,
-                email: this.state.email,
-                id_obra_social: this.state.id_obra_social,
-                numero_afiliado: this.state.numero_afiliado
+                doc_numero       : this.state.doc_numero,
+                email            : this.state.email,
+                id_obra_social   : this.state.id_obra_social,
+                numero_afiliado  : this.state.numero_afiliado
             });
             const actualizarPaciente = res.data;
             this.setState({
-                id: actualizarPaciente.id,
-                nombre: actualizarPaciente.nombre,
-                apellido: actualizarPaciente.apellido,
-                fecha_nacimiento: this.getFormattedTimestamp(actualizarPaciente.fecha_nacimiento),
-                documento: this.getFormattedDocument(actualizarPaciente.documento),
-                id_usuario: actualizarPaciente.id_usuario,
-                direccion: this.getFormattedAddress(actualizarPaciente.direccion),
-                email: actualizarPaciente.email,
-                id_obra_social: actualizarPaciente.id_obra_social,
-                obra_social: actualizarPaciente.obra_social,
-                numero_afiliado: actualizarPaciente.numero_afiliado,
+                id               : actualizarPaciente.id,
+                nombre           : actualizarPaciente.nombre,
+                apellido         : actualizarPaciente.apellido,
+                fecha_nacimiento : moment(actualizarPaciente.fecha_nacimiento).format("DD-MM-YYYY"),
+                doc_tipo         : actualizarPaciente.documento.doc_tipo,
+                doc_numero       : actualizarPaciente.documento.doc_numero,
+                id_usuario       : actualizarPaciente.id_usuario,
+                domicilio        : actualizarPaciente.direccion.domicilio,
+                numero           : actualizarPaciente.direccion.numero,
+                piso             : actualizarPaciente.direccion.piso,
+                departamento     : actualizarPaciente.direccion.departamento,
+                email            : actualizarPaciente.email,
+                id_obra_social   : actualizarPaciente.id_obra_social,
+                obra_social      : actualizarPaciente.obra_social,
+                numero_afiliado  : actualizarPaciente.numero_afiliado,
             });
         } catch (error) {
             console.log(error);
         }
-    }
-    getFormattedAddress = (direccion) => {
-        let formattedAddress = "",
-            domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `Domicilio: ${direccion.domicilio}` : "",
-            numero = direccion.numero !== "" ? `Número: ${direccion.numero}` : false,
-            piso = direccion.piso !== "" ? `Piso: ${direccion.piso}` : false,
-            departamento = direccion.departamento !== "" ? `Departamento: ${direccion.departamento}` : false;
-        formattedAddress += domicilio ? domicilio + (numero || piso || departamento ? ", " : "") : "";
-        formattedAddress += numero ? numero + (piso || departamento ? ", " : "") : "";
-        formattedAddress += piso ? piso + (departamento ? ", " : "") : "";
-        formattedAddress += departamento ? departamento : "";
-        return formattedAddress;
-    }
-    getFormattedTimestamp = (timestamp) => {
-        let birthDate = new Date(timestamp),
-            date = birthDate.getDate() < 10 ? `0${birthDate.getDate()}` : birthDate.getDate(),
-            month = birthDate.getMonth() < 9 ? `0${birthDate.getMonth() + 1}` : birthDate.getMonth() + 1,
-            formattedTimestamp = `${date}-${month}-${birthDate.getFullYear()}`;
-        return formattedTimestamp;
-    }
-    getFormattedDocument = (document) => {
-        return `${document.doc_tipo}: ${document.doc_numero}`;
     }
     handleCancel = () => {
         window.history.back();
@@ -229,11 +216,11 @@ class PacienteForm extends Component {
                                     name="doc_numero"
                                     onChange={this.handleChange}
                                     placeholder="Número de documento *"
-                                    value = {this.state.documento}
+                                    value = {this.state.doc_numero}
                                 />
                             </div>
                         </fieldset>
-                        <fieldset>
+                        {/* <fieldset>
                             <legend>Teléfono</legend>
                             <div className="col-2">
                                 <Select
@@ -257,10 +244,10 @@ class PacienteForm extends Component {
                                     name="tel_numero"
                                     onChange={this.handleChange}
                                     placeholder="Número de Teléfono *"
-                                    value = {this.state.documento}
+                                    value = {this.state.tel_numero}
                                 />
                             </div>
-                        </fieldset>
+                        </fieldset> */}
                     </div>
                     <div className="">
                         <fieldset>
@@ -271,14 +258,14 @@ class PacienteForm extends Component {
                                     name="domicilio"
                                     onChange={this.handleChange}
                                     placeholder="Domicilio"
-                                    value = {this.state.direccion}
+                                    value = {this.state.domicilio}
                                 />
                                 <Input
                                     id="numero"
                                     name="numero"
                                     onChange={this.handleChange}
                                     placeholder="Número"
-                                    value = {this.state.direccion}
+                                    value = {this.state.numero}
                                 />
                                 <Input
                                     id="piso"
@@ -292,7 +279,7 @@ class PacienteForm extends Component {
                                     name="departamento"
                                     onChange={this.handleChange}
                                     placeholder="Departamento"
-                                    value = {this.state.departamento}
+                                    value={this.state.departamento}
                                 />
                             </div>
                         </fieldset>
@@ -305,13 +292,13 @@ class PacienteForm extends Component {
                                 options={this.state.obras_sociales.map(
                                     (os,key) => {
                                         return {
-                                            value:os.id,
-                                            text:os.nombre
+                                            value : os.id,
+                                            text  : os.nombre
                                         }
                                     }
                                 )}
                                 placeholder="Obra Social"
-                                value = {this.state.obra_social}
+                                value={this.state.id_obra_social}
                             />
                             <Input
                                 id="numero_afiliado"

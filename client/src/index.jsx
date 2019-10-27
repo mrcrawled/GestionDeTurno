@@ -7,6 +7,5 @@ import './scss/index.scss';
 import './css/icons.css';
 
 import App from './App';
-
 ReactDOM.render(<App />, document.getElementById('root'));
 
