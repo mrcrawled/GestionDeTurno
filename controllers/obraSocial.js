@@ -4,7 +4,7 @@ const controller = {};
 //Listar Obras Sociales
 controller.getObrasSociales = async (req, res, next) => {
   try {
-    const { rows: obras_sociales } = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
+    const obras_sociales = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
     res.json(obras_sociales);
   } catch (error) {
     console.log("Ocurrió un error " + error)
@@ -17,8 +17,8 @@ controller.getObrasSociales = async (req, res, next) => {
 controller.getObraSocialById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const {rows: [obra_social], rowCount} = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
-    if(rowCount)
+    const obra_social = await db.query('SELECT * FROM obras_sociales WHERE ID = $1 LIMIT 1', [id]);
+    if(obra_social)
       res.json(obra_social);
     else 
       res.json("Obra social inexistente");
@@ -34,13 +34,10 @@ controller.createObraSocial = async (req, res, next) => {
     const { nombre, descripcion } = req.body;
     if (nombre === "") {
       res.json('Ingrese los datos requeridos')
-      next();
+      return;
     } else {
       const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
-      res.json({
-        "status": "OK",
-        "msg": "Se ha creado un nuevo registro"
-      });
+      res.status(200).json("Se ha creado un nuevo registro");
 
     }
   } catch (error) {
@@ -55,9 +52,11 @@ controller.updateObraSocial = async (req, res, next) => {
     const id = req.params.id;
     const obraSocial = await db.query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ', [nombre, descripcion, id]);
     console.log(obraSocial);
+    res.status(200).json("Obra social actualizada");
+    return;
   } catch (error) {
     console.log("Ocurrio un problema al actualizar el registro" + error)
-
+    res.status(400).json("No se pudo actualizar la obra social");
   }
 }
 
