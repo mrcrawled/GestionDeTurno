@@ -30,5 +30,4 @@ router.post('/pacientes',createPaciente);
 router.put('/pacientes/:id',updatePaciente);
 router.delete('/pacientes/:id',deleteObraSocial);
 
-
 module.exports = router;
