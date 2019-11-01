@@ -1,4 +1,4 @@
-const db = require('../database/config');
+const db = require('../../database/config');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');

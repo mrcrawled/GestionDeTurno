@@ -10,7 +10,7 @@ controller.getUsuarios = async (req, res, next) => {
         const usuarios = await db.query('SELECT * FROM usuarios LIMIT $1 OFFSET $2', [limit, offset]);
         res.send(usuarios.rows);
     } catch (error) {
-        next(error);
+        console.log(error);
     }
 }
 
@@ -22,7 +22,7 @@ controller.createUsuario = async (req, res, next) => {
         const usuario = await db.query('INSERT INTO usuarios (username,password,email,id_rol) VALUES ($1,$2,$3,$4)', [username, password, email, id_rol]);
         res.send(usuario);
     } catch (error) {
-        next(error);
+        console.log(error);
     }
 }
 
@@ -35,7 +35,7 @@ controller.updateUsuario = async (req, res, next) => {
         const usuario = await db.query('UPDATE usuarios SET username = $1,password = $2,email = $3,id_rol = $4 WHERE id = $5', [username, password, email, id_rol, id]);
         res.send(usuario);
     } catch (error) {
-        next(error);
+        console.log(error);
     }
 }
 
@@ -46,7 +46,8 @@ controller.deleteUsuario = async (req, res, next) => {
         const usuario = await db.query('DELETE FROM USUARIOS WHERE id = $1', [id]);
         res.send(usuario);
     } catch (error) {
-        next(error);
+
+        console.log(error);
     }
 }
 

@@ -1,15 +1,14 @@
 const db = require('../database/config');
 const controller = {};
 
-//Listar Obras Sociales
-controller.getObrasSociales = async (req, res, next) => {
+//Listar Practicas Profesionales
+controller.getPracticas = async (req, res, next) => {
   try {
-    const { rows: obras_sociales } = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
-    res.json(obras_sociales);
+    const practicas = await db.query('SELECT descripcion,duracion FROM practicas ORDER BY descripcion ASC');
+    res.status(200).json(practicas.rows);
   } catch (error) {
-    console.log("Ocurrió un error " + error)
+    console.log(error)
     res.sendStatus(500);
-    next();
   }
 }
 
@@ -17,14 +16,14 @@ controller.getObrasSociales = async (req, res, next) => {
 controller.getObraSocialById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const {rows: [obra_social], rowCount} = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
-    if(rowCount)
-      res.json(obra_social);
-    else 
-      res.json("Obra social inexistente");
+    const obra_social = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
+    if (obra_social.rowCount === 0) {
+      res.json("No se encuentra la obra social")
+    } else {
+      res.json(obra_social.rows)
+    }
   } catch (error) {
     res.status(400).json("Obra social inexistente");
-    next();
   }
 }
 
@@ -32,19 +31,18 @@ controller.getObraSocialById = async (req, res, next) => {
 controller.createObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
-    if (nombre === "") {
-      res.json('Ingrese los datos requeridos')
-      next();
-    } else {
-      const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
-      res.json({
-        "status": "OK",
-        "msg": "Se ha creado un nuevo registro"
-      });
-
-    }
+    const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
+    res.json({
+      status: "OK",
+      message: "Se ha agregado un nuevo registro",
+      body: {
+        obra_social: {
+          nombre, descripcion
+        }
+      }
+    })
   } catch (error) {
-    console.log("Ya Existe el registro " + error)
+    console.log(error)
   }
 }
 
@@ -66,7 +64,7 @@ controller.deleteObraSocial = async (req, res, next) => {
   try {
     const id = req.params.id;
     await db.query('DELETE FROM obras_sociales where ID = $1', [id]);
-    res.send(`Se elimino la obra social con el ID:  ${id}`);
+    res.json(`Se elimino la obra social con el ID:  ${id}`);
   } catch (error) {
     console.log("Ocurrio un problema al borrar el registro" + error)
     next(error);
