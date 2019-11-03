@@ -20,6 +20,10 @@ import ObraSocial from './Components/ObraSocial/ObraSocial';
 import ObraSocialForm from './Components/ObraSocial/ObraSocialForm';
 import ObraSocialInfo from './Components/ObraSocial/ObraSocialInfo';
 
+import PracticaProfesional from './Components/PracticaProfesional/PracticaProfesional';
+import PracticaProfesionalForm from './Components/PracticaProfesional/PracticaProfesionalForm';
+
+
 
 const NotFound = ({ location }) => (
     <h1>Ha ocurido un problema. No se encuentra la página solicitada: {location.pathname} </h1>
@@ -60,7 +64,11 @@ class App extends Component {
                 <Route exact key="5" path="/obras-sociales" component={ObraSocial} />,
                 <Route exact key="6" path="/obras-sociales/new" component={ObraSocialForm} />,
                 <Route exact key="7" path="/obras-sociales/edit/:id" component={ObraSocialForm} />,
-                <Route exact key="8" path="/obras-sociales/:id" component={ObraSocialInfo} />
+                <Route exact key="8" path="/obras-sociales/:id" component={ObraSocialInfo} />,
+                <Route exact key="9" path="/practicas/" component={PracticaProfesional} />,
+                <Route exact key="9" path="/practicas/new" component={PracticaProfesionalForm} />
+
+
             ];
         }
         return (
