@@ -20,7 +20,7 @@ controller.createPracticasProfesionales = async (req, res, next) => {
     const { descripcion } = req.body;
     const duracion = moment(req.body.duracion,"HH:mm").format("HH:mm");
     console.log(duracion);
-    const practicaProfesional = await db.query('INSERT INTO practicas (descripcion,duracion) VALUES ($1,$2)', [descripcion, duracion]);
+    const practicaProfesional = await db.query('INSERT INTO practicas (descripcion,duracion,id_area) VALUES ($1,$2,$3)', [descripcion, duracion,1]);
     return res.json({
       status: "OK",
       message: "Se ha agregado un nuevo registro",
