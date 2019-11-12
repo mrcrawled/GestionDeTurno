@@ -53,11 +53,11 @@ class PacienteInfo extends Component {
 
     getFormattedAddress = (direccion) => {
         let formattedAddress = "",
-            domicilio = direccion.domicilio !== "" && typeof direccion.domicilio !== "undefined" ? `Domicilio: ${direccion.domicilio}` : "",
+            calle = direccion.calle !== "" && typeof direccion.calle !== "undefined" ? `calle: ${direccion.calle}` : "",
             numero = direccion.numero !== "" ? `Número: ${direccion.numero}` : false,
             piso = direccion.piso !== "" ? `Piso: ${direccion.piso}` : false,
             departamento = direccion.departamento !== "" ? `Departamento: ${direccion.departamento}` : false;
-        formattedAddress += domicilio ? domicilio + (numero || piso || departamento ? ", " : "") : "";
+        formattedAddress += calle ? calle + (numero || piso || departamento ? ", " : "") : "";
         formattedAddress += numero ? numero + (piso || departamento ? ", " : "") : "";
         formattedAddress += piso ? piso + (departamento ? ", " : "") : "";
         formattedAddress += departamento ? departamento : "";

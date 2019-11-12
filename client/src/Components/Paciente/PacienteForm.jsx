@@ -13,7 +13,7 @@ class PacienteForm extends Component {
             nombre: '',
             apellido: '',
             fecha_nacimiento: '',
-            domicilio: '',
+            calle: '',
             numero: '',
             piso: '',
             departamento: '',
@@ -43,7 +43,7 @@ class PacienteForm extends Component {
                 doc_tipo         : pacienteInfo.documento.doc_tipo,
                 doc_numero       : pacienteInfo.documento.doc_numero,
                 id_usuario       : pacienteInfo.id_usuario,
-                domicilio        : pacienteInfo.direccion.domicilio,
+                calle        : pacienteInfo.direccion.calle,
                 numero           : pacienteInfo.direccion.numero,
                 piso             : pacienteInfo.direccion.piso,
                 departamento     : pacienteInfo.direccion.departamento,
@@ -81,7 +81,7 @@ class PacienteForm extends Component {
                 apellido         : this.state.apellido,
                 fecha_nacimiento : moment(this.state.fecha_nacimiento,"DD-MM-YYYY").format("YYYY-MM-DD"),
                 direccion : JSON.stringify({
-                    domicilio    : this.state.domicilio,
+                    calle    : this.state.calle,
                     numero       : this.state.numero,
                     piso         : this.state.piso,
                     departamento : this.state.departamento,
@@ -115,7 +115,7 @@ class PacienteForm extends Component {
                 apellido         : this.state.apellido,
                 fecha_nacimiento : moment(this.state.fecha_nacimiento,"DD-MM-YYYY").format("YYYY-MM-DD"),
                 direccion: JSON.stringify({
-                    domicilio    : this.state.domicilio,
+                    calle    : this.state.calle,
                     numero       : this.state.numero,
                     piso         : this.state.piso,
                     departamento : this.state.departamento,
@@ -138,7 +138,7 @@ class PacienteForm extends Component {
                 doc_tipo         : actualizarPaciente.documento.doc_tipo,
                 doc_numero       : actualizarPaciente.documento.doc_numero,
                 id_usuario       : actualizarPaciente.id_usuario,
-                domicilio        : actualizarPaciente.direccion.domicilio,
+                calle        : actualizarPaciente.direccion.calle,
                 numero           : actualizarPaciente.direccion.numero,
                 piso             : actualizarPaciente.direccion.piso,
                 departamento     : actualizarPaciente.direccion.departamento,
@@ -254,11 +254,11 @@ class PacienteForm extends Component {
                             <legend>Dirección</legend>
                             <div className="col-2">
                                 <Input
-                                    id="domicilio"
-                                    name="domicilio"
+                                    id="calle"
+                                    name="calle"
                                     onChange={this.handleChange}
-                                    placeholder="Domicilio"
-                                    value = {this.state.domicilio}
+                                    placeholder="Calle"
+                                    value = {this.state.calle}
                                 />
                                 <Input
                                     id="numero"

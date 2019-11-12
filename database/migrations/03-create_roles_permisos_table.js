@@ -1,4 +1,4 @@
-exports.up = (knex, Promise) => {
+exports.up = (knex) => {
     return Promise.all ([
     knex.schema.createTable('roles_permisos', table =>{
         table.increments('id').primary();
@@ -8,6 +8,6 @@ exports.up = (knex, Promise) => {
     ]); 
 };
 
-exports.down = (knex, Promise)  => {
+exports.down = (knex)  => {
     return Promise.all ([knex.schema.dropTable('roles_permisos')]); 
 };

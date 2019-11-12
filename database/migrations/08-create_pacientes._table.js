@@ -1,4 +1,4 @@
-exports.up = (knex, Promise)=>{
+exports.up = (knex)=>{
     return Promise.all ([ 
         knex.schema.createTable('pacientes', table => {
             table.increments('id').primary();
@@ -8,11 +8,12 @@ exports.up = (knex, Promise)=>{
             table.date('fecha_nacimiento');
             table.json('direccion');
             table.json('documento');
+            table.timestamp('fecha_alta',{ useTz: true }).defaultTo(knex.fn.now());
             table.integer('id_usuario').references('usuarios.id').onDelete('cascade').onUpdate('restrict').notNullable();
         })
     ]);
 };
 
-exports.down = function(knex, Promise) {
+exports.down = function(knex) {
     return Promise.all ([ knex.schema.dropTable('pacientes')]);
 };
