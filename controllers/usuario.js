@@ -8,10 +8,11 @@ class UsuarioController{
             let limit = req.body['limit'] || 1000;
             let offset = req.body['offset'] || 0;
             const usuarios = await db.query('SELECT * FROM usuarios LIMIT $1 OFFSET $2', [limit, offset]);
+            if(!usuarios)
+                throw new Error("No se encontraron Usuarios")
             res.status(200).json(usuarios);
         } catch (error) {
-            console.log(error);
-            res.status(400);
+            res.status(400).json({ "message": error.message });
         }
     }
     
@@ -24,10 +25,11 @@ class UsuarioController{
                 'INSERT INTO usuarios (username,password,email,id_rol) VALUES ($1,$2,$3,$4) RETURNING id',
                 [username, password, email, id_rol]
             );
+            if(!usuario)
+                throw new Error("No pudo crearse el usuario");
             res.status(200).json(usuario);
         } catch (error) {
-            console.log(error);
-            res.status(400);
+            res.status(400).json({ "message": error.message });
         }
     }
     
@@ -37,17 +39,15 @@ class UsuarioController{
             const id = req.params.id;
             const { username, email, id_rol } = req.body;
             const password = bcrypt.hashSync(req.body.password, 10);
-            const rows_updated = await db.query(
+            const wasUpdated = await db.query(
                 'UPDATE usuarios SET username = $1, password = $2, email = $3, id_rol = $4 WHERE id = $5',
                 [username, password, email, id_rol, id]
             );
-            if( rows_updated ) {
-                res.status(200).json("Actualización exitosa");
-            } else {
-                res.status(400).json("No se pudo actualizar");
-            }
+            if(!wasUpdated)
+                throw new Error("No se pudo actualizar");
+            res.sendStatus(200);
         } catch (error) {
-            res.status(400).json("No se pudo actualizar");
+            res.status(400).json({ "message": error.message });
         }
     }
     
@@ -55,15 +55,12 @@ class UsuarioController{
     deleteUsuario = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const rows_deleted = await db.query('DELETE FROM USUARIOS WHERE id = $1', [id]);
-            if( rows_deleted ) {
-                res.status(200).json("Eliminación exitosa");
-            } else {
-                res.status(400).json("No se pudo eliminar");
-            }
+            const wasDeleted = await db.query('DELETE FROM USUARIOS WHERE id = $1', [id]);
+            if(!wasDeleted)
+                throw new Error("No se pudo eliminar el usuario");
+            res.sendStatus(200);
         } catch (error) {
-            console.log(error);
-            res.status(400).json("No se pudo eliminar");
+            res.status(400).json({ "message": error.message });
         }
     }
 }
