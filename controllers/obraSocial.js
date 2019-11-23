@@ -1,76 +1,74 @@
 const db = require('../database/config');
-const controller = {};
+const createError = require('http-errors')
 
 //Listar Obras Sociales
-controller.getObrasSociales = async (req, res, next) => {
+const getObrasSociales = async (req, res, next) => {
   try {
-    const { rows: obras_sociales } = await db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
-    res.json(obras_sociales);
+    const obras_sociales = await db.query('SELECT nombre, descripcion FROM obras_sociale ORDER BY nombre ASC');
+    res.json(obras_sociales.rows);
   } catch (error) {
-    console.log("Ocurrió un error " + error)
-    res.sendStatus(500);
-    next();
+    return next(createError(404, 'No se pudo listar'));
   }
 }
 
 //Lista Obra Social por id
-controller.getObraSocialById = async (req, res, next) => {
+const getObraSocialById = async (req, res, next) => {
   try {
     const id = req.params.id;
-    const {rows: [obra_social], rowCount} = await db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
-    if(rowCount)
+    const obra_social = await db.query('SELECT nombre, descripcion FROM obras_sociales WHERE ID = $1', [id]);
+    if (obra_social.rowCount === 0)
+      return next(createError(404, 'No se encontró la obra social '));
+    else
       res.json(obra_social);
-    else 
-      res.json("Obra social inexistente");
   } catch (error) {
-    res.status(400).json("Obra social inexistente");
-    next();
+    return next(createError, (400, 'Ocurrió un problema'));
   }
 }
 
 //Agregar Obra Social
-controller.createObraSocial = async (req, res, next) => {
+const createObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
     if (nombre === "") {
-      res.json('Ingrese los datos requeridos')
-      next();
+      return next(createError(400, 'Ingrese los datos requeridos'));
     } else {
-      const obraSocial = await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
+      await db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
       res.json({
         "status": "OK",
         "msg": "Se ha creado un nuevo registro"
       });
-
     }
   } catch (error) {
-    console.log("Ya Existe el registro " + error)
+    return next(createError(400, 'No se pudo crear el registro'));
   }
 }
 
 //Actualizar Obra Social
-controller.updateObraSocial = async (req, res, next) => {
+ const updateObraSocial = async (req, res, next) => {
   try {
     const { nombre, descripcion } = req.body;
     const id = req.params.id;
     const obraSocial = await db.query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ', [nombre, descripcion, id]);
-    console.log(obraSocial);
   } catch (error) {
-    console.log("Ocurrio un problema al actualizar el registro" + error)
-
+    return next(createError(400, 'No se pudo actualizar el registro'));
   }
 }
 
 //Borrar Obra Social
-controller.deleteObraSocial = async (req, res, next) => {
+const deleteObraSocial = async (req, res, next) => {
   try {
     const id = req.params.id;
     await db.query('DELETE FROM obras_sociales where ID = $1', [id]);
     res.send(`Se elimino la obra social con el ID:  ${id}`);
   } catch (error) {
-    console.log("Ocurrio un problema al borrar el registro" + error)
-    next(error);
+    return next(createError(400, 'No se pudo borrar el registro'));
   }
 }
 
-module.exports = controller;
+module.exports = {
+  getObrasSociales,
+  getObraSocialById,
+  createObraSocial,
+  updateObraSocial,
+  deleteObraSocial
+}

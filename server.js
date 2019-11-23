@@ -10,8 +10,7 @@ app.use(bodyParser.json());
 app.use('/', require('./routes/index.routes'));
 app.use('/usuarios', require('./routes/usuarios.routes'));
 app.use('/pacientes', require('./routes/pacientes.routes'));
-app.use('/obras-sociales', require('./routes/obras-sociales.routes'));
-app.use('/practicas', require('./routes/practicas.routes'));
+app.use('/obras-sociales', require('./routes/index.routes'));
 
 app.use('/roles', require('./routes/roles.routes'));
 
