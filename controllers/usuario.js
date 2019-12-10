@@ -1,4 +1,4 @@
-const db = require('../database/config');
+const usuario = require('../database/data/usuario');
 const bcrypt = require('bcrypt');
 const controller = {};
 
@@ -7,10 +7,10 @@ controller.getUsuarios = async (req, res, next) => {
     try {
         let limit = req.body['limit'] || 1000;
         let offset = req.body['offset'] || 0;
-        const usuarios = await db.query('SELECT * FROM usuarios LIMIT $1 OFFSET $2', [limit, offset]);
-        res.send(usuarios.rows);
+        const usuarios = await usuario.fetchAllUsuarios(limit, offset);
+        res.send(usuarios);
     } catch (error) {
-        next(error);
+        return next(createError(404, 'No se pudo listar'));
     }
 }
 
@@ -19,10 +19,18 @@ controller.createUsuario = async (req, res, next) => {
     try {
         const { username, email, id_rol } = req.body;
         const password = bcrypt.hashSync(req.body.password, 10);
-        const usuario = await db.query('INSERT INTO usuarios (username,password,email,id_rol) VALUES ($1,$2,$3,$4)', [username, password, email, id_rol]);
-        res.send(usuario);
+        await usuario.insertUsuario(username, password, email, id_rol);
+        res.json({
+            status: "OK",
+            message: "Se ha agregado un nuevo registro",
+            body: {
+                usuario: {
+                    username, password, email, id_rol
+                }
+            }
+        })
     } catch (error) {
-        next(error);
+        return next(createError, (400, 'No se puedo crear un nuevo registro'));
     }
 }
 
@@ -32,10 +40,18 @@ controller.updateUsuario = async (req, res, next) => {
         const id = req.params.id;
         const { username, email, id_rol } = req.body;
         const password = bcrypt.hashSync(req.body.password, 10);
-        const usuario = await db.query('UPDATE usuarios SET username = $1,password = $2,email = $3,id_rol = $4 WHERE id = $5', [username, password, email, id_rol, id]);
-        res.send(usuario);
+        await usuario.updateUsuarios(username, password, email, id_rol, id);
+        res.json({
+            status: "OK",
+            message: "Se ha actualizado el registro",
+            body: {
+                usuario: {
+                    username, password, email, id_rol
+                }
+            }
+        })
     } catch (error) {
-        next(error);
+        return next(createError, (400, 'No se puedo actualizar el registro'));
     }
 }
 
@@ -43,10 +59,10 @@ controller.updateUsuario = async (req, res, next) => {
 controller.deleteUsuario = async (req, res, next) => {
     try {
         const id = req.params.id;
-        const usuario = await db.query('DELETE FROM USUARIOS WHERE id = $1', [id]);
-        res.send(usuario);
+        await usuario.deleteUsuarios(id);
+        res.send(`Se elimino el usuario con el ID:  ${id}`);
     } catch (error) {
-        next(error);
+        return next(createError(400, 'No se pudo borrar el registro'));
     }
 }
 
