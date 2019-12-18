@@ -9,6 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/', require('./routes/index.routes'));
 app.use('/usuarios', require('./routes/usuarios.routes'));
+app.use('/turnos', require('./routes/turnos.routes'));
 app.use('/pacientes', require('./routes/pacientes.routes'));
 app.use('/obras-sociales', require('./routes/index.routes'));
 
