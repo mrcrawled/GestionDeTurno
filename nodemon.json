@@ -2,8 +2,7 @@
     "verbose": true,
     "ext": "*.js",
     "watch": [
-        "controllers/*",
-        "routes/*",
+        "components/*",
         "utils/*",
         "server.js",
         "database/config.js"

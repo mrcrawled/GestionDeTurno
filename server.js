@@ -2,18 +2,28 @@ require('dotenv').config();
 
 const express = require('express');
 const bodyParser  = require('body-parser');
-
 const app = express();
+const router = express.Router();
+const dbconfig = require('./database/config');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/', require('./routes/index.routes'));
-app.use('/usuarios', require('./routes/usuarios.routes'));
-app.use('/turnos', require('./routes/turnos.routes'));
-app.use('/pacientes', require('./routes/pacientes.routes'));
-app.use('/obras-sociales', require('./routes/index.routes'));
 
-app.use('/roles', require('./routes/roles.routes'));
+const components = [
+    require('./components/authentication/authentication.routes'),
+    require('./components/usuario/usuario.routes'),
+    require('./components/paciente/paciente.routes'),
+    require('./components/obra-social/obra-social.routes'),
+    require('./components/turno/turno.routes'),
+    require('./components/rol/rol.routes'),
+];
+
+components.forEach((component) => {
+    const instance = new component(router, dbconfig);
+    instance.exports();
+})
+
+app.use('/',router);
 
 app.listen(process.env.PORT, (err)=>{
     if(err){
