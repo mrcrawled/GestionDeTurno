@@ -1,5 +1,5 @@
 const UsuarioSql = require('./usuario.sql');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 
 module.exports = class UsuarioController {
     constructor(db){

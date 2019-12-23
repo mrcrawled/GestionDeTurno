@@ -1,5 +1,5 @@
 const PacienteSql = require('./paciente.sql');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { capitalize } = require('../../utils/tools');
 const createError = require('http-errors');
 
