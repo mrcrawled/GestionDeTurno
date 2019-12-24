@@ -15,6 +15,8 @@ module.exports = class TurnoController {
      */
     get = async (req, res, next) => {
         try {
+            const turnos = await this.db.fetchAll();
+            res.json(turnos);
 
         } catch(error){
             console.log(error);

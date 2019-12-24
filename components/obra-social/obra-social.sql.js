@@ -11,8 +11,7 @@ module.exports = class ObraSocialSql {
      */
     fetchAll = async () => {
         try {
-            const obras_sociales = await this.db.query('SELECT id, nombre, descripcion FROM obras_sociales ORDER BY nombre ASC');
-            console.log(obras_sociales);
+            const obras_sociales = await this.db.query('SELECT nombre, descripcion FROM obras_sociales ORDER BY nombre ASC');
             return obras_sociales.rows;
         } catch (error) {
             console.log(error);
