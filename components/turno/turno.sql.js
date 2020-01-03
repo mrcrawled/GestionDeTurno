@@ -11,15 +11,15 @@ module.exports = class TurnoSql {
      */
     fetchAll = async () => {
         try {
-            const turnos = await this.db.query("select CONCAT (p.nombre,' ',p.apellido) as Paciente,it.fecha_hora_turno,t.practica from turnos t join pacientes p on p.id = t.id_paciente join informacion_turnos it on t.id = it.id_turno where it.estado = 'ASIGNADO'");
+            const turnos = await this.db.query("select CONCAT (p.nombre,' ',p.apellido) as Paciente,it.fecha_hora_turno,t.practica from turnos t join pacientes p on p.id = t.id_paciente join informacion_turnos it on t.id = it.id_turno join estados e on e.id = it.id_estado where e.descripcion = 'ASIGNADO'");
             return turnos.rows;
         } catch (error) {
-            console.log(error);
             return createError(404, 'No se pudo listar');
         }
     }
 
 
+     // en esta consulta agregar en el where condicion para traer aquellos turnos con estados asignado
     /**
      * @param {Number} id_profesional
      */
@@ -28,8 +28,8 @@ module.exports = class TurnoSql {
             const turnos = await this.db.query(
                 `SELECT it.fecha_hora_turno, t.duracion
                     FROM turnos t
-                    LEFT JOIN informacion_turnos et ON it.id_turno = t.id
-                    WHERE t.id_profesional = $1`,[
+                    LEFT JOIN informacion_turnos it ON it.id_turno = t.id LEFT JOIN estados e ON e.id = it.id_estado
+                    WHERE t.id_profesional = $1 and e.descripcion = "ASIGNADO"`,[
                 id_profesional
             ]);
             return turnos.rows;
@@ -62,8 +62,8 @@ module.exports = class TurnoSql {
      */
     asignar = async (id_turno, fecha_hora_turno) => {
         try {
-            const turno = await this.db.query('INSERT INTO informacion_turnos (id_turno,estado, fecha_hora_turno) VALUES ($1,$2,$3)',[
-                id_turno, 'ASIGNADO', fecha_hora_turno
+            const turno = await this.db.query('INTO informacion_turnos (id_turno, id_estado, fecha_hora_turno) VALUES ($1,$2,$3)',[
+                id_turno, 1, fecha_hora_turno
             ]);
             return turno;
         } catch(error) {

@@ -17,7 +17,6 @@ module.exports = class TurnoController {
         try {
             const turnos = await this.db.fetchAll();
             res.json(turnos);
-
         } catch(error){
             console.log(error);
         }
