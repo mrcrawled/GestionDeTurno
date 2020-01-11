@@ -1,5 +1,5 @@
 const PacienteSql = require('./paciente.sql');
-const bcrypt = require('bcryptjs');
+//const bcrypt = require('bcrypt');
 const { capitalize } = require('../../utils/tools');
 const createError = require('http-errors');
 
@@ -57,27 +57,15 @@ module.exports = class PacienteController {
                 doc_numero,
                 email,
                 id_obra_social,
-                numero_afiliado
+                numero_afiliado,
+                id_usuario,
+                id_paciente,
             } = req.body;
             const nombre   = capitalize(req.body.nombre);
             const apellido = capitalize(req.body.apellido);
-            if( nombre.length == 0 ||
-                apellido.length == 0 ||
-                fecha_nacimiento.length == 0 ||
-                direccion.length == 0 ||
-                documento.length == 0 ||
-                doc_numero.length == 0 ||
-                email.length == 0 ||
-                (id_obra_social.length == 0 && numero_afiliado)
-            ){
-                res.json({
-                    "status": "ERROR",
-                    "msg": "Faltan datos requeridos"
-                });
-                return;
-            }
-            const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
-            const password = bcrypt.hashSync(doc_numero, 10);
+
+            //const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
+            //const password = bcrypt.hashSync(doc_numero, 10);
             await this.db.create(nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono);
             await this.db.createObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado, true);
 
