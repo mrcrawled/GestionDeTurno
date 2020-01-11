@@ -19,9 +19,9 @@ module.exports = class PacienteController {
             let limit = req.body['limit'] || 1000;
             let offset = req.body['offset'] || 0;
             const pacientes = await this.db.fetchAll(limit, offset)
-            res.json(pacientes);
+            return res.json(pacientes);
         } catch (error) {
-            return next(error);
+            return next(createError(404,error, 'No se pudo listar'));
         }
     }
 
@@ -78,14 +78,22 @@ module.exports = class PacienteController {
             }
             const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
             const password = bcrypt.hashSync(doc_numero, 10);
-            const id_paciente = await this.db.create(username, password, email, nombre, apellido, fecha_nacimiento, documento, email, telefono, direccion, id_obra_social, numero_afiliado);
+            await this.db.create(nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono);
+            await this.db.createObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado, true);
+
             res.json({
-                "status": "OK",
-                "id_paciente": id_paciente
-            });
+                status: "OK",
+                message: "Se ha creado un nuevo registro",
+                body: {
+                    paciente: {
+                        nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono, id_obra_social, id_paciente, numero_afiliado
+    
+                    }
+                }
+            })
         } catch (error) {
             console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            return createError(400, error,'Ocurrió un problema');
         };
     }
 
@@ -208,14 +216,14 @@ module.exports = class PacienteController {
     delete = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const paciente = await this.db.delete(id);
+            await this.db.delete(id);
             res.json({
                 "status": "OK",
                 "message": "Se ha eliminado el paciente"
             });
         } catch (error) {
             console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            return createError(400,error, 'Ocurrió un problema');
         }
     }
 }
