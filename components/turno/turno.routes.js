@@ -7,7 +7,7 @@ module.exports = class TurnoRoutes {
     }
     exports = () => {
         this.router.route('/turnos')
-        //     .get(this.controller.get);
+            .get(this.controller.get);
         this.router.route('/turnos/asignar')
             .post(this.controller.asignar);
     }

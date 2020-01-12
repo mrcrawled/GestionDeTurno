@@ -11,7 +11,7 @@ module.exports = class ObraSocialSql {
      */
     fetchAll = async () => {
         try {
-            const obras_sociales = await this.db.query('SELECT nombre, descripcion FROM obras_sociales ORDER BY nombre ASC');
+            const obras_sociales = await this.db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
             return obras_sociales.rows;
         } catch (error) {
             console.log(error);
@@ -26,7 +26,7 @@ module.exports = class ObraSocialSql {
      */
     fetchById = async (id) => {
         try {
-            const obra_social = await this.db.query('SELECT nombre, descripcion FROM obras_sociales WHERE ID = $1', [id]);
+            const obra_social = await this.db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
             if (obra_social.rowCount === 0)
                 return createError(404, 'No se encontró la obra social ');
             else

@@ -19,8 +19,8 @@ module.exports = class TurnoController {
             res.json(turnos);
         } catch(error){
             console.log(error);
+            return createError(404, 'No se pudo listar los turnos');
         }
-        return next(createError(404, 'No se pudo listar los turnos'));
     }
 
     /**
