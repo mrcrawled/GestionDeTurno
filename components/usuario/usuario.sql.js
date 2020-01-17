@@ -28,8 +28,7 @@ module.exports = class UsuarioSql {
      */
     insertUsuario = async (username, password, email, id_rol) => {
         try {
-            const newUsuario = await this.db.query('INSERT INTO usuarios (username,password,email,id_rol) VALUES ($1,$2,$3,$4)', [username, password, email, id_rol]);
-            console.log(newUsuario);
+            const newUsuario = await this.db.query('INSERT INTO usuarios (username,password,email,id_rol) VALUES ($1,$2,$3,$4) RETURNING *', [username, password, email, id_rol]);
             return newUsuario;
         } catch (error) {
             return createError(400, 'No se pudo crear el registro');

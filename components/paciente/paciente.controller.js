@@ -1,11 +1,14 @@
 const PacienteSql = require('./paciente.sql');
 const bcrypt = require('bcryptjs');
 const { capitalize } = require('../../utils/tools');
+const UsuarioSql = require ('../usuario/usuario.sql')
 const createError = require('http-errors');
 
+
 module.exports = class PacienteController {
-    constructor(db) {
+    constructor(db,usuarioDb) {
         this.db = new PacienteSql(db);
+        this.usuarioDb = new UsuarioSql(usuarioDb);
     }
 
     /**
@@ -55,17 +58,19 @@ module.exports = class PacienteController {
                 direccion,
                 documento,
                 doc_numero,
+                password,
                 email,
                 id_obra_social,
                 numero_afiliado,
                 id_usuario,
                 id_paciente,
             } = req.body;
-            const nombre   = capitalize(req.body.nombre);
+            const nombre = capitalize(req.body.nombre);
             const apellido = capitalize(req.body.apellido);
-
+    
             const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
-            const password = bcrypt.hashSync(doc_numero, 10);
+            //const password = bcrypt.hashSync(doc_numero, 10);
+            await this.usuarioDb.insertUsuario(username,password,email,3);
             await this.db.create(nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono);
             await this.db.createObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado, true);
 
