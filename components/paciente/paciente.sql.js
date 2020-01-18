@@ -27,29 +27,18 @@ module.exports = class PacienteSql {
      */
     fetchById = async (id) => {
         try {
-            const { rows: [paciente] } = await this.db.query('SELECT * FROM pacientes WHERE id = $1', [id]);
-            const { rows: [usuario] } = await this.db.query('SELECT * FROM usuarios WHERE id = $1', [paciente.id_usuario]);
-            const { rows: [obraSocialPaciente] } = await this.db.query('SELECT * FROM obras_sociales_pacientes WHERE id_paciente = $1 AND activo = TRUE', [id]);
-            const { rows: [obraSocial] } = await this.db.query('SELECT * FROM obras_sociales WHERE id = $1', [obraSocialPaciente.id_obra_social]);
-            return {
-                id_paciente: paciente.id,
-                nombre: paciente.nombre,
-                apellido: paciente.apellido,
-                email: usuario.email,
-                fecha_nacimiento: paciente.fecha_nacimiento,
-                documento: paciente.documento,
-                direccion: paciente.direccion,
-                id_usuario: paciente.id_usuario,
-                numero_afiliado: obraSocialPaciente.numero_afiliado,
-                id_obra_social: obraSocial.id,
-                obra_social: obraSocial.nombre,
-                username: usuario.username
-            };
+            const paciente = await this.db.query('SELECT p.nombre,p.apellido,p.fecha_nacimiento,p.telefono,p.direccion,p.documento,os.Descripcion,osp.numero_afiliado as "Numero afiliado" FROM pacientes p JOIN obras_sociales_pacientes osp ON p.id = osp.id_paciente JOIN obras_sociales os ON os.Id = osp.id_obra_social WHERE p.id = $1', [id]);
+            if (paciente.rowCount === 0)
+                return createError(404, 'No se encontró el paciente ');
+            else
+                return paciente.rows[0];
+
         } catch (error) {
-            return createError(400, 'Ocurrió un problema');
+            console.log(error.stack)
+            return error.stack;
         }
     }
-
+    
     /**
      * @description Crear Pacientes
      * @param {String} nombre
@@ -68,7 +57,7 @@ module.exports = class PacienteSql {
                     (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) 
                 VALUES 
                     ($1, $2, $3, $4, $5, $6, $7)
-                RETURNING *`, 
+                RETURNING *`,
                 [nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario]
             );
             const id_paciente = newPaciente.rows[0].id;
