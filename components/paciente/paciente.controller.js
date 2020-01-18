@@ -6,9 +6,9 @@ const createError = require('http-errors');
 
 
 module.exports = class PacienteController {
-    constructor(db,usuarioDb) {
+    constructor(db) {
         this.db = new PacienteSql(db);
-        this.usuarioDb = new UsuarioSql(usuarioDb);
+        this.usuarioDB = new UsuarioSql(db);
     }
 
     /**
@@ -57,36 +57,42 @@ module.exports = class PacienteController {
                 telefono,
                 direccion,
                 documento,
-                doc_numero,
-                password,
                 email,
                 id_obra_social,
                 numero_afiliado,
-                id_usuario,
-                id_paciente,
             } = req.body;
             const nombre = capitalize(req.body.nombre);
             const apellido = capitalize(req.body.apellido);
-    
-            const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
-            //const password = bcrypt.hashSync(doc_numero, 10);
-            await this.usuarioDb.insertUsuario(username,password,email,3);
-            await this.db.create(nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono);
-            await this.db.createObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado, true);
+
+            const { doc_numero } = documento;
+            const username = `${apellido.toLowerCase()} ${nombre.toLowerCase()}`.replace(" ", "_");
+            const password = bcrypt.hashSync(doc_numero, 10);
+            const id_usuario = await this.usuarioDB.insertUsuario(username, password, email, 3);
+            if(typeof id_usuario !== "number") throw ("No se pudo crear el usuario");
+
+            const id_paciente = await this.db.create(nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario);
+            if(typeof id_paciente !== "number") throw ("No se pudo crear el paciente");
+
+            if(id_obra_social > 0){
+                await this.db.createObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado);
+            }
 
             res.json({
                 status: "OK",
                 message: "Se ha creado un nuevo registro",
                 body: {
                     paciente: {
-                        nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono, id_obra_social, id_paciente, numero_afiliado
-    
+                        username,
+                        password,
+                        id_usuario,
+                        id_paciente
                     }
                 }
             })
         } catch (error) {
             console.log(error);
-            return createError(400, error,'Ocurrió un problema');
+            createError(400, error,'Ocurrió un problema');
+            res.sendStatus(400);
         };
     }
 

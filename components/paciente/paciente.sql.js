@@ -52,32 +52,29 @@ module.exports = class PacienteSql {
 
     /**
      * @description Crear Pacientes
-     * @param {String} username
-     * @param {String} password
      * @param {String} nombre
      * @param {String} apellido
      * @param {Date} fecha_nacimiento
      * @param {JSON} documento
-     * @param {String} email
      * @param {String} telefono
      * @param {JSON} direccion
-     * @param {Number} id_obra_social
-     * @param {String} numero_afiliado
+     * @param {Number} id_usuario
      * @returns {Number}
      */
-    create = async (username, password, nombre, apellido, fecha_nacimiento, documento, email, telefono, direccion) => {
+    create = async (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) => {
         try {
-            //const password = bcrypt.hashSync(doc_numero, 10);
-
-            // const usuario = await db.query('INSERT INTO usuarios (username, password, email, id_rol) VALUES ($1,$2,$3,$4) RETURNING *', [username, password, email, 3]);
-            // const id_usuario = usuario.rows[0].id;
-
-            const paciente = await db.query('INSERT INTO pacientes (nombre,apellido,fecha_nacimiento,direccion,documento,id_usuario,telefono) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', [nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono]);
-            const id_paciente = paciente.rows[0].id;
+            const newPaciente = await this.db.query(`
+                INSERT INTO pacientes 
+                    (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) 
+                VALUES 
+                    ($1, $2, $3, $4, $5, $6, $7)
+                RETURNING *`, 
+                [nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario]
+            );
+            const id_paciente = newPaciente.rows[0].id;
             return id_paciente;
         } catch (error) {
             return createError(404, error, 'No se pudo crear el registro');
-
         }
     }
 
@@ -91,18 +88,31 @@ module.exports = class PacienteSql {
     delete = async (id) => {
         try {
             const removedPaciente = await this.db.query('DELETE FROM pacientes where ID = $1', [id]);
-            return removedPaciente;
+            return removedPaciente.rowCount > 0;
         } catch (error) {
             console.log(error);
             return createError(400, 'Ocurrió un problema');
         }
     }
 
+    /**
+     * @description Crea la asociación entre la Obra Social y el Paciente
+     * @param {Number} id_obra_social
+     * @param {Number} id_paciente,
+     * @param {String} numero_afiliado
+     * @returns {Boolean}
+     */
     createObraSocialPaciente = async (id_obra_social, id_paciente, numero_afiliado) => {
         try {
-            const obra_social_paciente = await db.query('INSERT INTO obras_sociales_pacientes (id_obra_social, id_paciente, numero_afiliado, activo) VALUES ($1,$2,$3,$4) RETURNING *', [id_obra_social, id_paciente, numero_afiliado, true]);
-            const obra_social = obra_social_paciente.rows[0].nombre;
-            return obra_social;
+            const newObraSocialPaciente = await this.db.query(`
+                INSERT INTO obras_sociales_pacientes 
+                    (id_obra_social, id_paciente, numero_afiliado, activo)
+                VALUES 
+                    ($1, $2, $3, $4)
+                RETURNING *`,
+                [id_obra_social, id_paciente, numero_afiliado, true]
+            );
+            return newObraSocialPaciente.rowCount > 0;
         } catch (error) {
             return createError(404, error, 'No se pudo crear el registro');
         }
