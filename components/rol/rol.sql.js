@@ -10,7 +10,7 @@ module.exports = class RolSql {
      */
     selectAll = async () => {
         try{
-            const roles = await this.db.query('SELECT * FROM roles');
+            const roles = await this.db.query('SELECT id, rol_tipo FROM roles');
             return roles.rows;
         } catch(error){
             console.log(error);
@@ -25,10 +25,16 @@ module.exports = class RolSql {
      */
     insert = async (rol_tipo, descripcion="") => {
         try {
-            const newRol = await this.db.query('INSERT INTO roles (rol_tipo,descripcion) VALUES ($1,$2)', [rol_tipo, descripcion]);
+            const newRol = await this.db.query(`
+                INSERT INTO roles 
+                    (rol_tipo,descripcion)
+                VALUES ($1,$2)`,
+                [rol_tipo, descripcion]
+            );
             return newRol.rowCount == 1;
         } catch(error){
             createError(400, "No se pudo crear el rol");
+            return false;
         }
     }
 
@@ -44,6 +50,7 @@ module.exports = class RolSql {
             return rol.rowCount == 1;
         } catch(error) {
             createError(400, "No se pudo actualizar el rol");
+            return false;
         }
     }
 
@@ -57,6 +64,7 @@ module.exports = class RolSql {
             return removedRol.rowCount == 1;
         } catch(error) {
             createError(400, "No se pudo eliminar el rol");
+            return false;
         }
     }
 }
