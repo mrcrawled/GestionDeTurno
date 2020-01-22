@@ -10,7 +10,7 @@ module.exports = class RolSql {
      */
     selectAll = async () => {
         try{
-            const roles = await this.db.query('SELECT id, rol_tipo FROM roles');
+            const roles = await this.db.query('SELECT * FROM roles');
             return roles.rows;
         } catch(error){
             console.log(error);
