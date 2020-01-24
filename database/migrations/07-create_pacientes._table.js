@@ -1,4 +1,4 @@
-exports.up = (knex)=>{
+export function up(knex){
     return Promise.all ([ 
         knex.schema.createTable('pacientes', table => {
             table.increments('id').primary();
@@ -12,8 +12,8 @@ exports.up = (knex)=>{
             table.integer('id_usuario').references('usuarios.id').onDelete('cascade').onUpdate('restrict').notNullable();
         })
     ]);
-};
+}
 
-exports.down = function(knex) {
+export function down(knex) {
     return Promise.all ([ knex.schema.dropTable('pacientes')]);
-};
+}

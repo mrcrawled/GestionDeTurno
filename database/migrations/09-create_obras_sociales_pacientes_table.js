@@ -1,4 +1,4 @@
-exports.up = (knex)=>{
+export function up(knex){
     return Promise.all ([   
         knex.schema.createTable('obras_sociales_pacientes', table =>{
         table.increments('id').primary();
@@ -8,8 +8,8 @@ exports.up = (knex)=>{
         table.boolean('activo').notNullable();
     })
 ]);
-};
+}
 
-exports.down = (knex) => {
+export function down(knex) {
     return Promise.all ([knex.schema.dropTable('obras_sociales_pacientes')]);
-};
+}

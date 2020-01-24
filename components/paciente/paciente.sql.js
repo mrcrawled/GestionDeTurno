@@ -50,7 +50,7 @@ module.exports = class PacienteSql {
      * @param {Number} id_usuario
      * @returns {Number}
      */
-    create = async (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) => {
+    insert = async (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) => {
         try {
             const newPaciente = await this.db.query(`
                 INSERT INTO pacientes 
@@ -67,7 +67,23 @@ module.exports = class PacienteSql {
         }
     }
 
-    update = async () => { }
+    update = async (nombre,apellido,telefono,fecha_nacimiento,direccion,documento,id) => {
+        try {
+            const paciente = await this.db.query('UPDATE pacientes set nombre = $1,apellido = $2, direccion = $3, documento = $4,fecha_nacimiento = $5, telefono = $6 WHERE id = $7',
+                n[nombre,
+                apellido,
+                direccion,
+                documento,
+                fecha_nacimiento,
+                telefono,
+                id]);
+                console.log(paciente);
+                return paciente;
+                
+        } catch (error) {
+            
+        }
+    }
 
     /**
      * @description Eliminar Paciente
@@ -91,7 +107,7 @@ module.exports = class PacienteSql {
      * @param {String} numero_afiliado
      * @returns {Boolean}
      */
-    createObraSocialPaciente = async (id_obra_social, id_paciente, numero_afiliado) => {
+    insertObraSocialPaciente = async (id_obra_social, id_paciente, numero_afiliado) => {
         try {
             const newObraSocialPaciente = await this.db.query(`
                 INSERT INTO obras_sociales_pacientes 
@@ -104,6 +120,16 @@ module.exports = class PacienteSql {
             return newObraSocialPaciente.rowCount > 0;
         } catch (error) {
             return createError(404, error, 'No se pudo crear el registro');
+        }
+    }
+
+    updateObraSocialPaciente = async (numero_afiliado,id) =>{
+        try {
+            const obraSocialPaciente = await this.db.query('UPDATE obras_sociales_pacientes SET numero_afiliado = $1 WHERE ID = $2 ', [numero_afiliado, id]);
+            return obraSocialPaciente.rowCount == 1;
+
+        } catch (error) {
+            
         }
     }
 }

@@ -69,12 +69,14 @@ module.exports = class PacienteController {
             const password = bcrypt.hashSync(doc_numero, 10);
             const id_usuario = await this.usuarioDB.insertUsuario(username, password, email, 3);
             if(typeof id_usuario !== "number") throw ("No se pudo crear el usuario");
-
-            const id_paciente = await this.db.create(nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario);
+            if (nombre === "" || apellido === "") {
+                return next(createError(400, 'Ingrese los datos requeridos'));
+            }
+            const id_paciente = await this.db.insert(nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario);
             if(typeof id_paciente !== "number") throw ("No se pudo crear el paciente");
 
             if(id_obra_social > 0){
-                await this.db.createObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado);
+                await this.db.insertObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado);
             }
 
             res.json({
@@ -105,7 +107,9 @@ module.exports = class PacienteController {
      */
     update = async (req, res, next) => {
         try {
-            const { id: id_paciente } = req.params;
+            const id = req.params.id;
+            const id_obra_social_paciente = req.params.id_obra_social_paciente
+
             const { 
                 nombre,
                 apellido,
@@ -113,93 +117,24 @@ module.exports = class PacienteController {
                 direccion,
                 documento,
                 telefono,
-                email,
                 id_obra_social,
-                numero_afiliado
+                numero_afiliado,
             } = req.body;
-            const { rowCount: is_update_paciente } = await db.query(
-                `UPDATE pacientes set ${[
-                    `nombre = $1`,
-                    `apellido = $2`,
-                    `direccion = $3`,
-                    `documento = $4`,
-                    `fecha_nacimiento = $5`,
-                    `telefono = $6`
-                ].toString()} WHERE id = $7`,
-                [
-                    nombre,
-                    apellido,
-                    direccion,
-                    documento,
-                    fecha_nacimiento,
-                    telefono,
-                    id_paciente
-                ]
-            );
-            const {rows: [{id_usuario}]} = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id_paciente]);
-            const { rowCount: is_update_usuario } = await db.query(
-                `UPDATE usuarios set email = $1 WHERE id = $2`,
-                [
-                    email,
-                    id_usuario
-                ]
-            );
-            const {rows: [obra_social_paciente], rowCount: exist_osp} = await db.query(
-                [
-                    `SELECT * FROM obras_sociales_pacientes`,
-                        `WHERE id_paciente = $1 AND id_obra_social = $2 AND activo=TRUE`
-                ].join(" "),
-                [
-                    id_paciente,
-                    id_obra_social
-                ]
-            );
-    
-            let is_inserted_osp = 0;
-            if(exist_osp){
-                const {id: id_obra_social_paciente} = obra_social_paciente;
-                const {rowCount} = await db.query(
-                    [
-                        `UPDATE obras_sociales_pacientes SET numero_afiliado = $1`,
-                        `WHERE id = $2`
-                    ].join(" "),
-                    [
-                        numero_afiliado,
-                        id_obra_social_paciente
-                    ]
-                );
-                is_inserted_osp = rowCount;
-            } else {
-                const {rowCount: affected} = await db.query(
-                    [
-                        `UPDATE obras_sociales_pacientes SET activo=FALSE`,
-                        `WHERE id_paciente = $1`
-                    ].join(" "),
-                    [
-                        id_paciente
-                    ]
-                );
-                console.log(affected);
-                const {rowCount} = await db.query(
-                    [
-                        `INSERT INTO obras_sociales_pacientes`,
-                            `(id_obra_social, id_paciente, numero_afiliado, activo)`,
-                            `VALUES ($1,$2,$3,$4)`
-                    ].join(" "),
-                    [
-                        id_obra_social,
-                        id_paciente,
-                        numero_afiliado,
-                        true
-                    ]
-                );
-                is_inserted_osp = rowCount;
-            }
-            if(is_update_paciente > 0 && is_update_usuario > 0 && is_inserted_osp > 0){
-                this.getById(req, res, next);
-            } else {
-                res.status(400).json("Error al actualizar");
-            }
+console.log(nombre);
+            const patient =await this.db.update(nombre,apellido,fecha_nacimiento,direccion,documento,telefono,id);
+            console.log(patient);
+            await this.db.updateObraSocialPaciente(numero_afiliado,id_obra_social_paciente);
+            res.json({
+                status: "OK",
+                message: "Se ha actualizado el paciente",
+                body: {
+                    paciente: {
+                        nombre,apellido,fecha_nacimiento,direccion,documento,telefono
+                    }
+                }
+            })
+
+           
         } catch (error) {
             console.log(error);
             return createError(400, 'Ocurrió un problema');

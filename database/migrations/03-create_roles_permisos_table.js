@@ -1,4 +1,4 @@
-exports.up = (knex) => {
+export function up(knex) {
     return Promise.all ([
     knex.schema.createTable('roles_permisos', table =>{
         table.increments('id').primary();
@@ -6,8 +6,8 @@ exports.up = (knex) => {
         table.integer('id_permiso').references('permisos.id').notNullable();
       })
     ]); 
-};
+}
 
-exports.down = (knex)  => {
+export function down(knex) {
     return Promise.all ([knex.schema.dropTable('roles_permisos')]); 
-};
+}
