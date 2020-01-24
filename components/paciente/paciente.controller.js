@@ -93,7 +93,7 @@ module.exports = class PacienteController {
             })
         } catch (error) {
             console.log(error);
-            createError(400, error,'Ocurrió un problema');
+            next(createError ((400, error,'No se pudo ingresar un nuevo registro')));
             res.sendStatus(400);
         };
     }
@@ -137,7 +137,7 @@ console.log(nombre);
            
         } catch (error) {
             console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            return next(createError(400, 'No se pudo actualizar el registro'));
         }
     }
 
