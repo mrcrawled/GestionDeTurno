@@ -1,7 +1,5 @@
-const createError = require('http-errors');
-
 module.exports = class ObraSocialSql {
-    constructor(db){
+    constructor(db) {
         this.db = db;
     }
 
@@ -11,11 +9,12 @@ module.exports = class ObraSocialSql {
      */
     fetchAll = async () => {
         try {
-            const obras_sociales = await this.db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
+            await this.db.query('BEGIN');
+            const obras_sociales = await this.db.query('SELECT * FROM obras_sociale ORDER BY nombre ASC');
             return obras_sociales.rows;
         } catch (error) {
-            console.log(error);
-            return createError(404, 'No se pudo listar');
+            await this.db.query('ROLLBACK');
+            throw error;
         }
     }
 
@@ -26,13 +25,15 @@ module.exports = class ObraSocialSql {
      */
     fetchById = async (id) => {
         try {
+            await this.db.query('BEGIN');
             const obra_social = await this.db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
             if (obra_social.rowCount === 0)
                 return createError(404, 'No se encontró la obra social ');
             else
                 return obra_social.rows[0];
         } catch (error) {
-            return createError(400, 'Ocurrió un problema');
+            await this.db.query('ROLLBACK');
+            throw error;
         }
     }
 
@@ -45,12 +46,14 @@ module.exports = class ObraSocialSql {
      */
     insert = async (nombre, descripcion) => {
         try {
+            await this.db.query('BEGIN');
             const newObraSocial = await this.db.query('INSERT INTO obras_sociales (nombre,descripcion) VALUES ($1,$2)', [nombre, descripcion]);
+            await this.db.query('COMMIT');
             return newObraSocial.rowCount == 1;
         } catch (error) {
-            return createError(400, 'No se pudo crear el registro');
+            await this.db.query('ROLLBACK');
+            throw error;
         }
-    
     }
 
     /**
@@ -62,10 +65,13 @@ module.exports = class ObraSocialSql {
      */
     update = async (nombre, descripcion, id) => {
         try {
+            await this.db.query('BEGIN');
             const obraSocial = await this.db.query('UPDATE obras_sociales SET nombre = $1,descripcion = $2 WHERE ID = $3 ', [nombre, descripcion, id]);
+            await this.db.query('COMMIT');
             return obraSocial.rowCount == 1;
         } catch (error) {
-            return createError(400, 'No se pudo actualizar el registro');
+            await this.db.query('ROLLBACK');
+            throw error;
         }
     }
 
@@ -76,11 +82,13 @@ module.exports = class ObraSocialSql {
      */
     delete = async (id) => {
         try {
+            await this.db.query('BEGIN');
             const removed = await this.db.query('DELETE FROM obras_sociales where ID = $1', [id]);
+            await this.db.query('COMMIT');
             return removed == 1;
         } catch (error) {
-            return createError(400, 'No se pudo borrar el registro');
+            await this.db.query('ROLLBACK');
+            throw error;
         }
     }
 }
-
