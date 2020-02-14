@@ -16,7 +16,7 @@ module.exports = class RolController {
             const roles = await this.db.selectAll();
             res.send(roles);
         } catch (error) {
-            next(createError(error, 'No se pudo listar'));
+            next(createError(error, 'No se pudieron listar los roles'));
         }
     }
 
@@ -31,7 +31,7 @@ module.exports = class RolController {
             const rol = await this.db.insert(rol_tipo, descripcion);
             res.send(rol);
         } catch (error) {
-            next(createError(error, 'No se pudo crear'));
+            next(createError(error, 'No se pudo crear un nuevo rol'));
         }
     }
 
@@ -47,7 +47,7 @@ module.exports = class RolController {
             const rol = await this.db.update(id, rol_tipo, descripcion);
             res.send(rol);
         } catch (error) {
-            next(createError(error, 'No se pudo actualizar'));
+            next(createError(error, 'No se pudo actualizar el rol'));
         }
     }
 
@@ -62,7 +62,7 @@ module.exports = class RolController {
             const rol = await this.db.delete(id);
             res.send(rol);
         } catch (error) {
-            next(createError(error, 'No se pudo eliminar'));
+            next(createError(error, 'No se pudo eliminar el rol'));
         }
     }
 }

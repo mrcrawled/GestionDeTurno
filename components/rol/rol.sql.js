@@ -1,5 +1,3 @@
-const createError = require('http-errors');
-
 module.exports = class RolSql {
     constructor(db) {
         this.db = db;
@@ -24,14 +22,17 @@ module.exports = class RolSql {
      */
     insert = async (rol_tipo, descripcion="") => {
         try {
+            await this.db.query('BEGIN');
             const newRol = await this.db.query(`
                 INSERT INTO roles 
                     (rol_tipo,descripcion)
                 VALUES ($1,$2)`,
                 [rol_tipo, descripcion]
             );
+            await this.db.query('COMMIT');
             return newRol.rowCount == 1;
         } catch(error){
+            await this.db.query('ROLLBACK');
             throw error;
         }
     }
@@ -44,9 +45,12 @@ module.exports = class RolSql {
      */
     update = async (id, rol_tipo, descripcion="") => {
         try {
+            await this.db.query('BEGIN');
             const rol = await this.db.query('UPDATE roles SET rol_tipo = $1,descripcion = $2 WHERE ID = $3 ', [rol_tipo, descripcion, id]);
+            await this.db.query('COMMIT');
             return rol.rowCount == 1;
         } catch(error) {
+            await this.db.query('ROLLBACK');
             throw error;
         }
     }
@@ -57,9 +61,12 @@ module.exports = class RolSql {
      */
     delete = async (id) => {
         try {
+            await this.db.query('BEGIN');
             const removedRol = await this.db.query('DELETE FROM roles where ID = $1', [id]);
+            await this.db.query('COMMIT');
             return removedRol.rowCount == 1;
         } catch(error) {
+            await this.db.query('ROLLBACK');
             throw error;
         }
     }

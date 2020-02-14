@@ -9,7 +9,7 @@ module.exports = class ObraSocialRoutes {
         this.router.route('/obras-sociales')
             .get( this.controller.get )
             .post( this.controller.create );
-        this.router.route('/obra-social/:id')
+        this.router.route('/obras-sociales/:id')
             .get( this.controller.getById )
             .put( this.controller.update )
             .delete( this.controller.delete );

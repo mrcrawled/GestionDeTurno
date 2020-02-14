@@ -30,7 +30,7 @@ module.exports = class ObraSocialController {
     getById = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const obra_social = await this.db.fetchById(id);
+            const obra_social = this.db.fetchById(id);
             res.json(obra_social);
         } catch (error) {
             next(createError(401, error, 'No se pudo encontrar la obra social'));
@@ -61,7 +61,7 @@ module.exports = class ObraSocialController {
                 })
             }
         } catch (error) {
-            next(createError(401, error, 'No se pudo agregar la obra social'));
+            next(createError(401, error, 'No se pudo crear una nueva obra social social'));
         }
     }
 
@@ -99,11 +99,11 @@ module.exports = class ObraSocialController {
     delete = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const deleted = await this.db.delete(id);
-            if (!deleted) {
-                throw ("No se pudo eliminar");
-            }
-            res.json(`Se elimino la obra social con el ID:  ${id}`);
+            await this.db.delete(id);
+            res.json({
+                'status': 'OK',
+                'message': `Se ha eliminado la obra social con el ID:  ${id}`
+            });
         } catch (error) {
             next(createError(401, error, 'No se pudo borar la obra social'));
         }
