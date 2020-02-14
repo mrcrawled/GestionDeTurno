@@ -18,8 +18,7 @@ module.exports = class TurnoController {
             const turnos = await this.db.fetchAll();
             res.json(turnos);
         } catch(error){
-            console.log(error);
-            return createError(404, 'No se pudo listar los turnos');
+            next(createError(error, 'No se pudo listar los turnos'));
         }
     }
 
@@ -77,8 +76,7 @@ module.exports = class TurnoController {
             }
             res.json("Turno Asignado");
         } catch(error){
-            console.log(error);
-            return next(createError(404, error));
+            next(createError(error));
         }
     }
 }

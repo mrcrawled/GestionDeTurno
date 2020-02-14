@@ -20,7 +20,7 @@ module.exports = class TurnoSql {
                     WHERE e.descripcion = 'ASIGNADO'`);
             return turnos.rows;
         } catch (error) {
-            return createError(404, 'No se pudo listar');
+            throw error;
         }
     }
 
@@ -42,7 +42,7 @@ module.exports = class TurnoSql {
             ]);
             return turnos.rows;
         } catch(error){
-            createError(400,"No se pudo listar los turnos");
+            throw error;
         }
         
     }
@@ -63,7 +63,7 @@ module.exports = class TurnoSql {
             ]);
             return turno;
         } catch(error) {
-            createError(400, "No se pudo crear el turno")
+            throw error;
         }
     }
 
@@ -81,7 +81,7 @@ module.exports = class TurnoSql {
             ]);
             return turno;
         } catch(error) {
-            createError(400, "No se pudo asignar el turno")
+            throw error;
         }
     }
 }

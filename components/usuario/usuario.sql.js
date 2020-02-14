@@ -1,4 +1,3 @@
-const createError = require('http-errors');
 
 module.exports = class UsuarioSql {
     constructor(db) {
@@ -15,7 +14,7 @@ module.exports = class UsuarioSql {
             const usuarios = await this.db.query('SELECT * FROM usuarios LIMIT $1 OFFSET $2', [limit, offset]);
             return usuarios.rows;
         } catch (error) {
-            return createError(400, 'No se pudo listar');
+            throw error;
         }
     }
 
@@ -38,7 +37,7 @@ module.exports = class UsuarioSql {
             );
             return newUsuario.rows[0].id;
         } catch (error) {
-            return createError(400, 'No se pudo crear el registro');
+            throw error;
         }
     }
 
@@ -54,7 +53,7 @@ module.exports = class UsuarioSql {
             const usuario = await this.db.query('UPDATE usuarios SET username = $1,password = $2,email = $3,id_rol = $4 WHERE id = $5', [username, password, email, id_rol, id]);
             return usuario;
         } catch (error) {
-            return createError(400, 'No se pudo actualizar el registro');
+            throw error;
         }
     }
 
@@ -67,7 +66,7 @@ module.exports = class UsuarioSql {
             const removeUsuario = await this.db.query('DELETE FROM USUARIOS WHERE id = $1', [id]);
             return removeUsuario;
         } catch (error) {
-            return createError(400, 'No se pudo borrar el registro');
+            throw error;
         }
     }
 }

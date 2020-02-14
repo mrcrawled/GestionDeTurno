@@ -13,7 +13,7 @@ module.exports = class PacienteSql {
      */
     fetchAll = async (limit, offset) => {
         try {
-            const paciente = await this.db.query("SELECT nombre, apellido, documento, telefono FROM pacientes ORDER BY apellido ASC LIMIT $1 OFFSET $2", [limit, offset]);
+            const paciente = await this.db.query("SELECT id, nombre, apellido, documento, telefono FROM pacientes ORDER BY apellido ASC LIMIT $1 OFFSET $2", [limit, offset]);
             return paciente.rows;
         } catch (error) {
             return createError(404, error, 'No se pudo listar');
@@ -29,13 +29,11 @@ module.exports = class PacienteSql {
         try {
             const paciente = await this.db.query('SELECT p.nombre,p.apellido,p.fecha_nacimiento,p.telefono,p.direccion,p.documento,os.Descripcion,osp.numero_afiliado as "Numero afiliado" FROM pacientes p JOIN obras_sociales_pacientes osp ON p.id = osp.id_paciente JOIN obras_sociales os ON os.Id = osp.id_obra_social WHERE p.id = $1', [id]);
             if (paciente.rowCount === 0)
-                return createError(404, 'No se encontró el paciente ');
+                throw createError(404, 'No se encontró el paciente');
             else
                 return paciente.rows[0];
-
         } catch (error) {
-            console.log(error.stack)
-            return error.stack;
+            throw error;
         }
     }
     
@@ -63,7 +61,7 @@ module.exports = class PacienteSql {
             const id_paciente = newPaciente.rows[0].id;
             return id_paciente;
         } catch (error) {
-            return createError(404, error, 'No se pudo crear el registro');
+            throw error;
         }
     }
 
@@ -81,7 +79,7 @@ module.exports = class PacienteSql {
                 return paciente;
                 
         } catch (error) {
-            
+            throw error;
         }
     }
 
@@ -95,8 +93,7 @@ module.exports = class PacienteSql {
             const removedPaciente = await this.db.query('DELETE FROM pacientes where ID = $1', [id]);
             return removedPaciente.rowCount > 0;
         } catch (error) {
-            console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            throw error;
         }
     }
 
@@ -119,7 +116,7 @@ module.exports = class PacienteSql {
             );
             return newObraSocialPaciente.rowCount > 0;
         } catch (error) {
-            return createError(404, error, 'No se pudo crear el registro');
+            throw error;
         }
     }
 
@@ -127,9 +124,8 @@ module.exports = class PacienteSql {
         try {
             const obraSocialPaciente = await this.db.query('UPDATE obras_sociales_pacientes SET numero_afiliado = $1 WHERE ID = $2 ', [numero_afiliado, id]);
             return obraSocialPaciente.rowCount == 1;
-
         } catch (error) {
-            
+            throw error;
         }
     }
 }

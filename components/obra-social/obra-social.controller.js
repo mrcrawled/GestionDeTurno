@@ -1,4 +1,5 @@
 const ObraSocialSql = require('./obra-social.sql');
+const createError = require('http-errors');
 
 module.exports = class ObraSocialController {
     constructor(db) {
@@ -16,10 +17,7 @@ module.exports = class ObraSocialController {
             const obras_sociales = await this.db.fetchAll();
             res.json(obras_sociales);
         } catch (error) {
-            res.status(401,error).json({
-                status: 'error',
-                message: 'No se pudieron listar las obras sociales'
-            });
+            next(createError(401, error, 'No se pudieron listar las obras sociales'));
         }
     }
 
@@ -35,10 +33,7 @@ module.exports = class ObraSocialController {
             const obra_social = await this.db.fetchById(id);
             res.json(obra_social);
         } catch (error) {
-            res.status(401,error).json({
-                status: 'error',
-                message: 'No se pudo encontrar la obra social'
-            });
+            next(createError(401, error, 'No se pudo encontrar la obra social'));
         }
     }
 
@@ -66,10 +61,7 @@ module.exports = class ObraSocialController {
                 })
             }
         } catch (error) {
-            res.status(401,error).json({
-                status: 'error',
-                message: 'No se pudo agregar la obra social'
-            });
+            next(createError(401, error, 'No se pudo agregar la obra social'));
         }
     }
 
@@ -94,10 +86,7 @@ module.exports = class ObraSocialController {
                 }
             })
         } catch (error) {
-            res.status(401,error).json({
-                status: 'error',
-                message: 'No se pudo acutalizar la obra social'
-            });
+            next(createError(401, error, 'No se pudo acutalizar la obra social'));
         }
     }
 
@@ -116,10 +105,7 @@ module.exports = class ObraSocialController {
             }
             res.json(`Se elimino la obra social con el ID:  ${id}`);
         } catch (error) {
-            res.status(401,error).json({
-                status: 'error',
-                message: 'No se pudo borar la obra social'
-            });
+            next(createError(401, error, 'No se pudo borar la obra social'));
         }
     }
 }

@@ -24,7 +24,7 @@ module.exports = class PacienteController {
             const pacientes = await this.db.fetchAll(limit, offset)
             return res.json(pacientes);
         } catch (error) {
-            return next(createError(404,error, 'No se pudo listar'));
+            next(createError(error, 'No se pudo listar'));
         }
     }
 
@@ -40,7 +40,7 @@ module.exports = class PacienteController {
             const paciente = await this.db.fetchById(id);
             res.json(paciente);
         } catch (error) {
-            next(error);
+            next(createError(error, 'No se pudo listar por id'));
         }
     }
 
@@ -92,9 +92,7 @@ module.exports = class PacienteController {
                 }
             })
         } catch (error) {
-            console.log(error);
-            next(createError ((400, error,'No se pudo ingresar un nuevo registro')));
-            res.sendStatus(400);
+            next(createError(error, 'No se pudo ingresar un nuevo registro'));
         };
     }
 
@@ -120,7 +118,7 @@ module.exports = class PacienteController {
                 id_obra_social,
                 numero_afiliado,
             } = req.body;
-console.log(nombre);
+            console.log(nombre);
             const patient =await this.db.update(nombre,apellido,fecha_nacimiento,direccion,documento,telefono,id);
             console.log(patient);
             await this.db.updateObraSocialPaciente(numero_afiliado,id_obra_social_paciente);
@@ -133,11 +131,8 @@ console.log(nombre);
                     }
                 }
             })
-
-           
         } catch (error) {
-            console.log(error);
-            return next(createError(400, 'No se pudo actualizar el registro'));
+            next(createError(error, 'No se pudo actualizar el registro'));
         }
     }
 
@@ -156,8 +151,7 @@ console.log(nombre);
                 "message": "Se ha eliminado el paciente"
             });
         } catch (error) {
-            console.log(error);
-            return createError(400,error, 'Ocurrió un problema');
+            next(createError(error, 'No se pudo eliminar'));
         }
     }
 }

@@ -9,11 +9,9 @@ module.exports = class ObraSocialSql {
      */
     fetchAll = async () => {
         try {
-            await this.db.query('BEGIN');
             const obras_sociales = await this.db.query('SELECT * FROM obras_sociale ORDER BY nombre ASC');
             return obras_sociales.rows;
         } catch (error) {
-            await this.db.query('ROLLBACK');
             throw error;
         }
     }
@@ -25,14 +23,12 @@ module.exports = class ObraSocialSql {
      */
     fetchById = async (id) => {
         try {
-            await this.db.query('BEGIN');
             const obra_social = await this.db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
             if (obra_social.rowCount === 0)
-                return createError(404, 'No se encontró la obra social ');
+                throw createError(404, 'No se encontró la obra social ');
             else
                 return obra_social.rows[0];
         } catch (error) {
-            await this.db.query('ROLLBACK');
             throw error;
         }
     }
@@ -85,7 +81,7 @@ module.exports = class ObraSocialSql {
             await this.db.query('BEGIN');
             const removed = await this.db.query('DELETE FROM obras_sociales where ID = $1', [id]);
             await this.db.query('COMMIT');
-            return removed == 1;
+            return removed.rowCount == 1;
         } catch (error) {
             await this.db.query('ROLLBACK');
             throw error;

@@ -1,4 +1,5 @@
 const RolSql = require('./rol.sql');
+const createError = require('http-errors');
 
 module.exports = class RolController {
     constructor(db){
@@ -15,8 +16,7 @@ module.exports = class RolController {
             const roles = await this.db.selectAll();
             res.send(roles);
         } catch (error) {
-            console.log(error);
-            return createError(400,"Hubo un error");
+            next(createError(error, 'No se pudo listar'));
         }
     }
 
@@ -31,8 +31,7 @@ module.exports = class RolController {
             const rol = await this.db.insert(rol_tipo, descripcion);
             res.send(rol);
         } catch (error) {
-            console.log(error);
-            return createError(400,"Hubo un error");
+            next(createError(error, 'No se pudo crear'));
         }
     }
 
@@ -48,8 +47,7 @@ module.exports = class RolController {
             const rol = await this.db.update(id, rol_tipo, descripcion);
             res.send(rol);
         } catch (error) {
-            console.log(error);
-            return createError(400,"Hubo un error");
+            next(createError(error, 'No se pudo actualizar'));
         }
     }
 
@@ -64,8 +62,7 @@ module.exports = class RolController {
             const rol = await this.db.delete(id);
             res.send(rol);
         } catch (error) {
-            console.log(error);
-            return createError(400,"Hubo un error");
+            next(createError(error, 'No se pudo eliminar'));
         }
     }
 }
