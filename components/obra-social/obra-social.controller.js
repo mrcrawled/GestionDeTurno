@@ -30,7 +30,7 @@ module.exports = class ObraSocialController {
     getById = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const obra_social = this.db.fetchById(id);
+            const obra_social = await this.db.fetchById(id);
             res.json(obra_social);
         } catch (error) {
             next(createError(401, error, 'No se pudo encontrar la obra social'));

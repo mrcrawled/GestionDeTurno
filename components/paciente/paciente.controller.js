@@ -92,7 +92,7 @@ module.exports = class PacienteController {
                 }
             })
         } catch (error) {
-            next(createError(error, 'No se pudo No se pudo crear un nuevo paciente'));
+            next(createError(error, 'No se pudo crear un nuevo paciente'));
         };
     }
 
@@ -148,7 +148,7 @@ module.exports = class PacienteController {
             await this.db.delete(id);
             res.json({
                 'status': 'OK',
-                'message': `Se ha eliminado el paciente con el ID:  ${id}`
+                'message': `Se ha eliminado el paciente con el ID: ${id}`
             });
         } catch (error) {
             next(createError(error, 'No se pudo eliminar el paciente'));

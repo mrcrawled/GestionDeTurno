@@ -24,7 +24,7 @@ module.exports = class ObraSocialSql {
     fetchById = async (id) => {
         try {
             const obra_social = await this.db.query('SELECT * FROM obras_sociales WHERE ID = $1', [id]);
-                return obra_social.rows[0];
+            return obra_social.rows[0];
         } catch (error) {
             throw error;
         }

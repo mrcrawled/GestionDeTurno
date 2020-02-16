@@ -26,10 +26,7 @@ module.exports = class PacienteSql {
     fetchById = async (id) => {
         try {
             const paciente = await this.db.query('SELECT p.nombre,p.apellido,p.fecha_nacimiento,p.telefono,p.direccion,p.documento,os.Descripcion,osp.numero_afiliado as "Numero afiliado" FROM pacientes p JOIN obras_sociales_pacientes osp ON p.id = osp.id_paciente JOIN obras_sociales os ON os.Id = osp.id_obra_social WHERE p.id = $1', [id]);
-            if (paciente.rowCount === 0)
-                throw error('No se encontró el paciente');
-            else
-                return paciente.rows[0];
+            return paciente.rows[0];
         } catch (error) {
             throw error;
         }
@@ -70,15 +67,16 @@ module.exports = class PacienteSql {
         try {
             await this.db.query('BEGIN');
             const paciente = await this.db.query('UPDATE pacientes set nombre = $1,apellido = $2, direccion = $3, documento = $4,fecha_nacimiento = $5, telefono = $6 WHERE id = $7',
-               [ 
-                nombre,
-                apellido,
-                direccion,
-                documento,
-                fecha_nacimiento,
-                telefono,
-                id
-            ]);
+                [
+                    nombre,
+                    apellido,
+                    direccion,
+                    documento,
+                    fecha_nacimiento,
+                    telefono,
+                    id
+                ]
+            );
             await this.db.query('COMMIT');
             return paciente;
         } catch (error) {
