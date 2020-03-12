@@ -1,4 +1,4 @@
-adexports.seed = (knex, Promise) => {
+exports.seed = (knex, Promise) => {
     // Deletes ALL existing entries
     return knex('informacion_turnos').del()
         .then(() => {
