@@ -14,7 +14,7 @@ class NavBar extends Component {
         let listOfLinks;
         if(this.props.loggedin){
             listOfLinks = [
-                <Link key='0' activeClassName="active" exact onClick={this.handleEvent} title="Inicio" to="/">Inicio</Link>,
+                <Link key='0' activeClassName="active" exact onClick={this.handleEvent} title="Turnos" to="/">Turnos</Link>,
                 <Link key='1' activeClassName="active" onClick={this.handleEvent} title="Pacientes" to="/pacientes">Pacientes</Link>,
                 <Link key='2' activeClassName="active" onClick={this.handleEvent} title="Obras Sociales" to="/obras-sociales">Obras Sociales</Link>,
             ];

@@ -20,6 +20,9 @@ import ObraSocial from './Components/ObraSocial/ObraSocial';
 import ObraSocialForm from './Components/ObraSocial/ObraSocialForm';
 import ObraSocialInfo from './Components/ObraSocial/ObraSocialInfo';
 
+import Turno from './Components/Turno/Turno';
+
+
 const NotFound = ({ location }) => (
     <h1>Ha ocurido un problema. No se encuentra la página solicitada: {location.pathname} </h1>
 )
@@ -51,7 +54,7 @@ class App extends Component {
             ];
         } else {
             listOfRoutes = [
-                <Route exact key="0" path="/" component={Home}/>,
+                <Route exact key="0" path="/" component={Turno}/>,
                 <Route exact key="1" path="/pacientes" component={Paciente} />,
                 <Route exact key="2" path="/pacientes/new" component={PacienteForm} />,
                 <Route exact key="3" path="/pacientes/edit/:id" component={PacienteForm} />,
