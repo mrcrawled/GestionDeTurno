@@ -1,4 +1,4 @@
-export function up(knex) {
+exports.up = (knex) => {
     return Promise.all([
         knex.schema.createTable('permisos', table => {
             table.increments('id').primary();
@@ -6,8 +6,8 @@ export function up(knex) {
             table.text('descripcion');
         })
     ]);
-}
+};
 
-export function down(knex) {
+exports.down = (knex)  => {
     return Promise.all([ knex.schema.dropTable('permisos')]);
-}
+};

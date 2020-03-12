@@ -43,7 +43,7 @@ module.exports = class ObraSocialController {
      * @param {Response} res
      * @param {CallableFunction} next
      */
-    create = async (req, res, next) => {
+    create = async (req, res ,next) => {
         try {
             const { nombre, descripcion } = req.body;
             if (nombre === "") {
@@ -71,7 +71,7 @@ module.exports = class ObraSocialController {
      * @param {Response} res
      * @param {CallableFunction} next
      */
-    update = async (req, res, next) => {
+    update = async (req,res, next) => {
         try {
             const { nombre, descripcion } = req.body;
             const id = req.params.id;
