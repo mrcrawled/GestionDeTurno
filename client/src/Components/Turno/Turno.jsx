@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Paginacion from '../Paginacion';
+import moment from '../../Utils/Moment';
 
 class Turno extends Component {
     constructor(props) {
@@ -18,26 +19,15 @@ class Turno extends Component {
         try {
             const res = await axios.get("/turnos");
             const turnos = await res.data;
+            console.log(turnos);
             this.setState({ turnos });
         } catch (error) {
             console.log(error);
         }
     }
 
-    //Lista pacientes
-    getPacientes = async () => {
-        try {
-            const res = await axios.get("/pacientes");
-            const pacientes = await res.data;
-            this.setState({ pacientes });
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    
     componentDidMount() {
         this.getTurnos();
-        this.getPacientes();
     }
 
     handleChange = event => {
@@ -56,8 +46,8 @@ class Turno extends Component {
                     rhead={["Paciente","Fecha y Hora", "Practica"]}
                     rbody={this.state.turnos.map( (turno,index) => {
                         return [
-                            turno.id_paciente,
-                            turno.fecha_hora,
+                            turno.paciente,
+                            moment(turno.fecha_hora_turno).format("ddd D, HH:mm"),
                             turno.practica
                         ]
                     })}

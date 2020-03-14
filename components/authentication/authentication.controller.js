@@ -25,14 +25,14 @@ module.exports = class AuthenticationController {
             if (!verifyPassword) {
                 return next(createError(404, 'Contraseña incorrecta'));return;
             }
-            const token = jwt.sign
-            ({usuario: username }, process.env.API_KEY,
-             { expiresIn: 86400 });//24 hs
-            const rol = await this.db.getRolUsuario(usuario.id_rol);
-            res.cookie('x-access-token', token, {httpOnly: true});
+            const token = jwt.sign(
+                { usuario: username },
+                process.env.API_KEY,
+                { expiresIn: 86400 } // 24 hs
+            );
             res.json({
                 "status": "OK",
-                "rol": rol.rol_tipo
+                "token": token
             });
         }
         catch (error) {

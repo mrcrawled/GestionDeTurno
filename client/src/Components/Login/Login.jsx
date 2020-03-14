@@ -8,20 +8,19 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: '',
-            password: '',
             handleLogin : props.handleLogin,
         };
+        this.data = {
+            username: '',
+            password: '',
+        }
     }
 
     login = async event => {
         try {
-            const res = await axios.post(`/login`, {
-                username: this.state.username,
-                password: this.state.password
-            });
+            const res = await axios.post(`/login`, this.data );
             if(res.data.status === "OK"){
-                this.state.handleLogin(true, res.data.rol);
+                this.state.handleLogin(true, res.data.token);
             } else {
                 //! ERROR
             }
@@ -31,9 +30,8 @@ class Login extends Component {
     }
 
     handleChange = event => {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
+        const { name, value } = event.target;
+        this.data[name] = value;
     }
 
     render() {

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Paginacion from '../Paginacion';
+import { getPacientes } from '../../Utils/Helpers';
 
 class Paciente extends Component {
     constructor(props) {
@@ -13,16 +14,9 @@ class Paciente extends Component {
     };
 
     getPacientes = async () => {
-        try {
-            const res = await axios.get("/pacientes");
-            const pacientes = await res.data;
-            for (let i = 0; i < pacientes.legth; i++) {
-                pacientes[i].direccion = JSON.parse(pacientes[i].direccion);
-            }
-            this.setState({ pacientes });
-        } catch (error) {
-            console.log(error);
-        }
+        const token = window.sessionStorage.getItem("token");
+        const pacientes = await getPacientes(token);
+        this.setState({ pacientes });
     }
 
     getFormattedDocument = (document) => {

@@ -32,15 +32,26 @@ class App extends Component {
         super(props);
         this.state = {
             loggedin: false,
-            rol: 'Invitado'
+            token:''
         };
     }
 
-    updateLogin = (login, rol) => {
+    updateLogin = (login, token) => {
+        window.sessionStorage.setItem("token",token);
         this.setState({
             loggedin: login,
-            rol: rol
+            token
         });
+    }
+
+    componentDidMount(){
+        const token = window.sessionStorage.getItem("token");
+        if(token && token.length){
+            this.setState({
+                loggedin: true,
+                token
+            });
+        }
     }
 
     render() {
@@ -70,7 +81,7 @@ class App extends Component {
                 <div>
                     <Header />
                     {/* falta terminar esta parte al momento de logearse. */}
-                    <NavBar loggedin={this.state.loggedin} rol={this.state.rol} />
+                    <NavBar loggedin={this.state.loggedin} />
                     <div className="container" id="Main">
                         <Switch>
                             { listOfRoutes }

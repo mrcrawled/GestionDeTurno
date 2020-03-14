@@ -1,4 +1,5 @@
 const PacienteController = require('./paciente.controller');
+const { isLoggedIn } = rootRequire('utils/auth.js');
 
 module.exports = class PacienteRouter {
     constructor(router, db){
@@ -7,7 +8,7 @@ module.exports = class PacienteRouter {
     }
     exports = () => {
         this.router.route('/pacientes')
-            .get( this.controller.get )
+            .get( isLoggedIn, this.controller.get )
             .post( this.controller.create );
         
         this.router.route('/pacientes/:id')
