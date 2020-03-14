@@ -8,6 +8,7 @@ class Turno extends Component {
         super(props);
         this.state = {
             turnos: [],
+            pacientes: [],
             id: ''
         };
     }
@@ -23,10 +24,20 @@ class Turno extends Component {
         }
     }
 
-    
+    //Lista pacientes
+    getPacientes = async () => {
+        try {
+            const res = await axios.get("/pacientes");
+            const pacientes = await res.data;
+            this.setState({ pacientes });
+        } catch (error) {
+            console.log(error);
+        }
+    }
     
     componentDidMount() {
         this.getTurnos();
+        this.getPacientes();
     }
 
     handleChange = event => {
@@ -42,12 +53,12 @@ class Turno extends Component {
                     <button type="button" className="btn">Nuevo Turno</button>
                 </Link>
                 <Paginacion
-                    rhead={["Nombre", "Apellido","Fecha y Hora", "Practica"]}
+                    rhead={["Paciente","Fecha y Hora", "Practica"]}
                     rbody={this.state.turnos.map( (turno,index) => {
                         return [
-                            turno.nombre,
-                            turno.apellido,
+                            turno.id_paciente,
                             turno.fecha_hora,
+                            turno.practica
                         ]
                     })}
                 />
