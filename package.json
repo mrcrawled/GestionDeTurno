@@ -7,7 +7,9 @@
     "start": "nodemon --exec babel-node server.js",
     "start_local": "node -r dotenv/config server.js",
     "migrate": "knex migrate:latest",
-    "seed": "knex seed:run"
+    "seed": "knex seed:run",
+    "heroku-postbuild": "npm install --prefix client --only=dev && npm install --prefix client && npm run build"
+
   },
   "author": "",
   "license": "MIT",
