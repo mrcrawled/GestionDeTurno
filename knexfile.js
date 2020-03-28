@@ -46,6 +46,7 @@ module.exports = {
     client: 'pg',
     connection: {
       host: process.env.DATABASE_URL,
+      
       charset: 'utf8'
     },
     migrations,
@@ -53,3 +54,4 @@ module.exports = {
     useNullAsDefault: true,
   },
 }
+console.log(process.env.DATABASE_URL);
