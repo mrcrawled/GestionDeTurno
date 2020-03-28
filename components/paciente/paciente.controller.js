@@ -1,11 +1,14 @@
 const PacienteSql = require('./paciente.sql');
 const bcrypt = require('bcryptjs');
 const { capitalize } = require('../../utils/tools');
+const UsuarioSql = require ('../usuario/usuario.sql')
 const createError = require('http-errors');
+
 
 module.exports = class PacienteController {
     constructor(db) {
         this.db = new PacienteSql(db);
+        this.usuarioDB = new UsuarioSql(db);
     }
 
     /**
@@ -19,9 +22,9 @@ module.exports = class PacienteController {
             let limit = req.body['limit'] || 1000;
             let offset = req.body['offset'] || 0;
             const pacientes = await this.db.fetchAll(limit, offset)
-            res.json(pacientes);
+            return res.json(pacientes);
         } catch (error) {
-            return next(error);
+            next(createError(error, 'No se pudieron listar los pacientes'));
         }
     }
 
@@ -37,7 +40,7 @@ module.exports = class PacienteController {
             const paciente = await this.db.fetchById(id);
             res.json(paciente);
         } catch (error) {
-            next(error);
+            next(createError(error, 'No se pudo encontrar el paciente'));
         }
     }
 
@@ -54,38 +57,42 @@ module.exports = class PacienteController {
                 telefono,
                 direccion,
                 documento,
-                doc_numero,
                 email,
                 id_obra_social,
-                numero_afiliado
+                numero_afiliado,
             } = req.body;
-            const nombre   = capitalize(req.body.nombre);
+            const nombre = capitalize(req.body.nombre);
             const apellido = capitalize(req.body.apellido);
-            if( nombre.length == 0 ||
-                apellido.length == 0 ||
-                fecha_nacimiento.length == 0 ||
-                direccion.length == 0 ||
-                documento.length == 0 ||
-                doc_numero.length == 0 ||
-                email.length == 0 ||
-                (id_obra_social.length == 0 && numero_afiliado)
-            ){
-                res.json({
-                    "status": "ERROR",
-                    "msg": "Faltan datos requeridos"
-                });
-                return;
-            }
-            const username = `${apellido.toLowerCase()}_${nombre.toLowerCase()}`;
+
+            const { doc_numero } = documento;
+            const username = `${apellido.toLowerCase()} ${nombre.toLowerCase()}`.replace(' ', '_');
             const password = bcrypt.hashSync(doc_numero, 10);
-            const id_paciente = await this.db.create(username, password, email, nombre, apellido, fecha_nacimiento, documento, email, telefono, direccion, id_obra_social, numero_afiliado);
+            const id_usuario = await this.usuarioDB.insertUsuario(username, password, email, 3);
+            if(typeof id_usuario !== 'number') throw ('No se pudo crear el usuario');
+            if (nombre === '' || apellido === '') {
+                return next(createError(400, 'Ingrese los datos requeridos'));
+            }
+            const id_paciente = await this.db.insert(nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario);
+            if(typeof id_paciente !== 'number') throw ('No se pudo crear un nuevo paciente');
+
+            if(id_obra_social > 0){
+                await this.db.insertObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado);
+            }
+
             res.json({
-                "status": "OK",
-                "id_paciente": id_paciente
-            });
+                status: 'OK',
+                message: 'Se ha creado un nuevo registro',
+                body: {
+                    paciente: {
+                        username,
+                        password,
+                        id_usuario,
+                        id_paciente
+                    }
+                }
+            })
         } catch (error) {
-            console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            next(createError(error, 'No se pudo crear un nuevo paciente'));
         };
     }
 
@@ -98,7 +105,9 @@ module.exports = class PacienteController {
      */
     update = async (req, res, next) => {
         try {
-            const { id: id_paciente } = req.params;
+            const id = req.params.id;
+            const id_obra_social_paciente = req.params.id_obra_social_paciente
+
             const { 
                 nombre,
                 apellido,
@@ -106,96 +115,24 @@ module.exports = class PacienteController {
                 direccion,
                 documento,
                 telefono,
-                email,
                 id_obra_social,
-                numero_afiliado
+                numero_afiliado,
             } = req.body;
-            const { rowCount: is_update_paciente } = await db.query(
-                `UPDATE pacientes set ${[
-                    `nombre = $1`,
-                    `apellido = $2`,
-                    `direccion = $3`,
-                    `documento = $4`,
-                    `fecha_nacimiento = $5`,
-                    `telefono = $6`
-                ].toString()} WHERE id = $7`,
-                [
-                    nombre,
-                    apellido,
-                    direccion,
-                    documento,
-                    fecha_nacimiento,
-                    telefono,
-                    id_paciente
-                ]
-            );
-            const {rows: [{id_usuario}]} = await db.query('SELECT * FROM pacientes WHERE ID = $1',[id_paciente]);
-            const { rowCount: is_update_usuario } = await db.query(
-                `UPDATE usuarios set email = $1 WHERE id = $2`,
-                [
-                    email,
-                    id_usuario
-                ]
-            );
-            const {rows: [obra_social_paciente], rowCount: exist_osp} = await db.query(
-                [
-                    `SELECT * FROM obras_sociales_pacientes`,
-                        `WHERE id_paciente = $1 AND id_obra_social = $2 AND activo=TRUE`
-                ].join(" "),
-                [
-                    id_paciente,
-                    id_obra_social
-                ]
-            );
-    
-            let is_inserted_osp = 0;
-            if(exist_osp){
-                const {id: id_obra_social_paciente} = obra_social_paciente;
-                const {rowCount} = await db.query(
-                    [
-                        `UPDATE obras_sociales_pacientes SET numero_afiliado = $1`,
-                        `WHERE id = $2`
-                    ].join(" "),
-                    [
-                        numero_afiliado,
-                        id_obra_social_paciente
-                    ]
-                );
-                is_inserted_osp = rowCount;
-            } else {
-                const {rowCount: affected} = await db.query(
-                    [
-                        `UPDATE obras_sociales_pacientes SET activo=FALSE`,
-                        `WHERE id_paciente = $1`
-                    ].join(" "),
-                    [
-                        id_paciente
-                    ]
-                );
-                console.log(affected);
-                const {rowCount} = await db.query(
-                    [
-                        `INSERT INTO obras_sociales_pacientes`,
-                            `(id_obra_social, id_paciente, numero_afiliado, activo)`,
-                            `VALUES ($1,$2,$3,$4)`
-                    ].join(" "),
-                    [
-                        id_obra_social,
-                        id_paciente,
-                        numero_afiliado,
-                        true
-                    ]
-                );
-                is_inserted_osp = rowCount;
-            }
-            if(is_update_paciente > 0 && is_update_usuario > 0 && is_inserted_osp > 0){
-                this.getById(req, res, next);
-            } else {
-                res.status(400).json("Error al actualizar");
-            }
+            console.log(nombre);
+            const patient =await this.db.update(nombre,apellido,fecha_nacimiento,direccion,documento,telefono,id);
+            console.log(patient);
+            await this.db.updateObraSocialPaciente(numero_afiliado,id_obra_social_paciente);
+            res.json({
+                status: 'OK',
+                message: 'Se ha actualizado el paciente',
+                body: {
+                    paciente: {
+                        nombre,apellido,fecha_nacimiento,direccion,documento,telefono
+                    }
+                }
+            })
         } catch (error) {
-            console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            next(createError(error, 'No se pudo actualizar el paciente'));
         }
     }
 
@@ -208,14 +145,13 @@ module.exports = class PacienteController {
     delete = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const paciente = await this.db.delete(id);
+            await this.db.delete(id);
             res.json({
-                "status": "OK",
-                "message": "Se ha eliminado el paciente"
+                'status': 'OK',
+                'message': `Se ha eliminado el paciente con el ID: ${id}`
             });
         } catch (error) {
-            console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            next(createError(error, 'No se pudo eliminar el paciente'));
         }
     }
 }

@@ -17,7 +17,7 @@ module.exports = class ObraSocialController {
             const obras_sociales = await this.db.fetchAll();
             res.json(obras_sociales);
         } catch (error) {
-            return next(createError(404, 'No se pudo listar'));
+            next(createError(401, error, 'No se pudieron listar las obras sociales'));
         }
     }
 
@@ -33,7 +33,7 @@ module.exports = class ObraSocialController {
             const obra_social = await this.db.fetchById(id);
             res.json(obra_social);
         } catch (error) {
-            return next(createError, (400, 'Ocurrió un problema'));
+            next(createError(401, error, 'No se pudo encontrar la obra social'));
         }
     }
 
@@ -43,7 +43,7 @@ module.exports = class ObraSocialController {
      * @param {Response} res
      * @param {CallableFunction} next
      */
-    create = async (req, res, next) => {
+    create = async (req, res ,next) => {
         try {
             const { nombre, descripcion } = req.body;
             if (nombre === "") {
@@ -61,7 +61,7 @@ module.exports = class ObraSocialController {
                 })
             }
         } catch (error) {
-            return next(createError, (400, 'No se puedo crear un nuevo registro'));
+            next(createError(401, error, 'No se pudo crear una nueva obra social social'));
         }
     }
 
@@ -71,7 +71,7 @@ module.exports = class ObraSocialController {
      * @param {Response} res
      * @param {CallableFunction} next
      */
-    update = async (req, res, next) => {
+    update = async (req,res, next) => {
         try {
             const { nombre, descripcion } = req.body;
             const id = req.params.id;
@@ -86,7 +86,7 @@ module.exports = class ObraSocialController {
                 }
             })
         } catch (error) {
-            return next(createError(400, 'No se pudo actualizar el registro'));
+            next(createError(401, error, 'No se pudo acutalizar la obra social'));
         }
     }
 
@@ -99,13 +99,13 @@ module.exports = class ObraSocialController {
     delete = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const deleted = await this.db.delete(id);
-            if(!deleted){
-                throw ("No se pudo eliminar");
-            }
-            res.json(`Se elimino la obra social con el ID:  ${id}`);
+            await this.db.delete(id);
+            res.json({
+                'status': 'OK',
+                'message': `Se ha eliminado la obra social con el ID:  ${id}`
+            });
         } catch (error) {
-            return createError(400, 'No se pudo borrar el registro');
+            next(createError(401, error, 'No se pudo borar la obra social'));
         }
     }
 }

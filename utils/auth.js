@@ -1,20 +1,19 @@
 const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
 
 module.exports = {
     isLoggedIn: async (req, res, next) => {
-        const token = req.headers['accessToken'];
-        const verify = jwt.verify(token, process.env.API_KEY);
-        if( verify ){
-            return next();
+        try {
+            const token = req.headers['access-token'];
+            const verify = jwt.verify(token, process.env.API_KEY);
+            if(!verify) {
+                throw "Invalid Token";
+            }
+            // const { usuario } = verify;
+            // req.permissions = db.getPermissions(usuario);
+            next();
+        } catch(error){
+            next(createError(error, "Token inválido", 403));
         }
-        return res.redirect('/signin');
-    },
-    
-    isNotLoggedIn: async (req, res, next) => {
-        const token = req.headers['accessToken'];
-        if( !token ){
-            return next();
-        }
-        return res.redirect('/profile');
     }
 };

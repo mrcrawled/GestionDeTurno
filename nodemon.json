@@ -2,7 +2,8 @@
     "verbose": true,
     "ext": "*.js",
     "watch": [
-        "components/*",
+        "components/*/*.js",
+        "components/*.js",
         "utils/*",
         "server.js",
         "database/config.js"

@@ -1,5 +1,6 @@
 const UsuarioSql = require('./usuario.sql');
 const bcrypt = require('bcryptjs');
+const createError = require('http-errors');
 
 module.exports = class UsuarioController {
     constructor(db){
@@ -19,7 +20,7 @@ module.exports = class UsuarioController {
             const usuarios = await this.db.fetchAllUsuarios(limit, offset);
             res.json(usuarios);
         } catch (error) {
-            return createError(404, 'No se pudo listar');
+            next(createError(error, 'No se pudo listar'));
         }
     }
 
@@ -44,7 +45,7 @@ module.exports = class UsuarioController {
                 }
             })
         } catch (error) {
-            return next(createError, (400, 'No se puedo crear un nuevo registro'));
+            next(createError(error, 'No se puedo crear un nuevo registro'));
         }
     }
 
@@ -70,7 +71,7 @@ module.exports = class UsuarioController {
                 }
             })
         } catch (error) {
-            return next(createError, (400, 'No se puedo actualizar el registro'));
+            next(createError(error, 'No se puedo actualizar el registro'));
         }
     }
 
@@ -86,7 +87,7 @@ module.exports = class UsuarioController {
             await this.db.deleteUsuarios(id);
             res.send(`Se elimino el usuario con el ID:  ${id}`);
         } catch (error) {
-            return next(createError(400, 'No se pudo borrar el registro'));
+            next(createError(error, 'No se pudo borrar el registro'));
         }
     }
 }

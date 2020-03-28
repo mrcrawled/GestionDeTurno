@@ -1,4 +1,5 @@
 "use strict";
+global.rootRequire = name => require(`${__dirname}/${name}`);
 require('dotenv').config();
 
 const express = require('express');
@@ -23,6 +24,13 @@ components.forEach((component) => {
     const instance = new component(router, dbconfig);
     instance.exports();
 })
+router.use((err, req, res, next) => {
+    console.error(err);
+    res.status(err.status || 500).json({
+        status: 'error',
+        message: err.message
+    });
+});
 
 app.use('/',router);
 

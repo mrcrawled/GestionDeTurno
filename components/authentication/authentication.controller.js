@@ -2,6 +2,7 @@ const AuthenticationSql = require('./authentication.sql');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
+const createError = require('http-errors');
 
 module.exports = class AuthenticationController {
     constructor(db) {
@@ -18,30 +19,24 @@ module.exports = class AuthenticationController {
             const { username, password } = req.body;
             const usuario = await this.db.getUsuarioByUsername(username);
             if (!usuario) {
-                res.json({
-                    "status": "ERROR",
-                    "msg": "Usuario incorrecto."
-                });
-                return;
+                return next(createError(404, 'Usuario incorrecto'));
             }
             const verifyPassword = bcrypt.compareSync(password, usuario.password);
             if (!verifyPassword) {
-                res.json({
-                    "status": "ERROR",
-                    "msg": "Contraseña incorrecta."
-                });
-                return;
+                return next(createError(404, 'Contraseña incorrecta'));return;
             }
-            const token = jwt.sign({ usuario: username }, process.env.API_KEY, { expiresIn: 24 * 60 * 60 });
-            const rol = await this.db.getRolUsuario(usuario.id_rol);
-            res.cookie('x-access-token', token, {httpOnly: true});
+            const token = jwt.sign(
+                { usuario: username },
+                process.env.API_KEY,
+                { expiresIn: 86400 } // 24 hs
+            );
             res.json({
                 "status": "OK",
-                "rol": rol.rol_tipo
+                "token": token
             });
         }
         catch (error) {
-            next(error);
+            next(createError(error, "Error al iniciar sesión"));
         }
     };
 
@@ -55,7 +50,7 @@ module.exports = class AuthenticationController {
         res.json({
             "status": "OK",
             "rol": "Invitado"
-        })
+        });
         next();
     };
 
@@ -65,15 +60,18 @@ module.exports = class AuthenticationController {
      * @param {CallableFunction} next
      */
     changePassword = async (req, res, next)  => {
-        const { token, id } = req.params;
-        const verify = await jwt.verify( token, process.env.API_KEY);
-        if( !verify ){
-            res.json("Token invalido");
-            return;
+        try{
+            const { token, id } = req.params;
+            const verify = await jwt.verify( token, process.env.API_KEY);
+            if( !verify ){
+                return next(createError(400, error, "Token invalido"));
+            }
+            const password = bcrypt.hashSync(req.body.password, 10);
+            const resQuery = await this.db.changePassword(id, password);
+            res.json("Su contraseña ha sido cambiada correctamente");
+        } catch(error) {
+            next(createError(error, "Error al cambiar contraseña"));
         }
-        const password = bcrypt.hashSync(req.body.password, 10);
-        const resQuery = await this.db.changePassword(id, password);
-        res.json("Su contraseña ha sido cambiada correctamente");
     }
 
     /**
@@ -85,14 +83,12 @@ module.exports = class AuthenticationController {
         try {
             const { email } = req.body;
             if (email === "") {
-                res.json('La direccion de mail es requerida');
-                return;
+                return next(createError(400, 'La direccion de mail es requerida'));
             }
             const usuario = await this.db.getUsuarioByEmail(email);
             let token;
             if(usuario) {
-                res.json('No se encuentra la dirección de mail');
-                return;
+                return next(createError(404, 'No se encuentra la dirección de mail'));
             } else {
                 token = jwt.sign({ usuario: usuario.rows[0].username }, process.env.API_KEY, { expiresIn: 24 * 60 * 60 });
             }
@@ -120,23 +116,16 @@ module.exports = class AuthenticationController {
                     `http://localhost:4000/change-password/${token}/${usuario.id}\n\n` +
                     `Si no realizo la solicitud, ignore este correo y su contraseña no será modificada.\n`
             };
-        
-            console.log('Mandando el mail ...');
-            // Se envia el mail 
+
             transporter.sendMail(mailOptions, function (error, info) {
                 if (error) {
-                    console.log('Ha ocurriedo un errro al enviar el mail'.error);
-                    res.status(500).send(error.message);
+                    next(createError(500, error, 'Ha ocurriedo un errro al enviar el mail'));
                 } else {
-                    console.log("Email sent");
                     res.status(200).json('Correo ha sido enviado ccorrectamente');
                 }
             });
         } catch(error){
-            res.json({
-                "message": error.message
-            });
-            return;
+            next(createError(error));
         }
     }
 }

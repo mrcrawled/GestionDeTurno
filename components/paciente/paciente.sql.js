@@ -1,5 +1,3 @@
-const createError = require('http-errors');
-
 module.exports = class PacienteSql {
     constructor(db) {
         this.db = db;
@@ -16,7 +14,7 @@ module.exports = class PacienteSql {
             const paciente = await this.db.query("SELECT id, nombre, apellido, documento, telefono FROM pacientes ORDER BY apellido ASC LIMIT $1 OFFSET $2", [limit, offset]);
             return paciente.rows;
         } catch (error) {
-            return createError(404, 'No se pudo listar');
+            throw error;
         }
     }
 
@@ -27,60 +25,65 @@ module.exports = class PacienteSql {
      */
     fetchById = async (id) => {
         try {
-            const {rows: [paciente]} = await this.db.query('SELECT * FROM pacientes WHERE id = $1',[id]);
-            const {rows: [usuario]} = await this.db.query('SELECT * FROM usuarios WHERE id = $1', [paciente.id_usuario]);
-            const {rows: [obraSocialPaciente]} = await this.db.query('SELECT * FROM obras_sociales_pacientes WHERE id_paciente = $1 AND activo = TRUE',[id]);
-            const {rows: [obraSocial]} = await this.db.query('SELECT * FROM obras_sociales WHERE id = $1',[obraSocialPaciente.id_obra_social]);
-            return {
-                id_paciente: paciente.id,
-                nombre: paciente.nombre,
-                apellido: paciente.apellido,
-                email: usuario.email,
-                fecha_nacimiento: paciente.fecha_nacimiento,
-                documento: paciente.documento,
-                direccion: paciente.direccion,
-                id_usuario: paciente.id_usuario,
-                numero_afiliado: obraSocialPaciente.numero_afiliado,
-                id_obra_social: obraSocial.id,
-                obra_social:  obraSocial.nombre,
-                username: usuario.username
-            };
+            const paciente = await this.db.query('SELECT p.nombre,p.apellido,p.fecha_nacimiento,p.telefono,p.direccion,p.documento,os.Descripcion,osp.numero_afiliado as "Numero afiliado" FROM pacientes p JOIN obras_sociales_pacientes osp ON p.id = osp.id_paciente JOIN obras_sociales os ON os.Id = osp.id_obra_social WHERE p.id = $1', [id]);
+            return paciente.rows[0];
         } catch (error) {
-            return createError(400, 'Ocurrió un problema');
+            throw error;
         }
     }
 
     /**
-     * @description Listar Paciente por id
-     * @param {String} username
-     * @param {String} password
+     * @description Crear Pacientes
      * @param {String} nombre
      * @param {String} apellido
      * @param {Date} fecha_nacimiento
      * @param {JSON} documento
-     * @param {String} email
      * @param {String} telefono
      * @param {JSON} direccion
-     * @param {Number} id_obra_social
-     * @param {String} numero_afiliado
+     * @param {Number} id_usuario
      * @returns {Number}
      */
-    create = async (username, password, nombre, apellido, fecha_nacimiento, documento, email, telefono, direccion, id_obra_social, numero_afiliado) => {
-        try{
-            const usuario = await this.db.query('INSERT INTO usuarios (username, password, email, id_rol) VALUES ($1,$2,$3,$4) RETURNING *', [username, password, email, 3]);
-            const id_usuario = usuario.rows[0].id;
-
-            const paciente = await this.db.query('INSERT INTO pacientes (nombre,apellido,fecha_nacimiento,direccion,documento,id_usuario) VALUES ($1,$2,$3,$4,$5,$6,$7) RETURNING *', [nombre, apellido, fecha_nacimiento, direccion, documento, id_usuario, telefono]);
-            const id_paciente = paciente.rows[0].id;
-            
-            const obra_social_paciente = await this.db.query('INSERT INTO obras_sociales_pacientes (id_obra_social, id_paciente, numero_afiliado, activo) VALUES ($1,$2,$3,$4) RETURNING *', [id_obra_social, id_paciente, numero_afiliado, true]);
+    insert = async (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) => {
+        try {
+            await this.db.query('BEGIN');
+            const newPaciente = await this.db.query(`
+                INSERT INTO pacientes 
+                    (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario) 
+                VALUES 
+                    ($1, $2, $3, $4, $5, $6, $7)
+                RETURNING *`,
+                [nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id_usuario]
+            );
+            await this.db.query('COMMIT');
+            const id_paciente = newPaciente.rows[0].id;
             return id_paciente;
         } catch (error) {
-            console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            await this.db.query('ROLLBACK');
+            throw error;
         }
     }
-    update = async () => {}
+
+    update = async (nombre, apellido, telefono, fecha_nacimiento, direccion, documento, id) => {
+        try {
+            await this.db.query('BEGIN');
+            const paciente = await this.db.query('UPDATE pacientes set nombre = $1,apellido = $2, direccion = $3, documento = $4,fecha_nacimiento = $5, telefono = $6 WHERE id = $7',
+                [
+                    nombre,
+                    apellido,
+                    direccion,
+                    documento,
+                    fecha_nacimiento,
+                    telefono,
+                    id
+                ]
+            );
+            await this.db.query('COMMIT');
+            return paciente;
+        } catch (error) {
+            await this.db.query('ROLLBACK');
+            throw error;
+        }
+    }
 
     /**
      * @description Eliminar Paciente
@@ -88,12 +91,52 @@ module.exports = class PacienteSql {
      * @returns {Boolean}
      */
     delete = async (id) => {
-        try{
+        try {
+            await this.db.query('BEGIN');
             const removedPaciente = await this.db.query('DELETE FROM pacientes where ID = $1', [id]);
-            return removedPaciente;
-        } catch(error){
-            console.log(error);
-            return createError(400, 'Ocurrió un problema');
+            await this.db.query('COMMIT');
+            return removedPaciente.rowCount > 0;
+        } catch (error) {
+            await this.db.query('ROLLBACK');
+            throw error;
+        }
+    }
+
+    /**
+     * @description Crea la asociación entre la Obra Social y el Paciente
+     * @param {Number} id_obra_social
+     * @param {Number} id_paciente,
+     * @param {String} numero_afiliado
+     * @returns {Boolean}
+     */
+    insertObraSocialPaciente = async (id_obra_social, id_paciente, numero_afiliado) => {
+        try {
+            await this.db.query('BEGIN');
+            const newObraSocialPaciente = await this.db.query(`
+                INSERT INTO obras_sociales_pacientes 
+                    (id_obra_social, id_paciente, numero_afiliado, activo)
+                VALUES 
+                    ($1, $2, $3, $4)
+                RETURNING *`,
+                [id_obra_social, id_paciente, numero_afiliado, true]
+            );
+            await this.db.query('COMMIT');
+            return newObraSocialPaciente.rowCount > 0;
+        } catch (error) {
+            await this.db.query('ROLLBACK');
+            throw error;
+        }
+    }
+
+    updateObraSocialPaciente = async (numero_afiliado, id) => {
+        try {
+            await this.db.query('BEGIN');
+            const obraSocialPaciente = await this.db.query('UPDATE obras_sociales_pacientes SET numero_afiliado = $1 WHERE ID = $2 ', [numero_afiliado, id]);
+            await this.db.query('COMMIT');
+            return obraSocialPaciente.rowCount == 1;
+        } catch (error) {
+            await this.db.query('ROLLBACK');
+            throw error;
         }
     }
 }

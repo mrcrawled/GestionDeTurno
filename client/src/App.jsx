@@ -20,6 +20,9 @@ import ObraSocial from './Components/ObraSocial/ObraSocial';
 import ObraSocialForm from './Components/ObraSocial/ObraSocialForm';
 import ObraSocialInfo from './Components/ObraSocial/ObraSocialInfo';
 
+import Turno from './Components/Turno/Turno';
+
+
 const NotFound = ({ location }) => (
     <h1>Ha ocurido un problema. No se encuentra la página solicitada: {location.pathname} </h1>
 )
@@ -29,15 +32,26 @@ class App extends Component {
         super(props);
         this.state = {
             loggedin: false,
-            rol: 'Invitado'
+            token:''
         };
     }
 
-    updateLogin = (login, rol) => {
+    updateLogin = (login, token) => {
+        window.sessionStorage.setItem("token",token);
         this.setState({
             loggedin: login,
-            rol: rol
+            token
         });
+    }
+
+    componentDidMount(){
+        const token = window.sessionStorage.getItem("token");
+        if(token && token.length){
+            this.setState({
+                loggedin: true,
+                token
+            });
+        }
     }
 
     render() {
@@ -51,7 +65,7 @@ class App extends Component {
             ];
         } else {
             listOfRoutes = [
-                <Route exact key="0" path="/" component={Home}/>,
+                <Route exact key="0" path="/" component={Turno}/>,
                 <Route exact key="1" path="/pacientes" component={Paciente} />,
                 <Route exact key="2" path="/pacientes/new" component={PacienteForm} />,
                 <Route exact key="3" path="/pacientes/edit/:id" component={PacienteForm} />,
@@ -67,7 +81,7 @@ class App extends Component {
                 <div>
                     <Header />
                     {/* falta terminar esta parte al momento de logearse. */}
-                    <NavBar loggedin={this.state.loggedin} rol={this.state.rol} />
+                    <NavBar loggedin={this.state.loggedin} />
                     <div className="container" id="Main">
                         <Switch>
                             { listOfRoutes }
