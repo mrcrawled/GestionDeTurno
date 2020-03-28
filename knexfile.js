@@ -48,7 +48,9 @@ module.exports = {
       host: process.env.DATABASE_URL,
       charset: 'utf8'
     },
-    migrations,
+    migrations:{
+      directory: __dirname + '/db/migrations/'
+    },
     seeds,
     useNullAsDefault: true,
   },
