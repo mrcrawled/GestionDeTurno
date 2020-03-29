@@ -44,16 +44,9 @@ module.exports = {
 
   production: {
     client: 'pg',
-    connection: {
-      host: process.env.DATABASE_URL,
-      user: 'postgres',
-      password: 'admin123',
-      database: 'gestionturno',
-      charset: 'utf8'
-    },
+    connection: process.env.DATABASE_URL,
     migrations,
     seeds,
     useNullAsDefault: true,
   },
 }
-console.log(process.env.DATABASE_URL);
