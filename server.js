@@ -34,11 +34,14 @@ router.use((err, req, res, next) => {
 
 app.use('/',router);
 
-app.listen(process.env.PORT, (err)=>{
-    if(err){
-        console.log(err);
-        process.exit(1);
-    }
-})
+if(process.env.NODE_ENV === 'production'){
+    app.use(express.static('client/build'));
+    const path = require('path');
+    app.get('*',(req,res)=>{
+        res.sendFile(path.resolve(__dirname,'client','build','index.html'));
+    })
+}
+const port = process.env.PORT || 8000
+app.listen(port);
 
 console.log(`Server running in ${process.env.PORT}`);
