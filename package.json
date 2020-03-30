@@ -9,7 +9,6 @@
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
     "heroku-postbuild": "npm install --prefix client --only=dev && npm install --prefix client && npm run build --prefix client"
-
   },
   "author": "",
   "license": "MIT",
@@ -36,7 +35,7 @@
     "@babel/preset-env": "^7.7.7",
     "@babel/register": "^7.7.7",
     "dotenv": "^6.2.0",
-    "nodemon": "^1.19.0"
+    "nodemon": "^2.0.2"
   },
   "repository": {
     "type": "git",
