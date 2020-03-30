@@ -4,7 +4,7 @@
   "description": "Requisitos - Node Js (última versión o última versión estable) - EcmaScript - PostgreSQL",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec babel-node server.js",
+    "start": "node server.js",
     "start_local": "node -r dotenv/config server.js",
     "migrate": "knex migrate:latest",
     "seed": "knex seed:run",
