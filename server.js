@@ -42,7 +42,7 @@ if(process.env.NODE_ENV === 'production'){
     })
 }
 
-app.listen(process.env.PORT || 30465, (err)=>{
+app.listen(process.env.PORT || 8000, (err)=>{
     if(err){
         console.log(err);
         process.exit(1);
