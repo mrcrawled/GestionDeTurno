@@ -93,7 +93,7 @@ module.exports = class PacienteController {
             })
         } catch (error) {
             next(createError(error, 'No se pudo crear un nuevo paciente'));
-        };
+        }
     }
 
     /**
@@ -112,15 +112,15 @@ module.exports = class PacienteController {
                 nombre,
                 apellido,
                 fecha_nacimiento,
-                direccion,
                 documento,
                 telefono,
+                direccion,
                 id_obra_social,
                 numero_afiliado,
             } = req.body;
-            console.log(nombre);
-            const patient =await this.db.update(nombre,apellido,fecha_nacimiento,direccion,documento,telefono,id);
-            console.log(patient);
+            const updatePaciente = await this.db.update(nombre,apellido,fecha_nacimiento,documento,telefono,direccion,id);
+            console.log(updatePaciente)
+
             await this.db.updateObraSocialPaciente(numero_afiliado,id_obra_social_paciente);
             res.json({
                 status: 'OK',

@@ -10,12 +10,8 @@ module.exports = class PacienteSql {
      * @returns {Array<JSON>}
      */
     fetchAll = async (limit, offset) => {
-        try {
             const paciente = await this.db.query("SELECT id, nombre, apellido, documento, telefono FROM pacientes ORDER BY apellido ASC LIMIT $1 OFFSET $2", [limit, offset]);
             return paciente.rows;
-        } catch (error) {
-            throw error;
-        }
     }
 
     /**
@@ -63,17 +59,17 @@ module.exports = class PacienteSql {
         }
     }
 
-    update = async (nombre, apellido, telefono, fecha_nacimiento, direccion, documento, id) => {
+    update = async (nombre, apellido, fecha_nacimiento, documento, telefono, direccion, id) => {
         try {
             await this.db.query('BEGIN');
-            const paciente = await this.db.query('UPDATE pacientes set nombre = $1,apellido = $2, direccion = $3, documento = $4,fecha_nacimiento = $5, telefono = $6 WHERE id = $7',
+            const paciente = await this.db.query('UPDATE pacientes set nombre = $1,apellido = $2, fecha_nacimiento = $3, documento = $4,telefono = $5, direccion = $6 WHERE id = $7',
                 [
                     nombre,
                     apellido,
-                    direccion,
-                    documento,
                     fecha_nacimiento,
+                    documento,
                     telefono,
+                    direccion,
                     id
                 ]
             );

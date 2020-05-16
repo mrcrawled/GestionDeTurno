@@ -7,9 +7,11 @@ const bodyParser  = require('body-parser');
 const app = express();
 const router = express.Router();
 const dbconfig = require('./database/config');
-
+var pino = require('express-pino-logger')()
+  
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(pino);
 
 const components = [
     require('./components/authentication/authentication.routes'),
