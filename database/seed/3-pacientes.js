@@ -5,10 +5,7 @@ exports.seed =  (knex, Promise) => {
         // Inserts seed entries
         return knex('pacientes').insert([
             {
-                documento: {
-                    doc_numero: "Q386B12M",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 386,
                 nombre: "blake",
                 apellido: "brar",
                 fecha_nacimiento: "1954-8-26",
@@ -21,10 +18,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 17
             },{
-                documento: {
-                    doc_numero: "60239499-Y",
-                    doc_tipo: "DNI"
-                },
+                documento: 60239499,
                 nombre: "adrian",
                 apellido: "sanz",
                 fecha_nacimiento: "1956-7-26",
@@ -37,10 +31,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 18
             },{
-                documento: {
-                    doc_numero: "522008626",
-                    doc_tipo: "TFN"
-                },
+                documento: 522008626,
                 nombre: "willard",
                 apellido: "kelley",
                 fecha_nacimiento: "1981-3-3",
@@ -53,10 +44,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 19
             },{
-                documento: {
-                    doc_numero: "G221U627",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 221627,
                 nombre: "maxime",
                 apellido: "grewal",
                 fecha_nacimiento: "1987-4-17",
@@ -69,10 +57,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 20
             },{
-                documento: {
-                    doc_numero: "418152782",
-                    doc_tipo: "TFN"
-                },
+                documento: 418152782,
                 nombre: "olivia",
                 apellido: "morales",
                 fecha_nacimiento: "1973-11-1",
@@ -85,10 +70,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 21
             },{
-                documento: {
-                    doc_numero: "2NNaN79738081 33",
-                    doc_tipo: "INSEE"
-                },
+                documento: 7973808133,
                 nombre: "lucy",
                 apellido: "perrin",
                 fecha_nacimiento: "1957-5-18",
@@ -101,10 +83,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 22
             },{
-                documento: {
-                    doc_numero: "M5DRP942",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 942,
                 nombre: "birgit",
                 apellido: "raith",
                 fecha_nacimiento: "1951-1-3",
@@ -117,10 +96,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 23
             },{
-                documento: {
-                    doc_numero: "E4477839",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 4477839,
                 nombre: "annabelle",
                 apellido: "mitchell",
                 fecha_nacimiento: "1967-7-22",
@@ -133,10 +109,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 24
             },{
-                documento: {
-                    doc_numero: "GW 08 92 69 A",
-                    doc_tipo: "NINO"
-                },
+                documento: 123,
                 nombre: "ellie",
                 apellido: "fuller",
                 fecha_nacimiento: "1986-5-26",
@@ -149,10 +122,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 25
             },{
-                documento: {
-                    doc_numero: "882-72-2850",
-                    doc_tipo: "SSN"
-                },
+                documento: 882722850,
                 nombre: "alfredo",
                 apellido: "bailey",
                 fecha_nacimiento: "1953-3-1",
@@ -165,10 +135,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 26
             },{
-                documento: {
-                    doc_numero: "2NNaN11252102 34",
-                    doc_tipo: "INSEE"
-                },
+                documento: 211252102,
                 nombre: "stella",
                 apellido: "renaud",
                 fecha_nacimiento: "1957-7-14",
@@ -181,10 +148,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 27
             },{
-                documento: {
-                    doc_numero: "7WNT47F7",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 7477,
                 nombre: "adele",
                 apellido: "küster",
                 fecha_nacimiento: "1950-10-23",
@@ -197,10 +161,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 28
             },{
-                documento: {
-                    doc_numero: "018R4KL5",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 123,
                 nombre: "walli",
                 apellido: "schuch",
                 fecha_nacimiento: "1965-9-18",
@@ -213,10 +174,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 29
             },{
-                documento: {
-                    doc_numero: "5JJD2999",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 299,
                 nombre: "gesche",
                 apellido: "hof",
                 fecha_nacimiento: "1945-10-4",
@@ -229,10 +187,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 30
             },{
-                documento: {
-                    doc_numero: "25Y0B5ZN",
-                    doc_tipo: "PASAPORTE"
-                },
+                documento: 250,
                 nombre: "hermínio",
                 apellido: "jesus",
                 fecha_nacimiento: "1975-5-11",
@@ -245,10 +200,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 31
             },{
-                documento: {
-                    doc_numero: "1NNaN44156622 71",
-                    doc_tipo: "INSEE"
-                },
+                documento: 144156622,
                 nombre: "luis",
                 apellido: "andre",
                 fecha_nacimiento: "1952-11-22",
@@ -261,10 +213,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 32
             },{
-                documento: {
-                    doc_numero: "07140035-Q",
-                    doc_tipo: "DNI"
-                },
+                documento: 0714003,
                 nombre: "andres",
                 apellido: "lozano",
                 fecha_nacimiento: "1962-4-12",
@@ -277,10 +226,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 33
             },{
-                documento: {
-                    doc_numero: "968-81-7144",
-                    doc_tipo: "SSN"
-                },
+                documento: 379,
                 nombre: "joseph",
                 apellido: "ryan",
                 fecha_nacimiento: "1947-5-15",
@@ -293,10 +239,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 34
             },{
-                documento: {
-                    doc_numero: "1NNaN27483534 74",
-                    doc_tipo: "INSEE"
-                },
+                documento: 127483534,
                 nombre: "louison",
                 apellido: "muller",
                 fecha_nacimiento: "1993-9-8",
@@ -309,10 +252,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 35
             },{
-                documento: {
-                    doc_numero: "GS 67 83 39 A",
-                    doc_tipo: "NINO"
-                },
+                documento: 30123321,
                 nombre: "cory",
                 apellido: "mitchelle",
                 fecha_nacimiento: "1995-3-25",
@@ -325,10 +265,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 36
             },{
-                documento: {
-                    doc_numero: "MY 36 07 07 J",
-                    doc_tipo: "NINO"
-                },
+                documento: 31712214,
                 nombre: "abbie",
                 apellido: "powell",
                 fecha_nacimiento: "1960-8-23",
@@ -341,10 +278,7 @@ exports.seed =  (knex, Promise) => {
                 },
                 id_usuario: 37
             },{
-                documento: {
-                    doc_numero: "110983187",
-                    doc_tipo: "TFN"
-                },
+                documento: 123321,
                 nombre: "bobby",
                 apellido: "thompson",
                 fecha_nacimiento: "1978-10-31",
