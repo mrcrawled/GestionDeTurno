@@ -64,9 +64,9 @@ module.exports = class PacienteController {
             const nombre = capitalize(req.body.nombre);
             const apellido = capitalize(req.body.apellido);
 
-            const { doc_numero } = documento;
+            const nroDocumento = documento.toString();
             const username = `${apellido.toLowerCase()} ${nombre.toLowerCase()}`.replace(' ', '_');
-            const password = bcrypt.hashSync(doc_numero, 10);
+            const password = bcrypt.hashSync(nroDocumento, 10);
             const id_usuario = await this.usuarioDB.insertUsuario(username, password, email, 3);
             if(typeof id_usuario !== 'number') throw ('No se pudo crear el usuario');
             if (nombre === '' || apellido === '') {
