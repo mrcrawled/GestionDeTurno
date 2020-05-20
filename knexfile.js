@@ -15,7 +15,7 @@ module.exports = {
       host: '127.0.0.1',
       user: 'postgres',
       password: 'admin123',
-      database: 'gestionturno',
+      database: 'gt',
       charset: 'utf8'
     },
     migrations,

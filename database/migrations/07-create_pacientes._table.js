@@ -7,7 +7,7 @@ exports.up = (knex) => {
             table.string('telefono', 20);
             table.date('fecha_nacimiento');
             table.json('direccion');
-            table.json('documento');
+            table.integer('documento').index().notNullable().unique();
             table.timestamp('fecha_alta',{ useTz: true }).defaultTo(knex.fn.now());
             table.integer('id_usuario').references('usuarios.id').onDelete('cascade').onUpdate('restrict').notNullable();
         })
