@@ -14,8 +14,8 @@ module.exports = class ObraSocialController {
      */
     get = async (req, res, next) => {
         try {
-            const obras_sociales = await this.db.fetchAll();
-            res.json(obras_sociales);
+            const obras_sociales =  this.db.fetchAll();
+            await res.json(obras_sociales);
         } catch (error) {
             next(createError(401, error, 'No se pudieron listar las obras sociales'));
         }
@@ -30,8 +30,8 @@ module.exports = class ObraSocialController {
     getById = async (req, res, next) => {
         try {
             const id = req.params.id;
-            const obra_social = await this.db.fetchById(id);
-            res.json(obra_social);
+            const obra_social =  this.db.fetchById(id);
+            await res.json(obra_social);
         } catch (error) {
             next(createError(401, error, 'No se pudo encontrar la obra social'));
         }
@@ -45,12 +45,12 @@ module.exports = class ObraSocialController {
      */
     create = async (req, res ,next) => {
         try {
-            const { nombre, descripcion } = req.body;
+            const { nombre, descripcion } =  req.body;
             if (nombre === "") {
                 return next(createError(400, 'Ingrese los datos requeridos'));
             } else {
-                await this.db.insert(nombre, descripcion);
-                res.json({
+            this.db.insert(nombre, descripcion);
+              await  res.json({
                     status: "OK",
                     message: "Se ha agregado un nuevo registro",
                     body: {
@@ -73,9 +73,9 @@ module.exports = class ObraSocialController {
      */
     update = async (req,res, next) => {
         try {
-            const { nombre, descripcion } = req.body;
-            const id = req.params.id;
-            await this.db.update(nombre, descripcion, id);
+            const { nombre, descripcion } =  req.body;
+            const id =  await req.params.id;
+            this.db.update(nombre, descripcion, id);
             res.json({
                 status: "OK",
                 message: "Se ha actualizado el registro",
@@ -98,8 +98,8 @@ module.exports = class ObraSocialController {
      */
     delete = async (req, res, next) => {
         try {
-            const id = req.params.id;
-            await this.db.delete(id);
+            const id = await req.params.id;
+            this.db.delete(id);
             res.json({
                 'status': 'OK',
                 'message': `Se ha eliminado la obra social con el ID:  ${id}`

@@ -9,7 +9,7 @@ module.exports = class ObraSocialSql {
      */
     fetchAll = async () => {
         try {
-            const obras_sociales = await this.db.query('SELECT * FROM obras_sociales ORDER BY nombre ASC');
+            const obras_sociales = await this.db.query('SELECT * FROM obras_sociale ORDER BY nombre ASC');
             return obras_sociales.rows;
         } catch (error) {
             throw error;
