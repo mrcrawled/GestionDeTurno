@@ -112,7 +112,7 @@ module.exports = class AuthenticationController {
                 to: `${email}`,
                 subject: 'Recuperar Contraseña',
                 text: `Has recibido este mail porque usted (o alguien) ha solicitado recuperar la contraseña.` +
-                    `Por favor haga clicl en el siguiente enlace o peguelo en su navegador para completar el proceso:\n\n` +
+                    `Por favor haga click en el siguiente enlace o péguelo en su navegador para completar el proceso:\n\n` +
                     `http://localhost:4000/change-password/${token}/${usuario.id}\n\n` +
                     `Si no realizo la solicitud, ignore este correo y su contraseña no será modificada.\n`
             };

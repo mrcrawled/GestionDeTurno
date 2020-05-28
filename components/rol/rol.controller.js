@@ -12,12 +12,8 @@ module.exports = class RolController {
      * @param {CallableFunction} next
      */
     get = async (req, res, next) => {
-        try {
             const roles = await this.db.selectAll();
             res.send(roles);
-        } catch (error) {
-            next(createError(error, 'No se pudieron listar los roles'));
-        }
     }
 
     /**

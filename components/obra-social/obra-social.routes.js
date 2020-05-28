@@ -1,4 +1,5 @@
 const ObraSocialController = require('./obra-social.controller');
+const { isLoggedIn } = rootRequire('utils/auth.js');
 
 module.exports = class ObraSocialRoutes {
     constructor(router, db){
@@ -7,11 +8,11 @@ module.exports = class ObraSocialRoutes {
     }
     exports = () => {
         this.router.route('/obras-sociales')
-            .get( this.controller.get )
-            .post( this.controller.create );
+            .get(isLoggedIn, this.controller.get )
+            .post(isLoggedIn, this.controller.create );
         this.router.route('/obras-sociales/:id')
-            .get( this.controller.getById )
-            .put( this.controller.update )
-            .delete( this.controller.delete );
+            .get(isLoggedIn,this.controller.getById )
+            .put(isLoggedIn, this.controller.update )
+            .delete(isLoggedIn, this.controller.delete );
     }
 }

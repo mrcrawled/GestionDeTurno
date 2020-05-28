@@ -9,11 +9,11 @@ module.exports = class PacienteRouter {
     exports = () => {
         this.router.route('/pacientes')
             .get( isLoggedIn, this.controller.get )
-            .post( this.controller.create );
+            .post(isLoggedIn,this.controller.create );
         
         this.router.route('/pacientes/:id')
-            .get(this.controller.getById)
-            .put(this.controller.update)
-            .delete(this.controller.delete);
+            .get(isLoggedIn,this.controller.getById)
+            .put(isLoggedIn,this.controller.update)
+            .delete(isLoggedIn,this.controller.delete);
     }
 }

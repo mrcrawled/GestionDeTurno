@@ -14,14 +14,11 @@ module.exports = class UsuarioController {
      * @param {CallableFunction} next
      */
     get = async (req, res, next) => {
-        try {
             let limit = req.body['limit'] || 1000;
             let offset = req.body['offset'] || 0;
             const usuarios = await this.db.fetchAllUsuarios(limit, offset);
             res.json(usuarios);
-        } catch (error) {
-            next(createError(error, 'No se pudo listar'));
-        }
+
     }
 
     /**

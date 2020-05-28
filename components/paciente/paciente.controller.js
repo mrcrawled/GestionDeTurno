@@ -60,6 +60,8 @@ module.exports = class PacienteController {
                 email,
                 id_obra_social,
                 numero_afiliado,
+                afiliado,
+                iva
             } = req.body;
             const nombre = capitalize(req.body.nombre);
             const apellido = capitalize(req.body.apellido);
@@ -76,7 +78,7 @@ module.exports = class PacienteController {
             if(typeof id_paciente !== 'number') throw ('No se pudo crear un nuevo paciente');
 
             if(id_obra_social > 0){
-                await this.db.insertObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado);
+                await this.db.insertObraSocialPaciente(id_obra_social, id_paciente, numero_afiliado,afiliado,iva);
             }
 
             res.json({
@@ -117,11 +119,13 @@ module.exports = class PacienteController {
                 direccion,
                 id_obra_social,
                 numero_afiliado,
+                afiliado,
+                iva
             } = req.body;
             const updatePaciente = await this.db.update(nombre,apellido,fecha_nacimiento,documento,telefono,direccion,id);
             console.log(updatePaciente)
 
-            await this.db.updateObraSocialPaciente(numero_afiliado,id_obra_social_paciente);
+            await this.db.updateObraSocialPaciente(numero_afiliado,afiliado,iva,id_obra_social_paciente);
             res.json({
                 status: 'OK',
                 message: 'Se ha actualizado el paciente',

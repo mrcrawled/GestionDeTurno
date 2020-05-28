@@ -14,8 +14,8 @@ module.exports = class ObraSocialController {
      */
     get = async (req, res, next) => {
         try {
-            const obras_sociales =  this.db.fetchAll();
-            await res.json(obras_sociales);
+            const obras_sociales =  await this.db.fetchAll();
+             res.json(obras_sociales);
         } catch (error) {
             next(createError(401, error, 'No se pudieron listar las obras sociales'));
         }

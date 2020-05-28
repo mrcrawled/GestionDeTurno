@@ -103,18 +103,20 @@ module.exports = class PacienteSql {
      * @param {Number} id_obra_social
      * @param {Number} id_paciente,
      * @param {String} numero_afiliado
+     * @param {Enum} iva
+     * @param {Boolean} afiliado
      * @returns {Boolean}
      */
-    insertObraSocialPaciente = async (id_obra_social, id_paciente, numero_afiliado) => {
+    insertObraSocialPaciente = async (id_obra_social, id_paciente, numero_afiliado,, afiliado,iva) => {
         try {
             await this.db.query('BEGIN');
             const newObraSocialPaciente = await this.db.query(`
                 INSERT INTO obras_sociales_pacientes 
-                    (id_obra_social, id_paciente, numero_afiliado, activo)
+                    (id_obra_social, id_paciente, numero_afiliado, afiliado,iva,activo)
                 VALUES 
-                    ($1, $2, $3, $4)
+                    ($1, $2, $3, $4, $5, $6)
                 RETURNING *`,
-                [id_obra_social, id_paciente, numero_afiliado, true]
+                [id_obra_social, id_paciente, numero_afiliado,afiliado, iva, true]
             );
             await this.db.query('COMMIT');
             return newObraSocialPaciente.rowCount > 0;
@@ -124,10 +126,10 @@ module.exports = class PacienteSql {
         }
     }
 
-    updateObraSocialPaciente = async (numero_afiliado, id) => {
+    updateObraSocialPaciente = async (numero_afiliado, afiliado, iva, id) => {
         try {
             await this.db.query('BEGIN');
-            const obraSocialPaciente = await this.db.query('UPDATE obras_sociales_pacientes SET numero_afiliado = $1 WHERE ID = $2 ', [numero_afiliado, id]);
+            const obraSocialPaciente = await this.db.query('UPDATE obras_sociales_pacientes SET numero_afiliado = $1, afiliado = $2, iva = $3  WHERE ID = $4 ', [numero_afiliado,afiliado,iva, id]);
             await this.db.query('COMMIT');
             return obraSocialPaciente.rowCount == 1;
         } catch (error) {

@@ -9,11 +9,9 @@ module.exports = {
             if(!verify) {
                 throw "Invalid Token";
             }
-            // const { usuario } = verify;
-            // req.permissions = db.getPermissions(usuario);
             next();
         } catch(error){
-            next(createError(error, "Token inválido", 403));
+            next(createError(error, "Unforbidden", 403));
         }
     }
 };
