@@ -1,4 +1,4 @@
-exports.up = (knex) => {
+exports.up =  (knex) => {
     return Promise.all([
         knex.schema.createTable('permisos', table => {
             table.increments('id').primary();
